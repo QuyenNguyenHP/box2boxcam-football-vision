@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "sessions": [
+    {
+      "match_id": "personal_field_session_20261014",
+      "purpose": "development_validation",
+      "forbidden_splits": [
+        "train"
+      ],
+      "videos": [
+        {
+          "video_id": "recording_01",
+          "source_video": "data/external/videos/field_validation_20261014/recording_01.mov",
+          "source_video_sha256": "f48b5453e1f29a4eee87610042ab8dec602bab5aa95c8a8830b6c19c0348c9e4",
+          "original_name": "match 2.mov"
+        },
+        {
+          "video_id": "recording_02",
+          "source_video": "data/external/videos/field_validation_20261014/recording_02.mov",
+          "source_video_sha256": "783a647900f88d0f6bee468fed5f71dafeeaa657cab4bf532c963d5190c57653",
+          "original_name": "match.mov"
+        }
+      ],
+      "annotation_config": "configs/field_validation_20261021.json"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "purpose": "development_validation",
+  "requires_complete_human_reference": true,
+  "dataset": "data/processed/field_validation_v001",
+  "match_id": "personal_field_session_20261014",
+  "confidence": 0.25,
+  "matching_iou": 0.5,
+  "matching": "one_to_one",
+  "prediction_nms_iou": 0.45,
+  "inference_protocol": "Core ML FP16 via Vision with scaleFit on original full frames; same preprocessing as the iPhone app",
+  "metrics": ["all_visible_ball_tp_fp_fn", "precision_recall_by_source_ball_size", "highest_score_active_target_correctness"],
+  "sample_interval_seconds_approx": 0.5,
+  "limitations": ["one match only", "already inspected: not a blind final test", "not suitable for sub-500ms tracking losses", "iPhone latency measured separately"],
+  "models": [
+    {
+      "name": "Total — Nano 960",
+      "imgsz": 960,
+      "checkpoint": "models/checkpoints/baseline_runs/yolo26n_mobile_field_v004_960_20261014/artifacts/best.pt",
+      "sha256": "cd3ad62956b77987d830414231fcaa9246350cb8caaaace8c3923b6213d38a71"
+    },
+    {
+      "name": "Nano 1280",
+      "imgsz": 1280,
+      "checkpoint": "models/checkpoints/baseline_runs/yolo26n_mobile_field_v004_1280_20261015/artifacts/best.pt",
+      "sha256": "0e1857301cf93a3cd7350d1a6eb428c51e8d75afb56c8304af7bc06c156be4df"
+    },
+    {
+      "name": "Small 960",
+      "imgsz": 960,
+      "checkpoint": "models/checkpoints/baseline_runs/yolo26s_mobile_field_v004_960_20261015/artifacts/best.pt",
+      "sha256": "988d751f751ad166b92f449e4eee8b26e6b81059ddc7f17610d5c1ee4c8c40d0"
+    }
+  ]
+}

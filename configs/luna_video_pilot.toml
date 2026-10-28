@@ -1,0 +1,26 @@
+# API reproduction of the 12 cases already inspected with GPT-6 Luna in Codex.
+# This validates the API prompt before paying for the complete video.
+
+video = "data/external/videos/inference_input_yt.mp4"
+output = "data/interim/gpt6_luna_api_pilot12"
+
+model = "gpt-6-luna"
+reasoning_effort = "max"
+image_detail = "original"
+temporal_offset = 3
+jpeg_quality = 95
+
+center_frames = [
+  348,
+  596,
+  2836,
+  3828,
+  4476,
+  300,
+  1244,
+  1792,
+  2336,
+  3232,
+  3980,
+  4528,
+]

@@ -1,0 +1,15 @@
+# Complete PitchLens v003 candidate set: one central frame out of four.
+# Run only after the 12-case API pilot has been visually accepted.
+
+video = "data/external/videos/inference_input_yt.mp4"
+output = "data/interim/gpt6_luna_api_full_stride4"
+
+model = "gpt-6-luna"
+reasoning_effort = "max"
+image_detail = "original"
+temporal_offset = 3
+jpeg_quality = 95
+
+frame_stride = 4
+# 0 means every stride-aligned frame (1,232 cases for the current video).
+max_samples = 0

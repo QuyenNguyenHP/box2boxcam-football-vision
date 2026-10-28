@@ -1,0 +1,8 @@
+{
+  "download_manifest": "data/external/videos/downloads_20260928/download_manifest.json",
+  "output_root": "data/interim/new_videos_stride4_20260928",
+  "frame_stride": 4,
+  "jpeg_quality": 95,
+  "annotation_status": "unannotated",
+  "split_status": "unassigned"
+}

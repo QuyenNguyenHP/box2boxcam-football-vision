@@ -1,0 +1,13 @@
+{
+  "download_manifest": "data/external/videos/downloads_20260928/download_manifest.json",
+  "frames_manifest": "data/interim/new_videos_stride4_20260928/manifest.csv",
+  "output_root": "data/interim/gpt6_luna_new_videos_20260928",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "max",
+  "image_detail": "original",
+  "jpeg_quality": 95,
+  "temporal_offset": 3,
+  "max_output_tokens": 32768,
+  "upload_workers": 2,
+  "poll_seconds": 60
+}

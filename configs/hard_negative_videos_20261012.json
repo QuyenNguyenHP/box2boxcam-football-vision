@@ -1,0 +1,19 @@
+{
+  "source_files": [
+    "/Users/thibaultgillard/Downloads/IMG_7016.MOV",
+    "/Users/thibaultgillard/Downloads/IMG_7017.MOV",
+    "/Users/thibaultgillard/Downloads/IMG_7018.MOV",
+    "/Users/thibaultgillard/Downloads/IMG_7019.MOV",
+    "/Users/thibaultgillard/Downloads/IMG_7020.MOV",
+    "/Users/thibaultgillard/Downloads/IMG_7021.MOV",
+    "/Users/thibaultgillard/Downloads/IMG_7022.MOV",
+    "/Users/thibaultgillard/Downloads/IMG_7023.MOV",
+    "/Users/thibaultgillard/Downloads/IMG_7024.MOV"
+  ],
+  "video_directory": "data/external/videos/hard_negatives_20261012",
+  "extraction_directory": "data/interim/hard_negatives_20261012",
+  "dataset": "data/processed/hard_negatives_home_v001",
+  "capture_session": "personal_home_negatives_2026-10-12",
+  "frame_stride": 6,
+  "jpeg_quality": 95
+}

@@ -1,0 +1,21 @@
+{
+  "experiment_id": "yolo26n_mobile_v001_960_20261010",
+  "dataset": "data/processed/mobile_v001",
+  "dataset_repo": "Totorotibo84/pitchlens-mobile-v001-private",
+  "model_repo": "Totorotibo84/pitchlens-yolo26n-mobile-v001-960-private",
+  "previous_weights": "models/checkpoints/baseline_runs/yolo26n_luna_v001_20260928_pilot/train/weights/best.pt",
+  "base_model": "yolo26n.pt",
+  "imgsz": 960,
+  "epochs": 60,
+  "patience": 12,
+  "batch": 8,
+  "seed": 42,
+  "optimizer": "AdamW",
+  "lr0": 0.001,
+  "hardware": "a10g-small",
+  "job_timeout": "1h",
+  "repositories_private": true,
+  "fixed_confidence": 0.25,
+  "matching_iou": 0.5,
+  "test_split_used_for_selection": false
+}

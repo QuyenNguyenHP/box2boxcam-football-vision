@@ -1,0 +1,46 @@
+<View>
+  <Header value="Validation des ballons" size="4" />
+  <Text name="frame_info" value="$frame_info" />
+  <Header size="5" value="Toutes les boîtes sont bonnes ? Clique Submit. Sinon, corrige-les puis Submit. Les ballons de réserve comptent aussi." />
+  <Image name="image" value="$image" zoom="true" zoomControl="true" maxWidth="1600px" />
+  <Rectangle name="bbox" toName="image" strokeColor="#e11d48" strokeWidth="1" opacity="0.05" canRotate="false" />
+  <Collapse>
+    <Panel value="Images avant / après">
+      <View style="display:flex; gap:16px;">
+        <View style="flex:1; min-width:0;">
+          <Header size="5" value="Avant — contexte uniquement" />
+          <Image name="previous" value="$image_previous" maxWidth="600px" />
+        </View>
+        <View style="flex:1; min-width:0;">
+          <Header size="5" value="Après — contexte uniquement" />
+          <Image name="next" value="$image_next" maxWidth="600px" />
+        </View>
+      </View>
+    </Panel>
+    <Panel value="Options facultatives — image inexploitable, ballon actif">
+      <Choices name="review_status" toName="image" choice="single" showInLine="true">
+        <Choice value="Vérifié" />
+        <Choice value="Image inexploitable" />
+      </Choices>
+      <Header size="5" value="Le rôle actif peut rester indéterminé. Coche Identité vérifiée uniquement si tu as aussi vérifié les rôles ci-dessous." />
+      <Choices name="active_review_status" toName="image" choice="single">
+        <Choice value="Identité vérifiée" />
+      </Choices>
+      <Choices name="active_state" toName="image" choice="single" showInLine="true">
+        <Choice value="Actif visible" />
+        <Choice value="Actif masqué" />
+        <Choice value="Actif hors champ" />
+        <Choice value="Actif indéterminé" />
+      </Choices>
+      <Header size="5" value="Rôle de la boîte sélectionnée — facultatif" />
+      <Choices name="ball_role" toName="image" choice="single" perRegion="true">
+        <Choice value="Actif" />
+        <Choice value="Secondaire" />
+        <Choice value="Rôle indéterminé" />
+      </Choices>
+    </Panel>
+    <Panel value="Notes de Luna — propositions à vérifier">
+      <Text name="luna_context" value="$luna_context" />
+    </Panel>
+  </Collapse>
+</View>

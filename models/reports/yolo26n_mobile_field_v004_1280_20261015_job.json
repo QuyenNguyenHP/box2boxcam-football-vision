@@ -1,0 +1,187 @@
+{
+  "config": {
+    "experiment_id": "yolo26n_mobile_field_v004_1280_20261015",
+    "dataset": "data/processed/mobile_v004",
+    "baseline_dataset": "mobile_v003",
+    "extra_train_sources": [
+      "field_all_balls_reviewed_v001"
+    ],
+    "negative_diagnostic_source": "hard_negatives_home_v001",
+    "dataset_repo": "Totorotibo84/pitchlens-mobile-v004-private",
+    "model_repo": "Totorotibo84/pitchlens-yolo26n-mobile-field-v004-1280-20261015-private",
+    "previous_weights": "models/checkpoints/baseline_runs/yolo26n_mobile_field_v004_960_20261014/artifacts/best.pt",
+    "reference_key": "total_v004_960",
+    "reference_filename": "inputs/total_v004_960_best.pt",
+    "base_model": "yolo26n.pt",
+    "initialization": "coco_pretrained",
+    "class_name": "sports ball",
+    "sports_ball_transfer": "retain_full_classifier",
+    "imgsz": 1280,
+    "epochs": 30,
+    "patience": 8,
+    "batch": 8,
+    "publish_every_epochs": 2,
+    "seed": 42,
+    "optimizer": "AdamW",
+    "lr0": 0.001,
+    "hardware": "a10g-small",
+    "job_timeout": "90m",
+    "repositories_private": true,
+    "include_tv": false,
+    "fixed_confidence": 0.25,
+    "matching_iou": 0.5,
+    "test_split_used_for_selection": false,
+    "classification_hidden_widths": [
+      80,
+      80,
+      80,
+      80,
+      80,
+      80
+    ],
+    "reuse_dataset_record": "models/reports/yolo26n_mobile_field_v004_960_20261014_job.json",
+    "comparison": "Same frozen v004 train/val, COCO initialization, 30 epochs, seed 42; vary architecture or input resolution only"
+  },
+  "dataset_revision": "77c48dac63cd314bd3d0a54b9d2caf2be0ed4641",
+  "code_revision": "5f961e51593b79c8839f436d164a2015980dbce2",
+  "archive_sha256": "a668ba60c58a64afe24c68e0227e9cfa11e4d411ef82019f85dd2318378f293d",
+  "status": "COMPLETED",
+  "repositories_private": true,
+  "transfer_preflight": {
+    "method": "retain_full_classifier_features_and_named_output_row",
+    "source_class_id": 32,
+    "source_class_name": "sports ball",
+    "target_class_id": 0,
+    "target_class_name": "sports ball",
+    "source_classes": 80,
+    "target_classes": 1,
+    "classification_hidden_widths": [
+      80,
+      80,
+      80,
+      80,
+      80,
+      80
+    ],
+    "mapped_output_tensors": [
+      "model.23.cv3.0.2.weight",
+      "model.23.cv3.0.2.bias",
+      "model.23.cv3.1.2.weight",
+      "model.23.cv3.1.2.bias",
+      "model.23.cv3.2.2.weight",
+      "model.23.cv3.2.2.bias",
+      "model.23.one2one_cv3.0.2.weight",
+      "model.23.one2one_cv3.0.2.bias",
+      "model.23.one2one_cv3.1.2.weight",
+      "model.23.one2one_cv3.1.2.bias",
+      "model.23.one2one_cv3.2.2.weight",
+      "model.23.one2one_cv3.2.2.bias"
+    ],
+    "other_tensors_preserved": 696,
+    "all_weight_checks_passed": true,
+    "source_parameters": 2572280,
+    "target_parameters": 2533886,
+    "dense_prediction_check": {
+      "passed": true,
+      "sample_shape": [
+        1,
+        3,
+        320,
+        320
+      ],
+      "branches": {
+        "one2many": {
+          "class_logit_max_error": 1.52587890625e-05,
+          "raw_box_max_error": 0.0,
+          "decoded_box_max_error": 0.0
+        },
+        "one2one": {
+          "class_logit_max_error": 1.1444091796875e-05,
+          "raw_box_max_error": 0.0,
+          "decoded_box_max_error": 0.0
+        }
+      },
+      "scope": "dense predictions, before top-k; not a guarantee after fine-tuning"
+    },
+    "protocol": "retain_full_classifier",
+    "input_weights_sha256": "9b09cc8bf347f0fc8a5f7657480587f25db09b34bf33b0652110fb03a8ad4fef",
+    "dataset_manifest_sha256": "5b408eeda4c96af56efe2c4c15c04fc018bce11997c018b0ac640127bba43aa0"
+  },
+  "hardware_price_usd_per_hour": 1.0000200000000001,
+  "job_id": "6ad14bbc5ccb47ba0f7ad330",
+  "job_url": "https://huggingface.co/jobs/Totorotibo84/6ad14bbc5ccb47ba0f7ad330",
+  "message": null,
+  "result_revision": "1a6ece0b91de8e87634f0366fea88acfcaa4380d",
+  "local_result": "/Users/thibaultgillard/Documents/Projet_perso/pitchlens/models/checkpoints/baseline_runs/yolo26n_mobile_field_v004_1280_20261015",
+  "validation": {
+    "pretrained": {
+      "map50": 0.47501832167349195,
+      "map50_95": 0.2939175774934605,
+      "fixed": {
+        "tp": 56,
+        "fp": 14,
+        "fn": 78,
+        "images": 168,
+        "negative_images": 34,
+        "fp_on_negatives": 5,
+        "precision": 0.8,
+        "recall": 0.417910447761194,
+        "f1": 0.5490196078431373,
+        "confidence": 0.25,
+        "matching_iou": 0.5
+      },
+      "speed_ms_per_image": {
+        "preprocess": 2.614742833335034,
+        "inference": 3.9370355357155926,
+        "loss": 0.0017800238097043757,
+        "postprocess": 1.722710845238377
+      }
+    },
+    "total_v004_960": {
+      "map50": 0.7799677470135169,
+      "map50_95": 0.479979028311193,
+      "fixed": {
+        "tp": 103,
+        "fp": 62,
+        "fn": 31,
+        "images": 168,
+        "negative_images": 34,
+        "fp_on_negatives": 14,
+        "precision": 0.6242424242424243,
+        "recall": 0.7686567164179104,
+        "f1": 0.6889632107023411,
+        "confidence": 0.25,
+        "matching_iou": 0.5
+      },
+      "speed_ms_per_image": {
+        "preprocess": 2.847101755952914,
+        "inference": 4.128372690477109,
+        "loss": 0.0014365654746619667,
+        "postprocess": 1.01767655357118
+      }
+    },
+    "mobile": {
+      "map50": 0.7554318396873025,
+      "map50_95": 0.4593930426370423,
+      "fixed": {
+        "tp": 92,
+        "fp": 31,
+        "fn": 42,
+        "images": 168,
+        "negative_images": 34,
+        "fp_on_negatives": 10,
+        "precision": 0.7479674796747967,
+        "recall": 0.6865671641791045,
+        "f1": 0.7159533073929961,
+        "confidence": 0.25,
+        "matching_iou": 0.5
+      },
+      "speed_ms_per_image": {
+        "preprocess": 3.089137708332687,
+        "inference": 3.2991195773802033,
+        "loss": 0.0013908750025577667,
+        "postprocess": 1.3706134285687963
+      }
+    }
+  }
+}

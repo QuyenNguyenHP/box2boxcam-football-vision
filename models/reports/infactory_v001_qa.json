@@ -1,0 +1,57 @@
+{
+  "dataset_id": "pitchlens_infactory_v001",
+  "source": "Infactory Ball Tracking",
+  "visual_sampling_seed": 42,
+  "visual_samples_per_split": 20,
+  "visual_samples_total": 60,
+  "visual_categories": [
+    "tiny",
+    "small",
+    "medium",
+    "large",
+    "negative"
+  ],
+  "population_by_split": {
+    "train": {
+      "negative": 1997,
+      "tiny": 374,
+      "small": 1450,
+      "medium": 654,
+      "large": 436
+    },
+    "val": {
+      "negative": 423,
+      "medium": 91,
+      "large": 25,
+      "small": 341,
+      "tiny": 191
+    },
+    "test": {
+      "negative": 425,
+      "large": 128,
+      "small": 315,
+      "medium": 105,
+      "tiny": 59
+    }
+  },
+  "unique_image_hashes": 7014,
+  "exact_duplicate_groups": 0,
+  "cross_split_duplicate_groups": 0,
+  "mechanical_validation": "passed",
+  "human_visual_validation": "failed_sample_contains_label_errors",
+  "confirmed_visual_errors": 5,
+  "priority_review_images": 700,
+  "priority_review_by_split": {
+    "val": 48,
+    "train": 508,
+    "test": 144
+  },
+  "priority_review_reasons": {
+    "single_negative_gap": 86,
+    "visual_sample_false_negative": 1,
+    "large_bbox": 589,
+    "area_jump": 12,
+    "center_jump": 17,
+    "visual_sample_false_positive": 4
+  }
+}

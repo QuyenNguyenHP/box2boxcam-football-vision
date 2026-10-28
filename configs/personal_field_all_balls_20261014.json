@@ -1,0 +1,163 @@
+{
+  "output_root": "data/interim/gpt6_luna_field_all_balls_20261014",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "max",
+  "image_detail": "original",
+  "jpeg_quality": 95,
+  "frame_stride": 6,
+  "temporal_offset": 3,
+  "max_output_tokens": 32768,
+  "prompt_cache_key": "pitchlens-all-visible-balls-v1",
+  "annotation_scope": "all_visible",
+  "inline_images": true,
+  "train_confidence_threshold": 0.94,
+  "retain_all_sampled_frames": true,
+  "upload_workers": 2,
+  "poll_seconds": 60,
+  "teacher_checkpoint": "models/checkpoints/baseline_runs/yolo26n_mobile_hard_negatives_v003_960_20261012/artifacts/best.pt",
+  "teacher_imgsz": 960,
+  "teacher_confidence": 0.1,
+  "teacher_iou": 0.7,
+  "session_policy": {
+    "group_id": "personal_field_session_20261012",
+    "intended_use": "train_candidates_after_human_review",
+    "all_clips_same_session": true,
+    "existing_validation_and_test_unchanged": true,
+    "confidence_is_not_human_validation": true,
+    "source": "User-provided private iPhone captures; annotation submission authorized 2026-10-14; no public distribution"
+  },
+  "videos": [
+    {
+      "file": "field_20261012/IMG_7029.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7030.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7031.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7032.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7033.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7034.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7035.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7036.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7037.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7038.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7039.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7040.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7041.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7042.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7043.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7044.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7045.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7046.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7047.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7048.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7049.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    },
+    {
+      "file": "field_20261012/IMG_7050.MOV",
+      "match_id": "personal_field_session_20261012",
+      "role": "train_candidate",
+      "annotate": true
+    }
+  ]
+}

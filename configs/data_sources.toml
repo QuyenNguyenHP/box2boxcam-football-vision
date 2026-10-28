@@ -1,0 +1,94 @@
+# This registry records data provenance before anything is downloaded or merged.
+# `commercial_allowed = false` does not prevent research experiments, but those
+# samples must remain separable from data intended for a distributable product.
+
+[[sources]]
+id = "infactory_ball_tracking"
+name = "Infactory Soccer Ball Tracking"
+url = "https://huggingface.co/datasets/infactory-ai/ball-tracking"
+kind = "images"
+domain = "professional_broadcast"
+annotations = "yolo_ball_bbox_with_negative_frames"
+access = "public"
+data_license = "CC-BY-NC-4.0"
+commercial_allowed = false
+status = "prepared_v001_visual_qa_failed"
+notes = "The card claims 1450 frames from 10 clips, but revision 75854a5 contains 7152 data images from 54 UUID sequences. The conservative v001 excludes 75 zero-area annotations and 63 multi-box frames, keeps sequences in a single split, and contains no exact duplicate. A stratified 60-image visual QA still found four confirmed false-positive boxes and one false-negative frame. A 700-image priority queue now covers large boxes, temporal discontinuities, and the confirmed errors. Broadcast domain, not a fixed amateur sideline camera."
+
+[[sources]]
+id = "soccereye"
+name = "SoccerEye custom detector dataset"
+url = "https://github.com/WWandP/SoccerEye"
+kind = "images"
+domain = "mixed_soccer_scenes"
+annotations = "yolo_person_and_ball_bbox"
+access = "public_google_drive"
+data_license = "unknown"
+commercial_allowed = false
+status = "blocked_license_review"
+notes = "Downloaded for local research. Archive has 1128 processed images derived from only 560 unique scene names and 15 source prefixes. All 15 sources cross the published splits; 53 scene names also cross splits. Code is MIT, but dataset license remains unspecified."
+
+[[sources]]
+id = "soccernet_tracking"
+name = "SoccerNet Tracking"
+url = "https://www.soccer-net.org/data"
+kind = "video_tracklets"
+domain = "professional_broadcast"
+annotations = "players_referees_and_ball_tracklets"
+access = "nda"
+data_license = "research-only"
+commercial_allowed = false
+status = "research_benchmark"
+notes = "Good for research and teacher experiments. SoccerNet explicitly excludes commercial use and redistribution of copyrighted videos."
+
+[[sources]]
+id = "dryad_sport_ball_2026"
+name = "High-quality sport ball dataset annotation based on videos"
+url = "https://doi.org/10.5061/dryad.3bk3j9m13"
+kind = "labels_and_external_videos"
+domain = "sports_video"
+annotations = "yolo_ball_bbox"
+access = "public"
+data_license = "CC-BY-NC-ND-4.0-for-videos"
+commercial_allowed = false
+status = "candidate_download_blocked"
+notes = "Dryad metadata marks its small annotation bundle CC0, while the authors mark separately hosted videos CC-BY-NC-ND-4.0. The football archive is only 3.27 MB, so it appears to contain labels rather than source frames. Automated download currently returns 403."
+
+[[sources]]
+id = "roboflow_football_ball_detection"
+name = "Roboflow Universe football ball detection candidates"
+url = "https://universe.roboflow.com/roboflow-jvuqo/football-ball-detection-rejhg"
+kind = "images"
+domain = "professional_broadcast_tiles"
+annotations = "ball_bbox"
+access = "public_page_download_requires_authentication"
+data_license = "CC-BY-4.0"
+commercial_allowed = true
+status = "candidate_download_requires_auth"
+notes = "Version 4 contains 4948 generated 640x640 tiles from 1237 browsable images, split 3956/492/500. Preprocessing is 2x2 tiling, auto-orient, then stretch to 640x640; no augmentations are declared. Must audit leakage from parent images after download."
+
+[[sources]]
+id = "pitchlens_own_capture"
+name = "PitchLens own sideline captures"
+url = "local://data/raw/own_capture"
+kind = "videos"
+domain = "target_amateur_sideline_iphone"
+annotations = "to_be_created"
+access = "private"
+data_license = "owned_or_consented"
+commercial_allowed = true
+status = "essential_target_domain"
+notes = "This is the target domain and must become the final validation set. Keep player consent and recording provenance with each session."
+
+[[sources]]
+id = "soccernet_v3_h250"
+name = "SoccerNet v3 H250 long-shot subset"
+url = "https://zenodo.org/records/7808511"
+kind = "images"
+domain = "professional_broadcast_long_shots"
+annotations = "yolo_person_and_ball_bbox"
+access = "public_2.5gb"
+data_license = "unknown-derived-from-soccernet"
+commercial_allowed = false
+status = "blocked_license_review"
+notes = "A 2.5 GB long-shot subset derived from SoccerNet v3 with 19786 images and ball/person labels. The Zenodo record does not display an explicit license; do not download or redistribute until the inherited SoccerNet terms are clarified."

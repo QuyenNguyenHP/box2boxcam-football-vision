@@ -1,0 +1,15 @@
+# Retry only API-successful requests that failed local parsing because the
+# first run exhausted max_output_tokens during GPT-6 Luna's reasoning.
+
+video = "data/external/videos/inference_input_yt.mp4"
+output = "data/interim/gpt6_luna_api_full_stride4_retry"
+
+model = "gpt-6-luna"
+reasoning_effort = "max"
+image_detail = "original"
+temporal_offset = 3
+jpeg_quality = 95
+max_output_tokens = 8192
+
+retry_failures_from = "data/interim/gpt6_luna_api_full_stride4/failures.json"
+reuse_uploads_from = "data/interim/gpt6_luna_api_full_stride4/state.json"

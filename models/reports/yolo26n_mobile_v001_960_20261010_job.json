@@ -1,0 +1,105 @@
+{
+  "config": {
+    "experiment_id": "yolo26n_mobile_v001_960_20261010",
+    "dataset": "data/processed/mobile_v001",
+    "dataset_repo": "Totorotibo84/pitchlens-mobile-v001-private",
+    "model_repo": "Totorotibo84/pitchlens-yolo26n-mobile-v001-960-private",
+    "previous_weights": "models/checkpoints/baseline_runs/yolo26n_luna_v001_20260928_pilot/train/weights/best.pt",
+    "base_model": "yolo26n.pt",
+    "imgsz": 960,
+    "epochs": 60,
+    "patience": 12,
+    "batch": 8,
+    "seed": 42,
+    "optimizer": "AdamW",
+    "lr0": 0.001,
+    "hardware": "a10g-small",
+    "job_timeout": "1h",
+    "repositories_private": true,
+    "fixed_confidence": 0.25,
+    "matching_iou": 0.5,
+    "test_split_used_for_selection": false
+  },
+  "dataset_revision": "181a1a1973823002abcfdcb5ee9669ed33439765",
+  "code_revision": "9904bbb5badee899da2fc6f1ea8016999d42349b",
+  "archive_sha256": "c236edfc1330eae734a21152ebad58735adc682cb3a9a56eeededcab2898f9e6",
+  "status": "COMPLETED",
+  "repositories_private": true,
+  "hardware_price_usd_per_hour": 1.0000200000000001,
+  "job_id": "6aca4776fee2c9007018867a",
+  "job_url": "https://huggingface.co/jobs/Totorotibo84/6aca4776fee2c9007018867a",
+  "message": null,
+  "result_revision": "9e458990fb19ea78e445c0455b9d762eb8ec37aa",
+  "local_result": "/Users/thibaultgillard/Documents/Projet_perso/pitchlens/models/checkpoints/baseline_runs/yolo26n_mobile_v001_960_20261010",
+  "validation": {
+    "pretrained": {
+      "map50": 0.39337164612221676,
+      "map50_95": 0.2171127254335446,
+      "fixed": {
+        "tp": 48,
+        "fp": 16,
+        "fn": 86,
+        "images": 168,
+        "negative_images": 34,
+        "fp_on_negatives": 7,
+        "precision": 0.75,
+        "recall": 0.3582089552238806,
+        "f1": 0.48484848484848486,
+        "confidence": 0.25,
+        "matching_iou": 0.5
+      },
+      "speed_ms_per_image": {
+        "preprocess": 1.5545674226189359,
+        "inference": 3.0053408511903292,
+        "loss": 0.0014366666669440337,
+        "postprocess": 1.5482269404758076
+      }
+    },
+    "previous_luna": {
+      "map50": 0.6128757260948237,
+      "map50_95": 0.34036111665412316,
+      "fixed": {
+        "tp": 76,
+        "fp": 40,
+        "fn": 58,
+        "images": 168,
+        "negative_images": 34,
+        "fp_on_negatives": 23,
+        "precision": 0.6551724137931034,
+        "recall": 0.5671641791044776,
+        "f1": 0.608,
+        "confidence": 0.25,
+        "matching_iou": 0.5
+      },
+      "speed_ms_per_image": {
+        "preprocess": 1.637494208333394,
+        "inference": 2.191987029762051,
+        "loss": 0.0014362023817411575,
+        "postprocess": 1.0423198690478077
+      }
+    },
+    "mobile": {
+      "map50": 0.755872191279397,
+      "map50_95": 0.4246022167224586,
+      "fixed": {
+        "tp": 92,
+        "fp": 34,
+        "fn": 42,
+        "images": 168,
+        "negative_images": 34,
+        "fp_on_negatives": 13,
+        "precision": 0.7301587301587301,
+        "recall": 0.6865671641791045,
+        "f1": 0.7076923076923077,
+        "confidence": 0.25,
+        "matching_iou": 0.5
+      },
+      "speed_ms_per_image": {
+        "preprocess": 1.7269834940493856,
+        "inference": 2.2933012321417543,
+        "loss": 0.0013613154760064173,
+        "postprocess": 1.1762566428589458
+      }
+    }
+  }
+}

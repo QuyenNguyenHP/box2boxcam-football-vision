@@ -1,0 +1,16 @@
+{
+  "job_id": "6aad270051992417dfcc6aae",
+  "job_url": "https://huggingface.co/jobs/Totorotibo84/6aad270051992417dfcc6aae",
+  "status": "completed",
+  "hardware": "a10g-small",
+  "hardware_price_usd_per_hour": 1.0,
+  "scheduling_seconds": 65,
+  "running_seconds": 200,
+  "total_seconds": 266,
+  "estimated_cost_usd": 0.06,
+  "experiment": "Same YOLO26x v002 checkpoint evaluated at 640, 960 and 1280 px",
+  "validation_split": "val",
+  "test_split_used": false,
+  "images_per_resolution": 670,
+  "batch": 1
+}

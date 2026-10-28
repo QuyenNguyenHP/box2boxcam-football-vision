@@ -1,0 +1,13 @@
+{
+  "registry_id": "soccereye",
+  "provider": "Google Drive linked from the SoccerEye GitHub repository",
+  "source_url": "https://drive.google.com/file/d/1RHDHztUHho1zP1sKJXts1UxoFtrB2uFz/view",
+  "upstream_repository": "https://github.com/WWandP/SoccerEye",
+  "retrieved_at": "2026-09-13",
+  "archive": "data_detection_player_ball.zip",
+  "archive_size_bytes": 107153502,
+  "archive_sha256": "53277d2d12ca288dd7247782079cebef7cd9a025b31700abb885f8bcf2aae7a3",
+  "code_license": "MIT",
+  "data_license": "unknown",
+  "redistribution_status": "blocked_pending_data_license_confirmation"
+}

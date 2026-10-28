@@ -1,0 +1,42 @@
+{
+  "job_id": "6aad100b52d0dbd7f1d69778",
+  "job_url": "https://huggingface.co/jobs/Totorotibo84/6aad100b52d0dbd7f1d69778",
+  "dataset_repo": "Totorotibo84/pitchlens-v002",
+  "dataset_url": "https://huggingface.co/datasets/Totorotibo84/pitchlens-v002",
+  "model_repo": "Totorotibo84/pitchlens-yolo26x-v002-teacher",
+  "model_url": "https://huggingface.co/Totorotibo84/pitchlens-yolo26x-v002-teacher",
+  "repositories_private": true,
+  "hardware": "a10g-small",
+  "hardware_price_usd_per_hour": 1.0,
+  "timeout_hours": 3,
+  "training": {
+    "base_model": "yolo26x.pt",
+    "dataset": "pitchlens_infactory_v002",
+    "epochs": 10,
+    "image_size": 640,
+    "batch": 4,
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "seed": 42,
+    "validation_split": "val",
+    "test_split_used": false
+  },
+  "status": "completed",
+  "scheduling_seconds": 127,
+  "running_seconds": 1412,
+  "total_seconds": 1539,
+  "estimated_cost_usd": 0.39,
+  "result": {
+    "best_epoch": 8,
+    "map50": 0.6914421205122849,
+    "map50_95": 0.34271935963379313,
+    "precision_at_0_25": 0.7192982456140351,
+    "recall_at_0_25": 0.6639676113360324,
+    "f1_at_0_25": 0.6905263157894737,
+    "true_positives": 328,
+    "false_positives": 128,
+    "false_negatives": 166,
+    "false_positives_on_negative_images": 12
+  },
+  "environment_note": "The Ultralytics container resolved 8.4.155 despite the requested 8.4.153; this minor version difference is recorded in training_report.json."
+}

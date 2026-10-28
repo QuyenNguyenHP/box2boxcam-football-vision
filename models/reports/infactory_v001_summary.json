@@ -1,0 +1,52 @@
+{
+  "dataset_id": "pitchlens_infactory_v001",
+  "quality_status": "working_dataset_visual_review_required",
+  "source_registry_id": "infactory_ball_tracking",
+  "source_revision": "75854a5837dd3302cbb1843355ecc1a6f124f818",
+  "source_url": "https://huggingface.co/datasets/infactory-ai/ball-tracking",
+  "split_unit": "complete UUID sequence",
+  "split_target_ratios": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  },
+  "split_search_seed": 42,
+  "split_search_candidates": 25000,
+  "included_statuses": [
+    "negative",
+    "positive_single"
+  ],
+  "excluded_statuses": [
+    "review_invalid",
+    "review_multi"
+  ],
+  "counts": {
+    "source_images": 7152,
+    "included_images": 7014,
+    "review_images": 138,
+    "positive_images": 4169,
+    "negative_images": 2845,
+    "invalid_images": 75,
+    "multi_box_images": 63
+  },
+  "splits": {
+    "train": {
+      "sequences": 38,
+      "images": 4911,
+      "positive_images": 2914,
+      "negative_images": 1997
+    },
+    "val": {
+      "sequences": 8,
+      "images": 1071,
+      "positive_images": 648,
+      "negative_images": 423
+    },
+    "test": {
+      "sequences": 8,
+      "images": 1032,
+      "positive_images": 607,
+      "negative_images": 425
+    }
+  }
+}

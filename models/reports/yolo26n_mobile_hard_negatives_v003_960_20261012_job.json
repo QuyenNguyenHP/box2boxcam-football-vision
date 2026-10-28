@@ -1,0 +1,176 @@
+{
+  "config": {
+    "experiment_id": "yolo26n_mobile_hard_negatives_v003_960_20261012",
+    "dataset": "data/processed/mobile_v003",
+    "baseline_dataset": "mobile_v002",
+    "extra_train_sources": [
+      "hard_negatives_home_v001"
+    ],
+    "negative_diagnostic_source": "hard_negatives_home_v001",
+    "dataset_repo": "Totorotibo84/pitchlens-mobile-v003-private",
+    "model_repo": "Totorotibo84/pitchlens-yolo26n-mobile-hard-negatives-v003-960-private",
+    "previous_weights": "models/checkpoints/baseline_runs/yolo26n_mobile_enriched_sports_ball_v002_960_20261011/artifacts/best.pt",
+    "reference_key": "enriched_v002",
+    "reference_filename": "inputs/enriched_v002_best.pt",
+    "base_model": "yolo26n.pt",
+    "initialization": "previous_checkpoint",
+    "class_name": "sports ball",
+    "sports_ball_transfer": "continue_retained_classifier",
+    "imgsz": 960,
+    "epochs": 15,
+    "patience": 5,
+    "batch": 8,
+    "publish_every_epochs": 2,
+    "seed": 42,
+    "optimizer": "AdamW",
+    "lr0": 0.0002,
+    "hardware": "a10g-small",
+    "job_timeout": "45m",
+    "repositories_private": true,
+    "fixed_confidence": 0.25,
+    "matching_iou": 0.5,
+    "test_split_used_for_selection": false
+  },
+  "dataset_revision": "9163a63e0421774c1eaa994b0eef47cc25bee03e",
+  "code_revision": "9d74a340c841929b42951fafabaae9619d573dec",
+  "archive_sha256": "58b5060d3ab4c9b1782a7dacae9cf3eba89bf0b4b22fe8802c13b514e264100e",
+  "status": "COMPLETED",
+  "repositories_private": true,
+  "transfer_preflight": {
+    "method": "retain_full_classifier_features_and_named_output_row",
+    "source_class_id": 0,
+    "source_class_name": "sports ball",
+    "target_class_id": 0,
+    "target_class_name": "sports ball",
+    "source_classes": 1,
+    "target_classes": 1,
+    "classification_hidden_widths": [
+      80,
+      80,
+      80,
+      80,
+      80,
+      80
+    ],
+    "mapped_output_tensors": [
+      "model.23.cv3.0.2.weight",
+      "model.23.cv3.0.2.bias",
+      "model.23.cv3.1.2.weight",
+      "model.23.cv3.1.2.bias",
+      "model.23.cv3.2.2.weight",
+      "model.23.cv3.2.2.bias",
+      "model.23.one2one_cv3.0.2.weight",
+      "model.23.one2one_cv3.0.2.bias",
+      "model.23.one2one_cv3.1.2.weight",
+      "model.23.one2one_cv3.1.2.bias",
+      "model.23.one2one_cv3.2.2.weight",
+      "model.23.one2one_cv3.2.2.bias"
+    ],
+    "other_tensors_preserved": 696,
+    "all_weight_checks_passed": true,
+    "source_parameters": 2533886,
+    "target_parameters": 2533886,
+    "dense_prediction_check": {
+      "passed": true,
+      "sample_shape": [
+        1,
+        3,
+        320,
+        320
+      ],
+      "branches": {
+        "one2many": {
+          "class_logit_max_error": 0.0,
+          "raw_box_max_error": 0.0,
+          "decoded_box_max_error": 0.0
+        },
+        "one2one": {
+          "class_logit_max_error": 0.0,
+          "raw_box_max_error": 0.0,
+          "decoded_box_max_error": 0.0
+        }
+      },
+      "scope": "dense predictions, before top-k; not a guarantee after fine-tuning"
+    },
+    "protocol": "continue_retained_classifier",
+    "input_weights_sha256": "9d21e9d40d836236e0a26eeec4e9020ff2f5d01622e084c9aa789a20ebc0d1d5",
+    "dataset_manifest_sha256": "6e25b3224f0332ab9c18da2d7fae301924e5969dfcd89f98f461ad070b5b7c40"
+  },
+  "hardware_price_usd_per_hour": 1.0000200000000001,
+  "job_id": "6acc0d83095c578089324dcd",
+  "job_url": "https://huggingface.co/jobs/Totorotibo84/6acc0d83095c578089324dcd",
+  "message": null,
+  "result_revision": "adb1034f2ed60ca26c94e1fdccd4d1cb0f030063",
+  "local_result": "/Users/thibaultgillard/Documents/Projet_perso/pitchlens/models/checkpoints/baseline_runs/yolo26n_mobile_hard_negatives_v003_960_20261012",
+  "validation": {
+    "pretrained": {
+      "map50": 0.39337164612221676,
+      "map50_95": 0.2171127254335446,
+      "fixed": {
+        "tp": 48,
+        "fp": 16,
+        "fn": 86,
+        "images": 168,
+        "negative_images": 34,
+        "fp_on_negatives": 7,
+        "precision": 0.75,
+        "recall": 0.3582089552238806,
+        "f1": 0.48484848484848486,
+        "confidence": 0.25,
+        "matching_iou": 0.5
+      },
+      "speed_ms_per_image": {
+        "preprocess": 1.8834886488096323,
+        "inference": 2.864116059521664,
+        "loss": 0.0014239464210926858,
+        "postprocess": 1.5963002559558284
+      }
+    },
+    "enriched_v002": {
+      "map50": 0.7370390513940298,
+      "map50_95": 0.4280458428007671,
+      "fixed": {
+        "tp": 93,
+        "fp": 37,
+        "fn": 41,
+        "images": 168,
+        "negative_images": 34,
+        "fp_on_negatives": 8,
+        "precision": 0.7153846153846154,
+        "recall": 0.6940298507462687,
+        "f1": 0.7045454545454546,
+        "confidence": 0.25,
+        "matching_iou": 0.5
+      },
+      "speed_ms_per_image": {
+        "preprocess": 1.9060004047622399,
+        "inference": 2.3014025714270963,
+        "loss": 0.0015274761938685732,
+        "postprocess": 1.6150520476198185
+      }
+    },
+    "mobile": {
+      "map50": 0.7509915468662831,
+      "map50_95": 0.43629434828902625,
+      "fixed": {
+        "tp": 90,
+        "fp": 15,
+        "fn": 44,
+        "images": 168,
+        "negative_images": 34,
+        "fp_on_negatives": 4,
+        "precision": 0.8571428571428571,
+        "recall": 0.6716417910447762,
+        "f1": 0.7531380753138075,
+        "confidence": 0.25,
+        "matching_iou": 0.5
+      },
+      "speed_ms_per_image": {
+        "preprocess": 1.65960452381022,
+        "inference": 2.158532196428301,
+        "loss": 0.0015356904739183802,
+        "postprocess": 1.0042772738088281
+      }
+    }
+  }
+}

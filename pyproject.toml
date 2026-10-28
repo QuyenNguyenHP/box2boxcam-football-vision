@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pitchlens"
+version = "0.1.0"
+description = "Data and training pipeline for low-cost football camera tracking"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "huggingface-hub>=1.4,<2",
+  "Pillow>=10,<13",
+]
+
+[project.optional-dependencies]
+training = [
+  "ultralytics==8.4.153",
+]
+dev = [
+  "ruff>=0.12",
+]
+notebook = [
+  "ipympl>=0.9,<1",
+  "ipywidgets>=8.1,<9",
+  "jupyterlab>=4.4,<5",
+  "matplotlib>=3.10,<4",
+]
+annotation = [
+  "openai>=2,<3",
+  "opencv-python>=4.10,<5",
+  "python-dotenv>=1.0,<2",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pitchlens"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"

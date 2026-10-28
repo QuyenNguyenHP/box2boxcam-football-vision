@@ -1,0 +1,96 @@
+{
+  "config": {
+    "experiment_id": "yolo26n_mobile_sports_ball_v001_960_20261010",
+    "dataset": "data/processed/mobile_v001",
+    "dataset_repo": "Totorotibo84/pitchlens-mobile-v001-private",
+    "reuse_dataset_record": "models/reports/yolo26n_mobile_v001_960_20261010_job.json",
+    "model_repo": "Totorotibo84/pitchlens-yolo26n-mobile-sports-ball-v001-960-private",
+    "previous_weights": "models/checkpoints/baseline_runs/yolo26n_mobile_v001_960_20261010/artifacts/best.pt",
+    "reference_key": "modern_only",
+    "reference_filename": "inputs/modern_only_best.pt",
+    "base_model": "yolo26n.pt",
+    "class_name": "sports ball",
+    "sports_ball_transfer": "retain_full_classifier",
+    "imgsz": 960,
+    "epochs": 60,
+    "patience": 12,
+    "batch": 8,
+    "seed": 42,
+    "optimizer": "AdamW",
+    "lr0": 0.001,
+    "hardware": "a10g-small",
+    "job_timeout": "1h",
+    "repositories_private": true,
+    "fixed_confidence": 0.25,
+    "matching_iou": 0.5,
+    "test_split_used_for_selection": false
+  },
+  "dataset_revision": "181a1a1973823002abcfdcb5ee9669ed33439765",
+  "code_revision": "4d8cc017963af75ad65b3c5b3a7da88622b790e5",
+  "archive_sha256": "c236edfc1330eae734a21152ebad58735adc682cb3a9a56eeededcab2898f9e6",
+  "status": "CANCELED",
+  "repositories_private": true,
+  "transfer_preflight": {
+    "method": "retain_full_classifier_features_and_named_output_row",
+    "source_class_id": 32,
+    "source_class_name": "sports ball",
+    "target_class_id": 0,
+    "target_class_name": "sports ball",
+    "source_classes": 80,
+    "target_classes": 1,
+    "classification_hidden_widths": [
+      80,
+      80,
+      80,
+      80,
+      80,
+      80
+    ],
+    "mapped_output_tensors": [
+      "model.23.cv3.0.2.weight",
+      "model.23.cv3.0.2.bias",
+      "model.23.cv3.1.2.weight",
+      "model.23.cv3.1.2.bias",
+      "model.23.cv3.2.2.weight",
+      "model.23.cv3.2.2.bias",
+      "model.23.one2one_cv3.0.2.weight",
+      "model.23.one2one_cv3.0.2.bias",
+      "model.23.one2one_cv3.1.2.weight",
+      "model.23.one2one_cv3.1.2.bias",
+      "model.23.one2one_cv3.2.2.weight",
+      "model.23.one2one_cv3.2.2.bias"
+    ],
+    "other_tensors_preserved": 696,
+    "all_weight_checks_passed": true,
+    "source_parameters": 2572280,
+    "target_parameters": 2533886,
+    "dense_prediction_check": {
+      "passed": true,
+      "sample_shape": [
+        1,
+        3,
+        320,
+        320
+      ],
+      "branches": {
+        "one2many": {
+          "class_logit_max_error": 1.52587890625e-05,
+          "raw_box_max_error": 0.0,
+          "decoded_box_max_error": 0.0
+        },
+        "one2one": {
+          "class_logit_max_error": 1.1444091796875e-05,
+          "raw_box_max_error": 0.0,
+          "decoded_box_max_error": 0.0
+        }
+      },
+      "scope": "dense predictions, before top-k; not a guarantee after fine-tuning"
+    },
+    "input_weights_sha256": "9b09cc8bf347f0fc8a5f7657480587f25db09b34bf33b0652110fb03a8ad4fef",
+    "dataset_manifest_sha256": "ffaebd49ba65e93c23054b068a1e633a2dcdc769e78dad88e29c52d41c139be9"
+  },
+  "hardware_price_usd_per_hour": 1.0000200000000001,
+  "job_id": "6acaafa2095c578089317ff5",
+  "job_url": "https://huggingface.co/jobs/Totorotibo84/6acaafa2095c578089317ff5",
+  "message": null
+}

@@ -1,0 +1,16 @@
+{
+  "description": "Match groups inferred by visual inspection of scoreboard, teams and pitch. All clips/replays inside each range stay together. Not an independently verified match identity.",
+  "transition_buffer_frames": 12,
+  "matches": [
+    {"id": "ash_alr", "start": 0, "end": 616},
+    {"id": "win_whi", "start": 616, "end": 1000},
+    {"id": "car_fre", "start": 1000, "end": 2132},
+    {"id": "ful_gol", "start": 2132, "end": 2336},
+    {"id": "lan_gat", "start": 2336, "end": 2612},
+    {"id": "mos_sal", "start": 2612, "end": 3144},
+    {"id": "col_afc", "start": 3144, "end": 3536},
+    {"id": "dat_win", "start": 3536, "end": 3972},
+    {"id": "ww_eag", "start": 3972, "end": 4396},
+    {"id": "ath_ash", "start": 4396, "end": 4926}
+  ]
+}

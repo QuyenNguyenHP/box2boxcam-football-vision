@@ -1,0 +1,23 @@
+{
+  "output_root": "data/interim/gpt6_luna_lou_mistrau_long_train_20261009",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "max",
+  "image_detail": "original",
+  "jpeg_quality": 95,
+  "frame_stride": 4,
+  "temporal_offset": 3,
+  "max_output_tokens": 32768,
+  "prompt_cache_key": "pitchlens-ball-annotation-v1",
+  "train_confidence_threshold": 0.88,
+  "upload_workers": 1,
+  "poll_seconds": 60,
+  "benchmark_policy": {
+    "split_unit": "video_clip",
+    "same_match_in_train_and_test": true,
+    "independent_match_generalization_test": false,
+    "user_choice": "Long September 30 clip for train; already annotated short clip for test"
+  },
+  "videos": [
+    {"file": "2026-09-30_lou_mistrau_19h38m04.MOV", "match_id": "lou_mistrau_2026-09-30", "role": "train_candidate", "annotate": true}
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "registry_id": "infactory_ball_tracking",
+  "provider": "huggingface",
+  "repo_id": "infactory-ai/ball-tracking",
+  "requested_revision": null,
+  "resolved_revision": "75854a5837dd3302cbb1843355ecc1a6f124f818",
+  "retrieved_at": "2026-09-13T17:57:30.478841+00:00",
+  "source_url": "https://huggingface.co/datasets/infactory-ai/ball-tracking"
+}

@@ -1,0 +1,108 @@
+{
+  "config": {
+    "experiment_id": "yolo26n_mobile_tv_v001_960_20261010",
+    "dataset": "data/processed/mobile_tv_v001",
+    "include_tv": true,
+    "dataset_repo": "Totorotibo84/pitchlens-mobile-tv-v001-private",
+    "model_repo": "Totorotibo84/pitchlens-yolo26n-mobile-tv-v001-960-private",
+    "previous_weights": "models/checkpoints/baseline_runs/yolo26n_mobile_v001_960_20261010/artifacts/best.pt",
+    "reference_key": "modern_only",
+    "reference_filename": "inputs/modern_only_best.pt",
+    "base_model": "yolo26n.pt",
+    "imgsz": 960,
+    "epochs": 60,
+    "patience": 12,
+    "batch": 8,
+    "seed": 42,
+    "optimizer": "AdamW",
+    "lr0": 0.001,
+    "hardware": "a10g-small",
+    "job_timeout": "2h",
+    "repositories_private": true,
+    "fixed_confidence": 0.25,
+    "matching_iou": 0.5,
+    "test_split_used_for_selection": false
+  },
+  "dataset_revision": "54a851c894aa1ca17e0d6a0e7f146410c9b9cdb2",
+  "code_revision": "6c4641db9e9a7dce3e2a40ab6aaca9ce7c2b646b",
+  "archive_sha256": "04cf8464502577c2f9178517c8b00df31f69f423f46ad0e626642ab84d7a8fcc",
+  "status": "COMPLETED",
+  "repositories_private": true,
+  "hardware_price_usd_per_hour": 1.0000200000000001,
+  "job_id": "6aca667f095c57808931454b",
+  "job_url": "https://huggingface.co/jobs/Totorotibo84/6aca667f095c57808931454b",
+  "message": null,
+  "result_revision": "060e0799308d3ad73fc5d09e8fb20944cef99d24",
+  "local_result": "/Users/thibaultgillard/Documents/Projet_perso/pitchlens/models/checkpoints/baseline_runs/yolo26n_mobile_tv_v001_960_20261010",
+  "validation": {
+    "pretrained": {
+      "map50": 0.39337164612221676,
+      "map50_95": 0.2171127254335446,
+      "fixed": {
+        "tp": 48,
+        "fp": 16,
+        "fn": 86,
+        "images": 168,
+        "negative_images": 34,
+        "fp_on_negatives": 7,
+        "precision": 0.75,
+        "recall": 0.3582089552238806,
+        "f1": 0.48484848484848486,
+        "confidence": 0.25,
+        "matching_iou": 0.5
+      },
+      "speed_ms_per_image": {
+        "preprocess": 1.6112880833339156,
+        "inference": 2.886779702380287,
+        "loss": 0.0015657023808674218,
+        "postprocess": 1.7212753154763523
+      }
+    },
+    "modern_only": {
+      "map50": 0.755872191279397,
+      "map50_95": 0.4246022167224586,
+      "fixed": {
+        "tp": 92,
+        "fp": 34,
+        "fn": 42,
+        "images": 168,
+        "negative_images": 34,
+        "fp_on_negatives": 13,
+        "precision": 0.7301587301587301,
+        "recall": 0.6865671641791045,
+        "f1": 0.7076923076923077,
+        "confidence": 0.25,
+        "matching_iou": 0.5
+      },
+      "speed_ms_per_image": {
+        "preprocess": 1.8901786785710395,
+        "inference": 3.06651607738133,
+        "loss": 0.0011679642859635784,
+        "postprocess": 1.225988619047261
+      }
+    },
+    "mobile": {
+      "map50": 0.749895953947743,
+      "map50_95": 0.4608756449154539,
+      "fixed": {
+        "tp": 87,
+        "fp": 11,
+        "fn": 47,
+        "images": 168,
+        "negative_images": 34,
+        "fp_on_negatives": 3,
+        "precision": 0.8877551020408163,
+        "recall": 0.6492537313432836,
+        "f1": 0.75,
+        "confidence": 0.25,
+        "matching_iou": 0.5
+      },
+      "speed_ms_per_image": {
+        "preprocess": 1.6797707619118576,
+        "inference": 2.413642892866803,
+        "loss": 0.0015918214200740164,
+        "postprocess": 1.0809423630949564
+      }
+    }
+  }
+}

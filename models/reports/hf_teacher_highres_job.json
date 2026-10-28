@@ -1,0 +1,33 @@
+{
+  "job_id": "6aad941d52d0dbd7f1d6b754",
+  "job_url": "https://huggingface.co/jobs/Totorotibo84/6aad941d52d0dbd7f1d6b754",
+  "status": "completed",
+  "hardware": "a10g-small",
+  "hardware_price_usd_per_hour": 1.0,
+  "scheduling_seconds": 76,
+  "running_seconds": 3249,
+  "total_seconds": 3325,
+  "estimated_cost_usd": 0.9,
+  "training": {
+    "base_model": "YOLO26x v002 best.pt trained at 640 px",
+    "image_size": 960,
+    "epochs": 12,
+    "batch": 2,
+    "optimizer": "AdamW",
+    "learning_rate": 0.0003,
+    "seed": 42
+  },
+  "validation_split": "val",
+  "test_split_used": false,
+  "best_result_at_960": {
+    "map50": 0.7516221391740886,
+    "map50_95": 0.3680568616342115,
+    "precision_at_0_25": 0.8254716981132075,
+    "recall_at_0_25": 0.708502024291498,
+    "f1_at_0_25": 0.7625272331154684,
+    "true_positives": 350,
+    "false_positives": 74,
+    "false_negatives": 144,
+    "false_positives_on_negative_images": 16
+  }
+}

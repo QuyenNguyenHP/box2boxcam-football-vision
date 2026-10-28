@@ -1,0 +1,20 @@
+{
+  "source_predictions": "data/interim/gpt6_luna_new_videos_20260928/predictions.json",
+  "output_root": "data/interim/gpt6_luna_crop_pilot20_20260929",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "max",
+  "max_output_tokens": 32768,
+  "image_detail": "original",
+  "cases": 20,
+  "variants": ["zoom", "zoom_grid"],
+  "crop_min_side": 256,
+  "crop_max_side": 512,
+  "crop_ball_margin_factor": 8,
+  "zoom_side": 768,
+  "coordinate_border": 32,
+  "grid_step": 64,
+  "budget_usd_before_tax": 0.50,
+  "batch_input_per_million": 0.05,
+  "batch_cache_write_per_million": 0.0625,
+  "batch_output_per_million": 0.25
+}

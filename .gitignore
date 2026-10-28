@@ -1,0 +1,55 @@
+.DS_Store
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+.venv-label-studio/
+.ultralytics/
+.local-publish-backup/
+
+# Local secrets. Commit only the empty example.
+.env
+.env.*
+!.env.example
+
+# Raw and generated data stay outside GitHub.
+data/raw/**
+data/interim/**
+data/processed/**
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+
+# Downloaded footage and its metadata stay local.
+data/external/videos/**
+!data/external/videos/.gitkeep
+
+# Model artifacts are published separately on Hugging Face.
+models/checkpoints/**
+models/exported/**
+models/reports/**
+!models/checkpoints/.gitkeep
+!models/checkpoints/README.md
+!models/exported/.gitkeep
+!models/reports/.gitkeep
+!models/reports/*.json
+
+*.pt
+*.pth
+*.onnx
+*.mlmodel
+*.mlpackage
+*.mov
+*.mp4
+*.mkv
+*.MOV
+*.MP4
+*.p12
+*.p8
+*.mobileprovision
+local_login.txt

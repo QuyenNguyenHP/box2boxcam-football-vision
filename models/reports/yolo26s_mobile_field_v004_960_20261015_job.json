@@ -1,0 +1,187 @@
+{
+  "config": {
+    "experiment_id": "yolo26s_mobile_field_v004_960_20261015",
+    "dataset": "data/processed/mobile_v004",
+    "baseline_dataset": "mobile_v003",
+    "extra_train_sources": [
+      "field_all_balls_reviewed_v001"
+    ],
+    "negative_diagnostic_source": "hard_negatives_home_v001",
+    "dataset_repo": "Totorotibo84/pitchlens-mobile-v004-private",
+    "model_repo": "Totorotibo84/pitchlens-yolo26s-mobile-field-v004-960-20261015-private",
+    "previous_weights": "models/checkpoints/baseline_runs/yolo26n_mobile_field_v004_960_20261014/artifacts/best.pt",
+    "reference_key": "total_v004_960",
+    "reference_filename": "inputs/total_v004_960_best.pt",
+    "base_model": "yolo26s.pt",
+    "initialization": "coco_pretrained",
+    "class_name": "sports ball",
+    "sports_ball_transfer": "retain_full_classifier",
+    "imgsz": 960,
+    "epochs": 30,
+    "patience": 8,
+    "batch": 8,
+    "publish_every_epochs": 2,
+    "seed": 42,
+    "optimizer": "AdamW",
+    "lr0": 0.001,
+    "hardware": "a10g-small",
+    "job_timeout": "90m",
+    "repositories_private": true,
+    "include_tv": false,
+    "fixed_confidence": 0.25,
+    "matching_iou": 0.5,
+    "test_split_used_for_selection": false,
+    "classification_hidden_widths": [
+      128,
+      128,
+      128,
+      128,
+      128,
+      128
+    ],
+    "reuse_dataset_record": "models/reports/yolo26n_mobile_field_v004_960_20261014_job.json",
+    "comparison": "Same frozen v004 train/val, COCO initialization, 30 epochs, seed 42; vary architecture or input resolution only"
+  },
+  "dataset_revision": "77c48dac63cd314bd3d0a54b9d2caf2be0ed4641",
+  "code_revision": "227571ec9b73a62cfd792ac47b42c3ab9e645a6c",
+  "archive_sha256": "a668ba60c58a64afe24c68e0227e9cfa11e4d411ef82019f85dd2318378f293d",
+  "status": "COMPLETED",
+  "repositories_private": true,
+  "transfer_preflight": {
+    "method": "retain_full_classifier_features_and_named_output_row",
+    "source_class_id": 32,
+    "source_class_name": "sports ball",
+    "target_class_id": 0,
+    "target_class_name": "sports ball",
+    "source_classes": 80,
+    "target_classes": 1,
+    "classification_hidden_widths": [
+      128,
+      128,
+      128,
+      128,
+      128,
+      128
+    ],
+    "mapped_output_tensors": [
+      "model.23.cv3.0.2.weight",
+      "model.23.cv3.0.2.bias",
+      "model.23.cv3.1.2.weight",
+      "model.23.cv3.1.2.bias",
+      "model.23.cv3.2.2.weight",
+      "model.23.cv3.2.2.bias",
+      "model.23.one2one_cv3.0.2.weight",
+      "model.23.one2one_cv3.0.2.bias",
+      "model.23.one2one_cv3.1.2.weight",
+      "model.23.one2one_cv3.1.2.bias",
+      "model.23.one2one_cv3.2.2.weight",
+      "model.23.one2one_cv3.2.2.bias"
+    ],
+    "other_tensors_preserved": 696,
+    "all_weight_checks_passed": true,
+    "source_parameters": 10009784,
+    "target_parameters": 9948638,
+    "dense_prediction_check": {
+      "passed": true,
+      "sample_shape": [
+        1,
+        3,
+        320,
+        320
+      ],
+      "branches": {
+        "one2many": {
+          "class_logit_max_error": 9.5367431640625e-06,
+          "raw_box_max_error": 0.0,
+          "decoded_box_max_error": 0.0
+        },
+        "one2one": {
+          "class_logit_max_error": 1.1444091796875e-05,
+          "raw_box_max_error": 0.0,
+          "decoded_box_max_error": 0.0
+        }
+      },
+      "scope": "dense predictions, before top-k; not a guarantee after fine-tuning"
+    },
+    "protocol": "retain_full_classifier",
+    "input_weights_sha256": "646f8bc3fe0a656803d95c294f7852321748cb29d13466a1af8862e2db384a1b",
+    "dataset_manifest_sha256": "5b408eeda4c96af56efe2c4c15c04fc018bce11997c018b0ac640127bba43aa0"
+  },
+  "hardware_price_usd_per_hour": 1.0000200000000001,
+  "job_id": "6ad14bd6c662881452255e2c",
+  "job_url": "https://huggingface.co/jobs/Totorotibo84/6ad14bd6c662881452255e2c",
+  "message": null,
+  "result_revision": "bead736a5ceea086ffc3d46f315ba8fb57f8179d",
+  "local_result": "/Users/thibaultgillard/Documents/Projet_perso/pitchlens/models/checkpoints/baseline_runs/yolo26s_mobile_field_v004_960_20261015",
+  "validation": {
+    "pretrained": {
+      "map50": 0.5284383424036251,
+      "map50_95": 0.33092121171828126,
+      "fixed": {
+        "tp": 59,
+        "fp": 18,
+        "fn": 75,
+        "images": 168,
+        "negative_images": 34,
+        "fp_on_negatives": 12,
+        "precision": 0.7662337662337663,
+        "recall": 0.44029850746268656,
+        "f1": 0.5592417061611374,
+        "confidence": 0.25,
+        "matching_iou": 0.5
+      },
+      "speed_ms_per_image": {
+        "preprocess": 1.5945624583326077,
+        "inference": 4.709232660714304,
+        "loss": 0.00158265476102315,
+        "postprocess": 1.5254398035674892
+      }
+    },
+    "total_v004_960": {
+      "map50": 0.7617611100858759,
+      "map50_95": 0.45794700611838557,
+      "fixed": {
+        "tp": 95,
+        "fp": 23,
+        "fn": 39,
+        "images": 168,
+        "negative_images": 34,
+        "fp_on_negatives": 4,
+        "precision": 0.8050847457627118,
+        "recall": 0.7089552238805971,
+        "f1": 0.753968253968254,
+        "confidence": 0.25,
+        "matching_iou": 0.5
+      },
+      "speed_ms_per_image": {
+        "preprocess": 1.3901596904757763,
+        "inference": 2.8889917857147416,
+        "loss": 0.0013328392868959867,
+        "postprocess": 1.172531369048459
+      }
+    },
+    "mobile": {
+      "map50": 0.8233898480076512,
+      "map50_95": 0.49434721942006743,
+      "fixed": {
+        "tp": 101,
+        "fp": 21,
+        "fn": 33,
+        "images": 168,
+        "negative_images": 34,
+        "fp_on_negatives": 8,
+        "precision": 0.8278688524590164,
+        "recall": 0.753731343283582,
+        "f1": 0.7890625,
+        "confidence": 0.25,
+        "matching_iou": 0.5
+      },
+      "speed_ms_per_image": {
+        "preprocess": 1.575934523800914,
+        "inference": 4.286408910716199,
+        "loss": 0.0014324702365662405,
+        "postprocess": 1.6303597261937632
+      }
+    }
+  }
+}
