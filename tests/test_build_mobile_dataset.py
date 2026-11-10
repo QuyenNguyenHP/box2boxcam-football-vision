@@ -1,7 +1,10 @@
 import unittest
 
 from pitchlens.data.build_mobile_dataset import (
-    append_reviewed_train, check_groups, select_luna_rows, select_tv_rows,
+    append_reviewed_train,
+    check_groups,
+    select_luna_rows,
+    select_tv_rows,
 )
 
 
@@ -29,13 +32,13 @@ class MobileSelectionTests(unittest.TestCase):
         check_groups(rows)
 
     def test_tv_does_not_include_reserved_splits_or_exclusions(self):
-        rows = [dict(split=split, sequence=split, output_image="image.jpg", decision_applied="keep")
+        rows = [{"split": split, "sequence": split, "output_image": "image.jpg", "decision_applied": "keep"}
                 for split in ("train", "val", "test")]
-        rows.append(dict(split="train", sequence="exclude", output_image="", decision_applied="exclude"))
+        rows.append({"split": "train", "sequence": "exclude", "output_image": "", "decision_applied": "exclude"})
         self.assertEqual(select_tv_rows(rows), [rows[0]])
 
     def test_tv_sequence_overlap_is_rejected(self):
-        rows = [dict(split=split, sequence="same", output_image="image.jpg", decision_applied="keep")
+        rows = [{"split": split, "sequence": "same", "output_image": "image.jpg", "decision_applied": "keep"}
                 for split in ("train", "test")]
         with self.assertRaises(ValueError):
             select_tv_rows(rows)
@@ -43,9 +46,9 @@ class MobileSelectionTests(unittest.TestCase):
     def test_enrichment_is_train_only_and_preserves_validation(self):
         validation = {"source_dataset": "luna", "match_id": "one", "split": "val"}
         rows = [validation.copy()]
-        candidate = dict(item_id="frame", source_frame=0, status="positive",
-                         label_source="submitted_human", match_id="", video_id="clip",
-                         source_video_sha256="abc", split="unassigned")
+        candidate = {"item_id": "frame", "source_frame": 0, "status": "positive",
+                         "label_source": "submitted_human", "match_id": "", "video_id": "clip",
+                         "source_video_sha256": "abc", "split": "unassigned"}
         append_reviewed_train(rows, "shorts", [candidate, {"split": "excluded"},
                                               {"split": "not_selected"}])
         self.assertEqual(rows[0], validation)
@@ -63,10 +66,10 @@ class MobileSelectionTests(unittest.TestCase):
             append_reviewed_train([], "../test", [])
 
     def test_added_frozen_hashes_are_preserved_for_preflight(self):
-        candidate = dict(item_id="frame", source_frame=0, status="negative",
-                         label_source="user_confirmed_negative_video", match_id="session",
-                         video_id="clip", source_video_sha256="source", split="unassigned",
-                         image_sha256="image", label_sha256="label")
+        candidate = {"item_id": "frame", "source_frame": 0, "status": "negative",
+                         "label_source": "user_confirmed_negative_video", "match_id": "session",
+                         "video_id": "clip", "source_video_sha256": "source", "split": "unassigned",
+                         "image_sha256": "image", "label_sha256": "label"}
         rows = []
         append_reviewed_train(rows, "hard_negatives", [candidate])
         self.assertEqual(rows[0]["image_sha256"], "image")

@@ -14,7 +14,7 @@ import math
 import os
 import tempfile
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from PIL import Image
@@ -167,7 +167,7 @@ def build(root: Path, output: Path, *, confirm_unchanged: bool) -> dict:
         raise ValueError("Ambiguous source-video provenance")
     counts = Counter(row["status"] for row in rows)
     report = {
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
         "dataset": str(output),
         "label_studio_project_id": 4,
         "source_video": rows[0]["source_video"],

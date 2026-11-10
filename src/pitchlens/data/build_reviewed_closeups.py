@@ -7,7 +7,7 @@ import json
 import os
 import tempfile
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from PIL import Image
@@ -16,7 +16,9 @@ from pitchlens.data.audit_yolo import audit
 from pitchlens.data.build_mobile_dataset import sha256
 from pitchlens.data.build_personal_test import BASE_URL, _save_json, select_review
 from pitchlens.data.label_studio_review import (
-    _label_studio_request, _yolo_line, download_local_export,
+    _label_studio_request,
+    _yolo_line,
+    download_local_export,
 )
 
 
@@ -87,7 +89,7 @@ def build(root: Path, output: Path, *, confirm_reviewed: bool) -> dict:
         raise ValueError("No retained close-ups")
     counts = Counter(r["status"] for r in rows)
     report = {
-        "created_at": datetime.now(timezone.utc).isoformat(), "dataset": str(output),
+        "created_at": datetime.now(UTC).isoformat(), "dataset": str(output),
         "label_studio_project_id": project_id, "available_proposals": len(rows),
         "retained_images": len(selected), "positive_images": counts["positive"],
         "negative_images": counts["negative"], "excluded_images": counts["excluded"],

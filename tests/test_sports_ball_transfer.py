@@ -2,8 +2,8 @@
 
 import copy
 import io
-from pathlib import Path
 import unittest
+from pathlib import Path
 
 import torch
 from ultralytics import YOLO
@@ -15,7 +15,6 @@ from pitchlens.training.sports_ball_transfer import (
     retain_sports_ball,
     verify_dense_predictions,
 )
-
 
 WEIGHTS = Path(__file__).resolve().parents[1] / "models/checkpoints/yolo26n.pt"
 

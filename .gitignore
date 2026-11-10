@@ -11,6 +11,7 @@ __pycache__/
 .venv-label-studio/
 .ultralytics/
 .local-publish-backup/
+.ipynb_checkpoints/
 
 # Local secrets. Commit only the empty example.
 .env

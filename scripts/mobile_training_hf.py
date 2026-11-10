@@ -9,7 +9,13 @@ import tarfile
 import tempfile
 from pathlib import Path
 
-from huggingface_hub import CommitOperationAdd, HfApi, get_token, hf_hub_download, snapshot_download
+from huggingface_hub import (
+    CommitOperationAdd,
+    HfApi,
+    get_token,
+    hf_hub_download,
+    snapshot_download,
+)
 from huggingface_hub.errors import HfHubHTTPError
 
 from pitchlens.data.build_mobile_dataset import build, sha256
@@ -122,7 +128,11 @@ def launch(config, record_path):
             raise ValueError("Continuation protocol and initialization disagree")
         import torch
         from ultralytics import YOLO
-        from pitchlens.training.sports_ball_transfer import retain_sports_ball, verify_dense_predictions
+
+        from pitchlens.training.sports_ball_transfer import (
+            retain_sports_ball,
+            verify_dense_predictions,
+        )
         torch.set_num_threads(2)
         base_model = config.get("base_model", "yolo26n.pt")
         source_path = ROOT / (config["previous_weights"] if continuing else f"models/checkpoints/{base_model}")

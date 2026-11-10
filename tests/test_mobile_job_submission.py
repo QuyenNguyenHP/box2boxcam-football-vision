@@ -23,10 +23,10 @@ class SubmissionTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         self.path = self.root / "job.json"
-        self.config = dict(dataset_repo="owner/data", model_repo="owner/model",
-                           hardware="a10g-small", job_timeout="90m", experiment_id="experiment")
-        self.record = dict(config=self.config, dataset_revision="data_sha", code_revision="code_sha",
-                           archive_sha256="archive_sha", status="submitting")
+        self.config = {"dataset_repo": "owner/data", "model_repo": "owner/model",
+                           "hardware": "a10g-small", "job_timeout": "90m", "experiment_id": "experiment"}
+        self.record = {"config": self.config, "dataset_revision": "data_sha", "code_revision": "code_sha",
+                           "archive_sha256": "archive_sha", "status": "submitting"}
         self.remote_config = self.root / "config.json"
         self.remote_config.write_text(json.dumps(self.config))
         self.save()

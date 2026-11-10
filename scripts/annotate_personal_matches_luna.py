@@ -25,7 +25,6 @@ from pitchlens.data.luna_batch import (
     build_plan,
     collect_batch,
     load_config,
-    prediction_boxes,
     refresh_status,
     submit_batch,
 )
@@ -288,7 +287,11 @@ def main():
     root = Path(__file__).resolve().parents[1]
     raw, output, configs = prepare(root, args.config)
     if raw.get("inline_images"):
-        from pitchlens.data.luna_inline_batch import submit_inline_batch, refresh_inline_status, collect_inline_batch
+        from pitchlens.data.luna_inline_batch import (
+            collect_inline_batch,
+            refresh_inline_status,
+            submit_inline_batch,
+        )
         submitter, refresher, collector = submit_inline_batch, refresh_inline_status, collect_inline_batch
     else:
         submitter, refresher, collector = submit_batch, refresh_status, collect_batch

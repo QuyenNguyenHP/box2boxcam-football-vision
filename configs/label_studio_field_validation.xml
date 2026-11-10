@@ -2,6 +2,11 @@
   <Header value="Validation des ballons" size="4" />
   <Text name="frame_info" value="$frame_info" />
   <Header size="5" value="Toutes les boîtes sont bonnes ? Clique Submit. Sinon, corrige-les puis Submit. Les ballons de réserve comptent aussi." />
+  <Header size="5" value="Pas sûr ? Coche Image inexploitable, puis Submit pour ne pas prendre cette image." />
+  <Choices name="review_status" toName="image" choice="single" showInLine="true">
+    <Choice value="Vérifié" />
+    <Choice value="Image inexploitable" />
+  </Choices>
   <Image name="image" value="$image" zoom="true" zoomControl="true" maxWidth="1600px" />
   <Rectangle name="bbox" toName="image" strokeColor="#e11d48" strokeWidth="1" opacity="0.05" canRotate="false" />
   <Collapse>
@@ -17,11 +22,7 @@
         </View>
       </View>
     </Panel>
-    <Panel value="Options facultatives — image inexploitable, ballon actif">
-      <Choices name="review_status" toName="image" choice="single" showInLine="true">
-        <Choice value="Vérifié" />
-        <Choice value="Image inexploitable" />
-      </Choices>
+    <Panel value="Options facultatives — ballon actif">
       <Header size="5" value="Le rôle actif peut rester indéterminé. Coche Identité vérifiée uniquement si tu as aussi vérifié les rôles ci-dessous." />
       <Choices name="active_review_status" toName="image" choice="single">
         <Choice value="Identité vérifiée" />

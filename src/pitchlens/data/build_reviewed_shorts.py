@@ -15,7 +15,7 @@ import json
 import os
 import tempfile
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from PIL import Image
@@ -128,7 +128,7 @@ def build(root: Path, output: Path, *, threshold: float, confirm_reviewed: bool)
         raise ValueError("No reviewed images retained")
     counts = Counter(row["status"] for row in rows)
     report = {
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(UTC).isoformat(),
         "dataset": str(output),
         "label_studio_project_id": 2,
         "available_proposals": len(rows),

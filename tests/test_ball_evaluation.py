@@ -5,8 +5,8 @@ from unittest.mock import patch
 import torch
 from ultralytics.models.yolo.detect import DetectionValidator
 
-from pitchlens.training.evaluate import BallValidator
 from pitchlens.training.diagnostics import box_iou, change_category, detection_counts
+from pitchlens.training.evaluate import BallValidator
 
 
 class BallEvaluationTests(unittest.TestCase):

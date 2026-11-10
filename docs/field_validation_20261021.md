@@ -32,7 +32,7 @@ Les modèles Nano/Small évalués ne fournissent pas les préannotations. Cela
 n'élimine pas les erreurs de Luna : **aucune proposition n'est une vérité terrain**.
 
 Depuis le 23 octobre, **Submit est le seul clic de confirmation nécessaire**.
-La grande image s'affiche seule ; le contexte et les options sont repliés.
+La grande image s'affiche seule ; le contexte et les options du ballon actif sont repliés.
 Pour chaque image :
 
 1. Corriger, ajouter ou supprimer les boîtes pour couvrir **tous les vrais ballons
@@ -41,8 +41,8 @@ Pour chaque image :
 2. Cliquer **Submit**. Si les propositions sont déjà correctes, aucune autre
    action n'est nécessaire. La case `Vérifié` n'est plus obligatoire.
 
-Si l'image entière ne peut être annotée de manière fiable, ouvrir les options
-facultatives et choisir `Image inexploitable`. Elle sera exclue du dénominateur,
+Si l'image entière ne peut être annotée de manière fiable, cocher `Image inexploitable`
+directement au-dessus de l'image, puis cliquer **Submit**. Elle sera exclue du dénominateur,
 jamais convertie en image négative.
 
 L'identification du ballon actif est maintenant **facultative** : dans les

@@ -9,7 +9,7 @@ import json
 import os
 import tempfile
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from PIL import Image
@@ -17,7 +17,11 @@ from PIL import Image
 from pitchlens.data.audit_yolo import audit
 from pitchlens.data.build_mobile_dataset import sha256
 from pitchlens.data.build_personal_test import select_review
-from pitchlens.data.label_studio_review import _label_studio_request, _yolo_line, download_local_export
+from pitchlens.data.label_studio_review import (
+    _label_studio_request,
+    _yolo_line,
+    download_local_export,
+)
 
 BASE = "http://127.0.0.1:8080"
 SESSION = "personal_field_session_20261012"
@@ -106,7 +110,7 @@ def build(root: Path, source: Path, output: Path) -> dict:
     if validation["issues_count"]:
         raise ValueError(f"Invalid export: {validation['issues_count']} issues; staging preserved")
     counts = Counter(row["status"] for row in rows)
-    report = {"created_at": datetime.now(timezone.utc).isoformat(), "dataset": str(output),
+    report = {"created_at": datetime.now(UTC).isoformat(), "dataset": str(output),
               "project_id": project_id, "retained_images": len(selected),
               "positive_images": counts["positive"], "negative_images": counts["negative"], "excluded_images": counts["excluded"],
               "boxes": sum(len(row["boxes_pixels"]) for row in selected),

@@ -88,7 +88,7 @@ def make_video(weights, source, output, confidence=.25, size=960):
                     index = int(result.boxes.conf.argmax())
                     box = result.boxes.xyxy[index].cpu().tolist()
                     score = float(result.boxes.conf[index])
-                    x1, y1, x2, y2 = [int(round(value)) for value in box]
+                    x1, y1, x2, y2 = [round(value) for value in box]
                     cv2.rectangle(frame, (max(0, x1 - 2), max(0, y1 - 2)),
                                   (min(width - 1, x2 + 2), min(height - 1, y2 + 2)), (0, 255, 0), 2)
                     header = f"Nouveau nano | 960 px | seuil {confidence:.2f} | confiance {score:.2f}"

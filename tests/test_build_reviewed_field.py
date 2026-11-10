@@ -6,9 +6,9 @@ from pitchlens.data.build_reviewed_field import SESSION, select_submitted
 
 class FieldSelectionTests(unittest.TestCase):
     def setUp(self):
-        self.data = dict(item_id="frame", source_frame=0, video_id="IMG_7030", source_video="clip.MOV",
-                         match_id=SESSION, width=200, height=100, image_path="image.jpg",
-                         annotation_scope="all_visible", intended_split="train", timestamp_seconds=0, luna_confidence=0)
+        self.data = {"item_id": "frame", "source_frame": 0, "video_id": "IMG_7030", "source_video": "clip.MOV",
+                         "match_id": SESSION, "width": 200, "height": 100, "image_path": "image.jpg",
+                         "annotation_scope": "all_visible", "intended_split": "train", "timestamp_seconds": 0, "luna_confidence": 0}
         self.box = {"from_name": "bbox", "type": "rectangle", "value": {"x": 10, "y": 20, "width": 10, "height": 10}}
         self.proposal = {"data": self.data, "predictions": [{"score": 1, "result": [self.box]}]}
 
