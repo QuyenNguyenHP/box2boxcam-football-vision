@@ -1,38 +1,28 @@
-# YOLO26s mobile v006 — candidats jugés automatiquement, revus par clics
+# YOLO26s mobile v006: auto-judged candidates reviewed by clicks
 
-Entraînement du 11 novembre 2026, job HF `6af43afc9737d9a9e092c153`, 30 époques, même recette
-que Small v004 (`configs/mobile_small_auto_field_v006_960.json`). Seul changement : le train
-ajoute `auto_field_judged_v004` (477 images, 360 boîtes, 352 masques gris).
+Small v006 trains on 477 auto-judged iPhone images after human click review of the judge's "ball" and "unsure" thumbnails. On the enlarged reserved match it makes clearly fewer false boxes than Small v004 at equal recall; recall gain is not demonstrated.
 
-## Source ajoutée
+Training of 11 November 2026, 30 epochs, same recipe as Small v004 (`configs/mobile_small_auto_field_v006_960.json`). The only change: train adds `auto_field_judged_v004` (477 images, 360 boxes, 352 gray masks).
 
-`auto_field_judged_v004` = lot 1 (208 images) + lot 2 (300 images) jugés par Claude Sonnet,
-puis revue humaine par clics des vignettes « ballon » et « incertain » : 21 « ballon » rejetés
-(passés en masque), 63 « incertain » promus en « ballon ». Les « pas un ballon » sont restés
-tels que jugés (section parcourue par l'utilisateur, aucune correction).
+## Added source
 
-## Test réservé agrandi
+`auto_field_judged_v004` = batch 1 (208 images) + batch 2 (300 images) judged by Claude Sonnet, then human click review of the "ball" and "unsure" thumbnails: 21 "ball" rejected (turned into masks), 63 "unsure" promoted to "ball". The "not a ball" verdicts were left as judged (section browsed, no correction made).
 
-Le test du 14 octobre passe de 250 à 396 images (219 ballons, dont 149 de 16 px ou moins) :
-146 images en attente revues par clics le 11 novembre (132 autres exclues). Les boîtes des
-nouvelles images sont celles des candidats (Luna ou détecteur v004), pas des tracés manuels ;
-23 des 125 nouveaux ballons n'étaient proposés que par le détecteur v004.
+## Enlarged reserved test
 
-## Résultats (TP / FP, IoU ≥ 0,5, imgsz 960)
+The 14 October test grows from 250 to 396 images (219 balls, of which 149 are 16 px or smaller): 146 pending images reviewed by clicks on 11 November (132 others excluded). Boxes on the new images are those of the candidates (Luna or the v004 detector), not hand-drawn; 23 of the 125 new balls were proposed only by the v004 detector.
 
-| Seuil | Small v004 | v005 | v006 |
+## Results (TP / FP, IoU >= 0.5, imgsz 960)
+
+| Threshold | Small v004 | v005 | v006 |
 |---|---:|---:|---:|
-| 0,25 | 95 / 203 | 97 / 136 | 100 / 103 |
-| 0,35 | 93 / 113 | 93 / 101 | 93 / 60 |
-| 0,45 | 89 / 64 | 88 / 61 | 86 / 30 |
-| 0,55 | 81 / 23 | 82 / 16 | 81 / 3 |
+| 0.25 | 95 / 203 | 97 / 136 | 100 / 103 |
+| 0.35 | 93 / 113 | 93 / 101 | 93 / 60 |
+| 0.45 | 89 / 64 | 88 / 61 | 86 / 30 |
+| 0.55 | 81 / 23 | 82 / 16 | 81 / 3 |
 
-TP maximal pour un budget de FP : ≤ 25 → 81 / 83 / 84 ; ≤ 60 → 88 / 87 / 93 ; ≤ 100 → 91 / 92 / 99 ;
-≤ 200 → 95 / 102 / 109. Bootstrap par image, v006 − v004 : à 0,25 dTP [−4, +5, +14], dFP [−132, −99, −69] ;
-à 0,45 dTP [−11, −3, +4], dFP [−50, −34, −19].
+Maximum TP for a given FP budget: <= 25 -> 81 / 83 / 84; <= 60 -> 88 / 87 / 93; <= 100 -> 91 / 92 / 99; <= 200 -> 95 / 102 / 109. Per-image bootstrap, v006 minus v004: at 0.25 dTP [-4, +5, +14], dFP [-132, -99, -69]; at 0.45 dTP [-11, -3, +4], dFP [-50, -34, -19].
 
-Ancienne validation (168 images, seuil 0,25) : v004 101 TP / 21 FP / 33 FN, mAP50-95 49,4 % ;
-v006 96 / 19 / 38, 48,3 % (FP sur négatives 8 → 4).
+Old validation (168 images, threshold 0.25): v004 101 TP / 21 FP / 33 FN, mAP50-95 49.4%; v006 96 / 19 / 38, 48.3% (FP on negatives 8 -> 4).
 
-Conclusion : v006 fait nettement moins de fausses boîtes sur le match réservé à rappel égal ;
-le rappel ne progresse pas de façon démontrée. Pas d'export Core ML à ce stade.
+Conclusion: v006 makes clearly fewer false boxes on the reserved match at equal recall; recall does not demonstrably improve. No Core ML export at this stage.

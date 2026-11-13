@@ -1,97 +1,57 @@
-# Nano mobile 960 — test personnel final
+# Nano mobile 960: final personal test
 
-## Protocole
+Comparison of the earlier Luna-trained nano and the new mobile nano on 292 reviewed frames of a short clip. The new nano raises detection F1 from 12.9% to 64.2% and framing decisions from 17.5% to 68.5% correct, on a clip from the same match as part of its training data.
 
-Comparaison du précédent nano Luna et du nouveau nano mobile, tous deux à
-960 px sur les 292 images revues du clip court du 30 septembre. Les modèles
-et le seuil étaient figés avant le test. Aucune modification d'entraînement,
-de labels ou de seuil n'a été décidée à partir de ces résultats.
+## Protocol
 
-- 264 images positives, 28 négatives, 279 boîtes ; 11 images multiboîtes.
-- 88 frames échantillonnées exclues par la revue ne sont pas évaluées.
-- Confiance ≥ 0,25. Détection stricte : IoU ≥ 0,50.
-- CPU, batch 1 et traitement séquentiel pour limiter la mémoire du Mac.
-- **Limite : train long et test court viennent du même match.** Le test mesure
-  un autre clip de cette situation, pas la généralisation à un match inconnu.
+Both models, at 960 px, are evaluated on the 292 reviewed frames of the short 30 September clip. Models and threshold were frozen before the test. No training, label or threshold change was decided from these results.
 
-## Détection de toutes les boîtes
+- 264 positive images, 28 negatives, 279 boxes; 11 multi-box images.
+- 88 sampled frames excluded by review are not evaluated.
+- Confidence >= 0.25. Strict detection: IoU >= 0.50.
+- CPU, batch 1 and sequential processing to limit memory use.
+- **Limit: the long train clip and the short test clip come from the same match.** The test measures another clip of this situation, not generalization to an unknown match.
 
-| Mesure | Ancien nano | Nouveau nano |
+## Detection of all boxes
+
+| Metric | Old nano | New nano |
 |---|---:|---:|
-| mAP50 | 5,5 % | 65,4 % |
-| mAP50–95 | 1,3 % | 33,1 % |
-| Précision | 11,0 % | 62,9 % |
-| Rappel | 15,8 % | 65,6 % |
-| F1 | 12,9 % | 64,2 % |
+| mAP50 | 5.5% | 65.4% |
+| mAP50-95 | 1.3% | 33.1% |
+| Precision | 11.0% | 62.9% |
+| Recall | 15.8% | 65.6% |
+| F1 | 12.9% | 64.2% |
 | TP | 44 | 183 |
 | FP | 357 | 108 |
 | FN | 235 | 96 |
-| FP sur les 28 images négatives | 32 | 15 |
+| FP on the 28 negative images | 32 | 15 |
 
-Les mAP intègrent plusieurs seuils ; précision/rappel/F1 et TP/FP/FN utilisent
-le point fixe ci-dessus. La matrice de confusion personnalisée utilise ces
-mêmes seuils ; sa case de vrais négatifs est vide, car le fond n'est pas un
-ensemble dénombrable d'objets négatifs.
+The mAPs integrate several thresholds; precision/recall/F1 and TP/FP/FN use the fixed point above. The custom confusion matrix uses the same thresholds; its true-negative cell is empty because background is not a countable set of negative objects.
 
-## Cadrage : une seule cible
+## Framing: a single target
 
-On choisit la boîte la plus confiante, sans regarder l'annotation, puis on
-applique le seuil 0,25. Une mauvaise cible sur une frame positive compte comme
-une erreur de sélection et un ballon manqué. Une bonne abstention sur une
-frame négative compte comme une bonne décision.
+The most confident box is chosen without looking at the annotation, then threshold 0.25 is applied. A wrong target on a positive frame counts as a selection error and a missed ball. A correct abstention on a negative frame counts as a correct decision.
 
-| Décision par frame, IoU ≥ 0,20 | Ancien nano | Nouveau nano |
+| Per-frame decision, IoU >= 0.20 | Old nano | New nano |
 |---|---:|---:|
-| Bonne cible sur frame positive | 40 | 182 |
-| Mauvaise cible sur frame positive | 150 | 23 |
-| Aucune cible sur frame positive | 74 | 59 |
-| Fausse alerte sur frame négative | 17 | 10 |
-| Bonne abstention sur frame négative | 11 | 18 |
-| Bonnes décisions sur 292 frames | 17,5 % | 68,5 % |
-| F1 de ciblage | 17,0 % | 76,0 % |
+| Correct target on positive frame | 40 | 182 |
+| Wrong target on positive frame | 150 | 23 |
+| No target on positive frame | 74 | 59 |
+| False alarm on negative frame | 17 | 10 |
+| Correct abstention on negative frame | 11 | 18 |
+| Correct decisions over 292 frames | 17.5% | 68.5% |
+| Targeting F1 | 17.0% | 76.0% |
 
-Le résultat est identique à IoU ≥ 0,10 pour ces prédictions. Les prédictions
-normalisées de ciblage sont enregistrées dans `predictions.json` ; elles
-utilisent une inférence carrée à 960, commune aux deux modèles. La validation
-de détection Ultralytics utilise son prétraitement de validation. Ce sont
-deux protocoles explicites, pas un simple recalcul de la mAP au seuil 0,20.
+The result is identical at IoU >= 0.10 for these predictions. The normalized targeting predictions use a square inference at 960, common to both models. Ultralytics detection validation uses its own validation preprocessing. These are two explicit protocols, not a mere recomputation of mAP at threshold 0.20.
 
-Avec plusieurs annotations, **n'importe quel ballon annoté peut correspondre**.
-Ce benchmark ne sait pas identifier le ballon actif parmi ceux des autres
-équipes. Il ne mesure pas non plus un tracker ni la commande d'un gimbal.
+With several annotations, **any annotated ball may match**. This benchmark cannot identify the active ball among those of other teams. It also does not measure a tracker or gimbal control.
 
-## Vidéo et fichiers
+## Video
 
-La vidéo complète montre le nouveau nano sur les 1 517 frames du clip, à la
-cadence moyenne de la source. Elle comprend aussi des frames non annotées ou
-exclues ; aucune métrique supplémentaire n'est déduite de leur présence.
+The full video shows the new nano on all 1,517 frames of the clip, at the source's average frame rate. It includes unannotated or excluded frames; no extra metric is derived from them. A single target is drawn, with a thin green outline and a two-pixel visual margin; confidence is shown above the image, not on the ball. No tracker, smoothing or human correction of predictions.
 
-Une seule cible est affichée, avec un contour vert fin et une marge visuelle
-de deux pixels. La confiance est au-dessus de l'image, pas sur le ballon.
-Pas de tracker, lissage ou correction humaine des prédictions. Le MP4 H.264
-conserve la piste AAC standard ; la piste audio spatiale APAC du MOV n'est
-pas exportée. Les images du terrain restent à leur résolution originale.
+## Conclusion
 
-- `models/reports/mobile_personal_test_20261010/report.json` : métriques, hashes
-  des poids et du manifeste, décisions et informations vidéo.
-- `models/reports/mobile_personal_test_20261010/predictions.json` : les 292
-  images de test avec les boîtes des deux modèles.
-- `models/reports/mobile_personal_test_20261010/lou_mistrau_nano960_ball.mp4` :
-  visualisation du clip complet.
-- `notebooks/09_mobile_training.ipynb` : résultats de validation, apprentissage,
-  test personnel et vidéo, sans lancer de nouveau job payant.
+The gain is large on this clip, but 59 positive frames remain without a target, 23 target a wrong box and 10 negatives trigger an alert. A video from another match/date is needed to measure more independent generalization. No new GPU job or paid Luna call was launched for this evaluation.
 
-L'évaluation se reproduit dans un nouveau dossier avec :
-
-```bash
-python scripts/evaluate_mobile_personal.py --output models/reports/nouveau_test
-```
-
-`--video-only` reprend uniquement la vidéo si les métriques sont déjà figées,
-en vérifiant que les poids n'ont pas changé. Il ne relance pas le test.
-
-Le gain est important sur ce clip, mais 59 frames positives restent sans cible,
-23 ciblent une mauvaise boîte et 10 négatives déclenchent une alerte. Une vidéo
-d'un autre match/date est nécessaire pour mesurer une généralisation plus
-indépendante. Aucun nouveau job GPU ou appel Luna payant n'a été lancé pour
-cette évaluation.
+Reproduction: `scripts/evaluate_mobile_personal.py --output <new_dir>` runs the evaluation into a new folder; `--video-only` regenerates only the video when metrics are already frozen, after checking the weights are unchanged. Results are presented in `notebooks/09_mobile_training.ipynb`.

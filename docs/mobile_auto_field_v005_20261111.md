@@ -1,109 +1,77 @@
-# YOLO26s mobile v005 — candidats jugés automatiquement
+# YOLO26s mobile v005: automatically judged candidates
 
-Nouvelle source `auto_field_judged_v001` : 208 images iPhone non revues (match du
-12 octobre et clips Lou Mistrau du 30 septembre et du 7 octobre), absentes de
-`mobile_v004`, de la validation, du clip de test réservé et de la session réservée
-du 14 octobre. Leurs 999 candidats (détecteur plein cadre, détecteur par tuiles,
-Luna) ont été jugés sur des recadrages zoomés par un modèle de vision :
-179 `ball`, 650 `not_ball`, 170 `unsure`.
+Small v005 adds 196 iPhone images whose labels were judged automatically (no human check) by a vision model. On the reserved match it produces fewer false boxes than Small v004 but does not improve the detection ranking at equal recall, so **v004 stays the current model**.
 
-**Aucun humain n'a vérifié ces labels.** Le champ `label_source` vaut
-`auto_judged_claude_sonnet` dans les manifestes et le README de `mobile_v005`
-le signale.
+## New source
 
-## Politique de label
+`auto_field_judged_v001`: 208 unreviewed iPhone images (the 12 October match and `lou_mistrau` clips from 30 September and 7 October), absent from `mobile_v004`, the validation set, the reserved test clip and the reserved 14 October session. Their 999 candidates (full-frame detector, tiled detector, Luna) were judged on zoomed crops by a vision model: 179 `ball`, 650 `not_ball`, 170 `unsure`.
 
-- Image écartée si un de ses candidats dépasse 64 px de côté (le juge ne le voyait pas en entier).
-- `ball` : une boîte YOLO, classe 0, boîte du candidat bornée à l'image.
-- `not_ball` : aucun label, l'objet reste du fond (négatif difficile).
-- `unsure` : ni positif ni négatif. Rectangle gris (114, 114, 114) sur la boîte
-  agrandie de 50 % (au moins 24 px de côté), dans une copie JPEG qualité 95.
-  Les images sans `unsure` restent des liens physiques vers le JPEG d'origine.
-- Image écartée si une boîte `ball` chevauche un masque.
-- Tout va dans le train. Le manifeste garde, par image, le chemin et le SHA-256
-  source, le match, le clip, le masquage et, par candidat, verdict, sources et confiances.
+**No human checked these labels.** The `label_source` field is `auto_judged_claude_sonnet` in the manifests, and the `mobile_v005` README says so.
 
-## Calibration et limites
+## Label policy
 
-À l'aveugle contre des labels humains, sur des candidats du détecteur, le juge a
-raison dans 98,7 % des cas quand il est confiant : 1 `not_ball` faux sur 272,
-3 `ball` faux sur 45. Les 11 boîtes `ball` proposées par Luna seule sortent de ce
-périmètre de calibration.
+- Image dropped if any of its candidates exceeds 64 px on a side (the judge did not see it entirely).
+- `ball`: one YOLO box, class 0, candidate box clipped to the image.
+- `not_ball`: no label, the object stays background (hard negative).
+- `unsure`: neither positive nor negative. Gray rectangle (114, 114, 114) over the box enlarged by 50% (at least 24 px per side), in a JPEG quality 95 copy. Images without `unsure` stay hard links to the original JPEG.
+- Image dropped if a `ball` box overlaps a mask.
+- Everything goes to train. The manifest keeps, per image, the source path and SHA-256, the match, the clip, the masking and, per candidate, verdict, sources and confidences.
 
-Un ballon proposé ni par le détecteur ni par Luna reste non annoté : il devient
-du fond.
+## Calibration and limits
 
-Contrôle visuel rapide des 84 `not_ball` gardés avec une confiance détecteur ≥ 0,6 :
-le candidat 150 (`2026-09-30_lou_mistrau_19h38m04_frame_00002412`, confiance 0,65)
-est un vrai ballon flou au pied du joueur n° 38, entraîné ici comme fond.
-Quelques autres (931, 451, 248) restent ambigus. Ce taux reste compatible avec la
-calibration, mais ces erreurs touchent justement les négatifs difficiles.
+Blind against human labels, on detector candidates, the judge is right 98.7% of the time when confident: 1 wrong `not_ball` out of 272, 3 wrong `ball` out of 45. The 11 `ball` boxes proposed by Luna alone fall outside this calibration scope.
 
-## Chiffres
+A ball proposed by neither the detector nor Luna stays unannotated and becomes background.
 
-| | Valeur |
+A quick visual check of the 84 `not_ball` kept with detector confidence >= 0.6 found candidate 150 (`2026-09-30_lou_mistrau_19h38m04_frame_00002412`, confidence 0.65) to be a real blurred ball at a player's foot, trained here as background. A few others (931, 451, 248) remain ambiguous. This rate is compatible with the calibration, but these errors land precisely on hard negatives.
+
+## Numbers
+
+| | Value |
 |---|---:|
-| Images d'entrée | 208 |
-| Écartées : candidat > 64 px | 10 |
-| Écartées : ballon sous un masque | 2 |
-| Gardées | 196 |
-| Positives / négatives | 119 / 77 |
-| Boîtes | 175 |
-| Images masquées / masques | 106 / 148 |
-| `not_ball` gardés avec confiance détecteur ≥ 0,25 | 310 |
+| Input images | 208 |
+| Dropped: candidate > 64 px | 10 |
+| Dropped: ball under a mask | 2 |
+| Kept | 196 |
+| Positive / negative | 119 / 77 |
+| Boxes | 175 |
+| Masked images / masks | 106 / 148 |
+| `not_ball` kept with detector confidence >= 0.25 | 310 |
 
-Par match : session du 12 octobre 138 images (87 positives, 125 boîtes),
-Lou Mistrau 7 octobre 40 (23 positives, 36 boîtes), Lou Mistrau 30 septembre 18
-(9 positives, 14 boîtes).
+By match: 12 October session 138 images (87 positive, 125 boxes), `lou_mistrau` 7 October 40 (23 positive, 36 boxes), `lou_mistrau` 30 September 18 (9 positive, 14 boxes).
 
-`mobile_v005` reprend `mobile_v004` à l'identique et ajoute la source en train :
-3 002 images de train (2 534 positives, 468 négatives) et les mêmes 168 images de
-validation. Les empreintes image/label de la validation sont identiques à v004.
+`mobile_v005` reuses `mobile_v004` unchanged and adds the source to train: 3,002 train images (2,534 positive, 468 negative) and the same 168 validation images. Image/label hashes of validation are identical to v004.
 
-## Entraînement préparé
+## Training setup
 
-Configuration `configs/mobile_small_auto_field_960.json` : même recette que
-Small v004 (YOLO26s COCO, transfert `sports ball`, 960 px, 30 époques, patience 8,
-batch 8, AdamW lr0 0,001, seed 42, A10G, 90 min, dépôts privés). La référence
-évaluée sur la même validation est le Small v004 actuel. Seul le train change, mais
-ces images sont proches dans le temps d'images déjà présentes dans le train.
+Configuration `configs/mobile_small_auto_field_960.json`: same recipe as Small v004 (YOLO26s COCO, `sports ball` transfer, 960 px, 30 epochs, patience 8, batch 8, AdamW lr0 0.001, seed 42, A10G GPU, 90 min limit, private repositories). The reference evaluated on the same validation is the current Small v004. Only the train set changes, but these images are close in time to images already in train.
 
 ```sh
-.venv/bin/python -m pitchlens.data.build_auto_judged_field <dossier_du_juge>
-.venv/bin/python scripts/mobile_training_hf.py prepare --config configs/mobile_small_auto_field_960.json
-.venv/bin/python scripts/mobile_training_hf.py launch --config configs/mobile_small_auto_field_960.json
+python -m pitchlens.data.build_auto_judged_field <judge_output_dir>
+python scripts/mobile_training_hf.py prepare --config configs/mobile_small_auto_field_960.json
+python scripts/mobile_training_hf.py launch --config configs/mobile_small_auto_field_960.json
 ```
 
-`prepare` construit seulement `mobile_v005` en local. `launch` crée les dépôts
-privés, envoie l'archive et le code, puis soumet aussitôt le job GPU payant
-(environ 1 USD/h, plafond 90 min). Lancé le 11 novembre ; voir les résultats ci-dessous.
+`prepare` only builds `mobile_v005` locally. `launch` creates the private repositories, uploads the archive and code, then immediately submits the paid GPU job (about 1 USD/h, 90 min cap).
 
-## Résultats — 11 novembre 2026
+## Results (11 November 2026)
 
-Job [6af3c9a99737d9a9e0925575](https://huggingface.co/jobs/Totorotibo84/6af3c9a99737d9a9e0925575) terminé : 30 époques, 30,9 minutes d'entraînement. Checkpoint récupéré dans
-`models/checkpoints/baseline_runs/yolo26s_mobile_auto_field_v005_960_20261111/artifacts/best.pt`.
+30 epochs, 30.9 minutes of training.
 
-Validation inchangée (168 images, 134 ballons, seuil 0,25, IoU 0,50) :
+Unchanged validation (168 images, 134 balls, threshold 0.25, IoU 0.50):
 
-| Modèle | TP | FP | FN | FP sur images négatives | mAP50–95 |
+| Model | TP | FP | FN | FP on negative images | mAP50-95 |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Small v004 | 101 | 21 | 33 | 8 | 49,4 % |
-| Small v005 | 100 | 19 | 34 | 3 | 52,3 % |
+| Small v004 | 101 | 21 | 33 | 8 | 49.4% |
+| Small v005 | 100 | 19 | 34 | 3 | 52.3% |
 
-Match réservé du 14 octobre, 250 images revues de `recording_01` (94 ballons, 60 petits), évaluation
-seule, PyTorch image entière à 960 px :
+Reserved 14 October match, 250 reviewed images of `recording_01` (94 balls, 60 small), evaluation only, full-image PyTorch at 960 px:
 
-| Modèle | Seuil 0,25 TP / FP | Seuil 0,45 TP / FP | Seuil 0,55 TP / FP | FP pour 30 TP | FP pour 37 TP |
+| Model | Thr. 0.25 TP / FP | Thr. 0.45 TP / FP | Thr. 0.55 TP / FP | FP per 30 TP | FP per 37 TP |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Small v004 | 37 / 133 | 34 / 45 | 29 / 17 | 19 | 81 |
 | Small v005 | 34 / 92 | 30 / 48 | 28 / 13 | 48 | 180 |
 
-Au seuil 0,25, v005 produit moins de fausses boîtes (intervalle bootstrap par image à 95 % : −66 à −16)
-mais retrouve aussi moins de ballons (−8 à +2). À rappel égal, il n'est pas meilleur : ses scores sont
-décalés vers le bas, le classement des détections ne s'améliore pas. **v005 n'est pas retenu pour
-l'app ; Small v004 reste le modèle courant.** Aucun export Core ML n'a été fait.
+At threshold 0.25, v005 produces fewer false boxes (per-image bootstrap 95% interval: -66 to -16) but also finds fewer balls (-8 to +2). At equal recall it is not better: its scores are shifted downward and the ranking of detections does not improve. **v005 is not adopted for the app; Small v004 remains the current model.** No Core ML export was made.
 
-Lecture : 196 images ajoutées à 2 806 est une dose faible, proches d'images déjà présentes, et les
-fausses détections dominantes du match réservé (projecteur, tache sur la pelouse, chaussures de ce
-stade) ne sont pas dans ces images. Le script d'évaluation est conservé hors dépôt ; un seul clip,
-un seul stade.
+Reading: 196 images added to 2,806 is a small dose, close to images already present, and the dominant false detections of the reserved match (floodlight, a patch on the grass, shoes at this stadium) are not in these images. One clip, one stadium.
