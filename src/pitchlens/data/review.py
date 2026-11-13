@@ -36,8 +36,8 @@ DECISION_FIELDS = [
 ]
 
 VALID_DECISIONS = {"keep", "negative", "bbox", "exclude"}
-SEQUENCE_EXCLUSION_NOTE = "[sequence_exclusion] Non revue : suite écartée par séquence."
-FULL_SEQUENCE_NOTE = "[full_sequence_exclusion] Séquence entière écartée."
+SEQUENCE_EXCLUSION_NOTE = "[sequence_exclusion] Not reviewed: remainder dropped with the sequence."
+FULL_SEQUENCE_NOTE = "[full_sequence_exclusion] Entire sequence dropped."
 
 
 def _read_csv(path: Path) -> list[dict[str, str]]:
@@ -84,7 +84,7 @@ def build_master_queue(processed_root: Path) -> Path:
     excluded_rows = _read_csv(processed_root / "review_queue.csv")
 
     if not manifest_rows:
-        raise FileNotFoundError(f"Manifest absent ou vide : {processed_root / 'manifest.csv'}")
+        raise FileNotFoundError(f"Manifest missing or empty: {processed_root / 'manifest.csv'}")
 
     manifest_by_key = {
         (row["sequence"], row["frame"]): row for row in manifest_rows
@@ -197,7 +197,7 @@ class ReviewStore:
         elif state == "reviewed":
             rows = [row for row in rows if row["item_id"] in self.decisions]
         elif state != "all":
-            raise ValueError(f"État inconnu : {state}")
+            raise ValueError(f"Unknown state: {state}")
         return rows
 
     def progress(self) -> dict[str, int]:
@@ -232,7 +232,7 @@ class ReviewStore:
         """Exclude only undecided frames; undo only untouched batch exclusions."""
         targets = [row["item_id"] for row in self.queue if row["sequence"] == sequence]
         if not targets:
-            raise ValueError("Séquence inconnue")
+            raise ValueError("Unknown sequence")
         decisions = {row["item_id"]: row for row in _read_csv(self.decisions_path)}
         count = 0
         for item_id in targets:
@@ -262,12 +262,12 @@ class ReviewStore:
         note: str = "",
     ) -> None:
         if item_id not in {row["item_id"] for row in self.queue}:
-            raise KeyError(f"Élément absent de la file : {item_id}")
+            raise KeyError(f"Item missing from the queue: {item_id}")
         if decision not in VALID_DECISIONS:
-            raise ValueError(f"Décision inconnue : {decision}")
+            raise ValueError(f"Unknown decision: {decision}")
         if decision == "bbox":
             if bbox is None or not _valid_bbox(bbox):
-                raise ValueError("Une boîte normalisée valide est requise")
+                raise ValueError("A valid normalized box is required")
         else:
             bbox = None
 
@@ -275,7 +275,7 @@ class ReviewStore:
         self.decisions = {row["item_id"]: row for row in _read_csv(self.decisions_path)}
         # An explicit re-review is no longer an untouched batch exclusion.
         if note.strip() in {SEQUENCE_EXCLUSION_NOTE, FULL_SEQUENCE_NOTE}:
-            note = "Exclusion confirmée individuellement."
+            note = "Exclusion confirmed individually."
         self.decisions[item_id] = {
             "item_id": item_id,
             "decision": decision,
@@ -293,7 +293,7 @@ class ReviewStore:
 
     def sequence_backup_path(self, sequence: str) -> Path:
         if sequence not in {row["sequence"] for row in self.queue}:
-            raise ValueError("Séquence inconnue")
+            raise ValueError("Unknown sequence")
         return self.processed_root / "sequence_backups" / f"{sequence}.csv"
 
     def exclude_entire_sequence(self, sequence: str, *, restore: bool = False) -> int:
@@ -317,7 +317,7 @@ class ReviewStore:
                 count += 1
         else:
             if backup_path.exists():
-                raise ValueError("Une exclusion existe déjà : rétablis-la avant de recommencer.")
+                raise ValueError("An exclusion already exists: restore it before starting again.")
             snapshot = [decisions.get(item_id, {
                 **dict.fromkeys(DECISION_FIELDS, ""), "item_id": item_id,
             }) for item_id in targets]
@@ -369,7 +369,7 @@ class ReviewWidget:
         self.drawn_bbox: tuple[float, float, float, float] | None = None
 
         self.split = widgets.Dropdown(
-            options=[("Toutes les images", "all"), ("Test", "test"), ("Validation", "val"), ("Train", "train")],
+            options=[("All images", "all"), ("Test", "test"), ("Validation", "val"), ("Train", "train")],
             value="all",
             description="Split",
         )
@@ -379,39 +379,39 @@ class ReviewWidget:
             placeholder="Note facultative", description="Note", layout=widgets.Layout(width="100%")
         )
         self.box_choice = widgets.Dropdown(
-            options=[("Aucune boîte", None)],
-            description="Boîte rouge",
+            options=[("No box", None)],
+            description="Red box",
             disabled=True,
         )
         self.message = widgets.HTML()
-        self.sequence_choice = widgets.Dropdown(description="Séquence", layout=widgets.Layout(width="95%"))
+        self.sequence_choice = widgets.Dropdown(description="Sequence", layout=widgets.Layout(width="95%"))
         self.sequence_info = widgets.HTML()
-        self.skip_sequence_button = widgets.Button(description="Écarter la suite", button_style="warning")
-        self.restore_sequence_button = widgets.Button(description="Rétablir la suite écartée")
-        self.exclude_all_button = widgets.Button(description="Exclure toute la séquence", button_style="danger")
+        self.skip_sequence_button = widgets.Button(description="Skip the rest", button_style="warning")
+        self.restore_sequence_button = widgets.Button(description="Restore the skipped rest")
+        self.exclude_all_button = widgets.Button(description="Exclude the whole sequence", button_style="danger")
         self.restore_all_button = widgets.Button(description="Annuler l'exclusion totale")
-        self.first_button = widgets.Button(description="⏮ Première")
-        self.last_button = widgets.Button(description="Dernière ⏭")
+        self.first_button = widgets.Button(description="⏮ First")
+        self.last_button = widgets.Button(description="Last ⏭")
         self.frame_position = widgets.IntSlider(
             description="Image", min=1, max=1, value=1,
             continuous_update=False, layout=widgets.Layout(width="95%"),
         )
         self._sync_sequence = False
 
-        self.previous_button = widgets.Button(description="← Précédente")
+        self.previous_button = widgets.Button(description="← Previous")
         self.next_button = widgets.Button(description="Suivante →")
-        self.pending_button = widgets.Button(description="Prochaine à revoir")
-        self.keep_button = widgets.Button(description="✓ Valider et avancer", button_style="success")
+        self.pending_button = widgets.Button(description="Next to review")
+        self.keep_button = widgets.Button(description="✓ Confirm and advance", button_style="success")
         self.negative_button = widgets.Button(description="Aucun ballon", button_style="warning")
         self.draw_mode_button = widgets.Button(
-            description="✏️ Activer le dessin", button_style="info"
+            description="✏️ Enable drawing", button_style="info"
         )
         self.keep_selected_button = widgets.Button(
-            description="Garder uniquement cette boîte",
+            description="Keep only this box",
             button_style="info",
             disabled=True,
         )
-        self.bbox_button = widgets.Button(description="Sauver la boîte dessinée", button_style="info")
+        self.bbox_button = widgets.Button(description="Save the drawn box", button_style="info")
         self.exclude_button = widgets.Button(description="Exclure l'image", button_style="danger")
 
         self.figure, self.axes = plt.subplots(
@@ -451,15 +451,15 @@ class ReviewWidget:
             button.layout.margin = "4px"
         correction = widgets.VBox([
             widgets.HTML(
-                "Zoome si nécessaire, puis active le dessin et trace la boîte "
-                "sur la grande image centrale. Enregistre pour avancer."
+                "Zoom if necessary, then enable drawing and draw the box "
+                "on the large central image. Save to advance."
             ),
             widgets.HBox([self.draw_mode_button, self.bbox_button], layout=wrap),
-            widgets.HTML("Plusieurs boîtes ? Choisis celle à conserver :"),
+            widgets.HTML("Several boxes? Choose the one to keep:"),
             widgets.HBox([self.box_choice, self.keep_selected_button], layout=wrap),
         ])
         self.details = widgets.Accordion(children=[correction, self.note, self.item_label])
-        for index, title in enumerate(("Corriger les boîtes", "Ajouter une note", "Origine et signalements")):
+        for index, title in enumerate(("Correct the boxes", "Add a note", "Origin and flags")):
             self.details.set_title(index, title)
         self.details.selected_index = None
         self.status_label = widgets.HTML()
@@ -471,7 +471,7 @@ class ReviewWidget:
                 self.sequence_info,
                 widgets.HBox([self.skip_sequence_button, self.restore_sequence_button], layout=wrap),
                 widgets.HBox([self.exclude_all_button, self.restore_all_button], layout=wrap),
-                widgets.HTML("Exclusion totale : les validations et corrections sont aussi écartées, avec sauvegarde pour annulation."),
+                widgets.HTML("Full exclusion: confirmations and corrections are dropped too, with a backup so it can be undone."),
                 self.frame_position,
                 widgets.HBox([self.first_button, self.last_button], layout=wrap),
                 widgets.HBox([self.previous_button, self.next_button], layout=wrap),
@@ -513,7 +513,7 @@ class ReviewWidget:
                 self.index = index
                 self._render()
                 return
-        self.message.value = "Toutes les images de ce groupe ont une décision enregistrée."
+        self.message.value = "All images in this group have a recorded decision."
 
     def _move(self, offset: int) -> None:
         if self.items:
@@ -547,8 +547,8 @@ class ReviewWidget:
         # Stay on the sequence so its undo remains immediately accessible.
         self._render()
         self.message.value = (
-            f"{count} images {'rétablies selon leurs décisions précédentes' if restore else 'exclues de la future v002'}. "
-            "Les fichiers images restent disponibles."
+            f"{count} images {'restored according to their previous decisions' if restore else 'excluded from the future v002'}. "
+            "The image files remain available."
         )
 
     def _exclude_remaining(self, *, restore: bool = False) -> None:
@@ -560,15 +560,15 @@ class ReviewWidget:
             self._next_pending()
         self._render()
         self.message.value = (
-            f"{count} images {'remises à revoir' if restore else 'écartées sans revue individuelle'} "
-            f"dans {sequence[:8]}. Les corrections existantes sont conservées."
+            f"{count} images {'put back for review' if restore else 'dropped without individual review'} "
+            f"in {sequence[:8]}. Existing corrections are kept."
         )
 
     def _render(self) -> None:
         progress = self.store.progress()
         self.progress_label.value = (
-            f"<b>Infactory :</b> {progress['reviewed'] - progress.get('sequence_excluded', 0)} décisions individuelles "
-            f"+ {progress.get('sequence_excluded', 0)} images écartées par séquence / {progress['total']} "
+            f"<b>Progress:</b> {progress['reviewed'] - progress.get('sequence_excluded', 0)} individual decisions "
+            f"+ {progress.get('sequence_excluded', 0)} images dropped by sequence / {progress['total']} "
             f"— test {progress['test_reviewed']}/{progress['test_total']} "
             f"— val {progress['val_reviewed']}/{progress['val_total']} "
             f"— train {progress['train_reviewed']}/{progress['train_total']}"
@@ -579,7 +579,7 @@ class ReviewWidget:
         options = []
         for sequence, rows in groups.items():
             remaining = sum(self.store.decision_for(row["item_id"]) is None for row in rows)
-            options.append((f"{rows[0]['split']} · {sequence[:8]} · {remaining}/{len(rows)} à revoir", sequence))
+            options.append((f"{rows[0]['split']} · {sequence[:8]} · {remaining}/{len(rows)} to review", sequence))
         self._sync_sequence = True
         try:
             self.sequence_choice.options = options
@@ -599,11 +599,11 @@ class ReviewWidget:
                 for row in rows
             )
             self.sequence_info.value = (
-                f"Cette séquence : <b>{pending} images sans décision</b>, "
-                f"{len(rows) - pending - excluded} décisions individuelles, {excluded} exclusions groupées. "
-                "Écarter la suite exclut toutes ses images sans décision, même celles sautées plus tôt."
+                f"This sequence: <b>{pending} images without a decision</b>, "
+                f"{len(rows) - pending - excluded} individual decisions, {excluded} grouped exclusions. "
+                "Skipping the rest excludes all its images without a decision, even those skipped earlier."
             )
-            self.skip_sequence_button.description = f"Écarter les {pending} restantes"
+            self.skip_sequence_button.description = f"Skip the remaining {pending}"
             self.skip_sequence_button.disabled = pending == 0
             self.restore_sequence_button.disabled = not any(
                 (self.store.decision_for(row["item_id"]) or {}).get("note") == SEQUENCE_EXCLUSION_NOTE
@@ -635,9 +635,9 @@ class ReviewWidget:
         self.bbox_button.disabled = True
         self.keep_button.disabled = not self.items
         if not self.items:
-            self.item_label.value = "<b>Aucune image dans ce filtre.</b>"
+            self.item_label.value = "<b>No image in this filter.</b>"
             if hasattr(self, "status_label"):
-                self.status_label.value = "Aucune image à afficher."
+                self.status_label.value = "No image to display."
             self.figure.canvas.draw_idle()
             return
 
@@ -645,13 +645,13 @@ class ReviewWidget:
         finding = item["human_finding"] or "—"
         previous_decision = self.store.decision_for(item["item_id"])
         self.note.value = previous_decision["note"] if previous_decision else ""
-        decision_text = previous_decision["decision"] if previous_decision else "aucune"
-        labels = {"keep": "Validée", "negative": "Validée : aucun ballon",
-                  "bbox": "Validée : boîte corrigée", "exclude": "Exclue", "aucune": "À revoir"}
+        decision_text = previous_decision["decision"] if previous_decision else "none"
+        labels = {"keep": "Confirmed", "negative": "Confirmed: no ball",
+                  "bbox": "Confirmed: box corrected", "exclude": "Excluded", "none": "To review"}
         if hasattr(self, "status_label"):
             self.status_label.value = (
                 f"<b>Image {self.index + 1} / {len(self.items)} — {labels[decision_text]}</b>"
-                " · Toute nouvelle validation remplace la précédente."
+                " · Any new confirmation replaces the previous one."
             )
         self.keep_button.disabled = (
             previous_decision is None
@@ -661,12 +661,12 @@ class ReviewWidget:
             f"<b>{self.index + 1}/{len(self.items)}</b> — {item['split']} — "
             f"frame {item['frame']} — statut : <code>{item['original_status']}</code><br>"
             f"Signaux : <code>{item['review_reasons'] or 'aucun signal automatique — revue requise'}</code><br>"
-            f"Constat déjà confirmé : {finding}<br>"
-            f"Décision enregistrée : <code>{decision_text}</code>"
+            f"Finding already confirmed: {finding}<br>"
+            f"Recorded decision: <code>{decision_text}</code>"
         )
 
         frames = [self.store.neighbor(item, -1), item, self.store.neighbor(item, 1)]
-        titles = ["frame précédente", "frame à décider", "frame suivante"]
+        titles = ["previous frame", "frame to decide", "next frame"]
         for frame_index, (axis, frame, title) in enumerate(
             zip(self.axes, frames, titles)
         ):
@@ -716,13 +716,13 @@ class ReviewWidget:
             axis.axis("off")
         if self.current_original_boxes:
             self.box_choice.options = [
-                (f"Boîte {index}", box)
+                (f"Box {index}", box)
                 for index, box in enumerate(self.current_original_boxes, start=1)
             ]
             self.box_choice.disabled = False
             self.keep_selected_button.disabled = False
         else:
-            self.box_choice.options = [("Aucune boîte", None)]
+            self.box_choice.options = [("No box", None)]
             self.box_choice.disabled = True
             self.keep_selected_button.disabled = True
         self.figure.canvas.draw_idle()
@@ -771,7 +771,7 @@ class ReviewWidget:
             (bottom - top) / image_height,
         )
         self.bbox_button.disabled = not _valid_bbox(self.drawn_bbox)
-        self.message.value = "<span style='color:#1565c0'>Boîte dessinée, prête à être enregistrée.</span>"
+        self.message.value = "<span style='color:#1565c0'>Box drawn, ready to be saved.</span>"
 
     def _activate_draw(self, _button) -> None:
         """Give drag events back to RectangleSelector after zooming or panning."""
@@ -788,15 +788,15 @@ class ReviewWidget:
         self.figure.canvas.draw_idle()
         self.message.value = (
             "<span style='color:#1565c0'><b>Mode dessin actif.</b> "
-            "Les anciennes boîtes rouges sont masquées. Glisse maintenant autour "
-            "du ballon dans l'image centrale.</span>"
+            "The old red boxes are hidden. Now drag around "
+            "the ball in the central image.</span>"
         )
 
     def _save_selected_box(self, _button) -> None:
         selected_box = self.box_choice.value
         if selected_box is None:
             self.message.value = (
-                "<span style='color:#b71c1c'>Aucune boîte rouge sélectionnée.</span>"
+                "<span style='color:#b71c1c'>No red box selected.</span>"
             )
             return
         self.drawn_bbox = tuple(selected_box)
@@ -817,7 +817,7 @@ class ReviewWidget:
             return
         item = self.items[self.index]
         if decision == "keep" and item["original_status"] not in {"positive_single", "negative"}:
-            self.message.value = "<span style='color:#b71c1c'>Ce label était invalide ou multiple : redessine une boîte, passe en négatif ou exclus l'image.</span>"
+            self.message.value = "<span style='color:#b71c1c'>This label was invalid or multiple: redraw a box, switch to negative or exclude the image.</span>"
             return
         try:
             self.store.save(
@@ -828,6 +828,6 @@ class ReviewWidget:
             return
         self._move(1)
         self.message.value = (
-            "<span style='color:#2e7d32'>Décision enregistrée. "
-            "← Précédente permet de la modifier.</span>"
+            "<span style='color:#2e7d32'>Decision recorded. "
+            "← Previous lets you change it.</span>"
         )

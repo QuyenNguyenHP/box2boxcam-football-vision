@@ -19,22 +19,22 @@ from pitchlens.data.luna_batch import (
     validate_prediction,
 )
 
-PROMPT = """Tu affines une annotation de ballon de football.
-Tu reçois l'image entière CURRENT pour le contexte, puis un zoom large issu
-de cette même image. Localise le ballon en jeu réellement visible DANS LE ZOOM.
-Ne confonds pas logos, chaussures, têtes ou ballons de réserve avec le ballon.
-Ignore toute ligne de repère artificielle. Si le ballon n'est pas visible dans
-le zoom, réponds ball_in_play_visible=false et bbox_current_pixels=null.
-Ne copie ni ne devine une boîte à partir de la description seule.
+PROMPT = """You are refining a football ball annotation.
+You receive the full CURRENT image for context, then a wide zoom taken
+from that same image. Locate the ball in play that is actually visible IN THE ZOOM.
+Do not confuse logos, shoes, heads or spare balls with the ball.
+Ignore any artificial guide line. If the ball is not visible in
+the zoom, answer ball_in_play_visible=false and bbox_current_pixels=null.
+Do not copy or guess a box from the description alone.
 
-Donne une boîte serrée englobant le contour visible du ballon, sans marge
-arbitraire et sans inclure la chaussure ou le joueur. En cas de flou, englobe
-la silhouette visible floue, sans chercher un cercle parfait. Les coordonnées
-de bbox_current_pixels sont [gauche,haut,droite,bas] EN PIXELS DU ZOOM FOURNI,
-origine en haut à gauche du zoom, bordure blanche comprise. Elles ne sont ni
-des pourcentages, ni des coordonnées de l'image entière. La reconversion vers
-l'image entière sera faite par le code, pas par toi. Décris brièvement ton
-indice dans temporal_evidence et les incertitudes dans ambiguity."""
+Give a tight box enclosing the visible outline of the ball, without arbitrary
+margin and without including the shoe or the player. If the ball is blurred,
+enclose the visible blurred silhouette, without looking for a perfect circle.
+The coordinates of bbox_current_pixels are [left,top,right,bottom] IN PIXELS OF
+THE PROVIDED ZOOM, origin at the top left of the zoom, white border included.
+They are neither percentages nor coordinates of the full image. The conversion
+back to the full image will be done by the code, not by you. Briefly describe your
+cue in temporal_evidence and the uncertainties in ambiguity."""
 
 
 def select_cases(predictions: list[dict], count: int) -> list[dict]:
@@ -210,9 +210,9 @@ def request_body(case: dict, variant: str, files: dict, config: dict) -> dict:
         {
             "type": "input_text",
             "text": (
-                f"ZOOM CURRENT {width}x{height} pixels, bordure blanche {border}px. "
-                "Les coordonnées demandées concernent exclusivement ce zoom, bordure comprise. "
-                "Si des chiffres sont présents, ce sont les coordonnées du zoom, pas de l'image entière."
+                f"ZOOM CURRENT {width}x{height} pixels, white border {border}px. "
+                "The requested coordinates relate exclusively to this zoom, border included. "
+                "If numbers are present, they are zoom coordinates, not full-image coordinates."
             ),
         },
         {

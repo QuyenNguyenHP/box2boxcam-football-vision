@@ -119,17 +119,17 @@ def build(root: Path, output: Path, *, confirm_reviewed: bool) -> dict:
                         ("build_report.json", report), ("audit.json", validation)):
         _save_json(staging / name, value)
     (staging / "README.md").write_text(
-        "# Gros plans personnels — revue v001\n\n"
-        f"{len(selected)} images retenues : {counts['positive']} positives, "
-        f"{counts['negative']} négatives. {counts['excluded']} exclusions.\n\n"
-        "Toutes les images ont été revues selon confirmation de l'utilisateur, sans seuil. "
-        "Les annotations humaines soumises remplacent Luna ; les propositions inchangées "
-        "restent acceptées sans modifier leur statut Submit. Aucun brouillon au moment "
-        "de l'export. Les images exclues ne deviennent pas des négatifs.\n\n"
-        "images/ utilise des liens physiques ; labels/ contient les boîtes YOLO (classe 0). "
-        "Les snapshots et le manifeste préservent la provenance et les exclusions. "
-        "Les six vidéos forment une seule session, destinée au train ; aucun découpage "
-        "aléatoire de frames en validation. Export figé, sources conservées.\n")
+        "# Personal close-ups — review v001\n\n"
+        f"{len(selected)} images retained: {counts['positive']} positives, "
+        f"{counts['negative']} negatives. {counts['excluded']} exclusions.\n\n"
+        "All images were reviewed according to the user's confirmation, with no threshold. "
+        "Submitted human annotations replace Luna; unchanged proposals "
+        "remain accepted without changing their Submit status. No draft at the time "
+        "of the export. Excluded images do not become negatives.\n\n"
+        "images/ uses hard links; labels/ holds the YOLO boxes (class 0). "
+        "The snapshots and the manifest preserve provenance and exclusions. "
+        "The six videos form a single session, meant for train; no random "
+        "split of frames into validation. Frozen export, sources kept.\n")
     if output.exists():
         raise FileExistsError(f"Output appeared during build; staging preserved: {staging}")
     staging.rename(output)

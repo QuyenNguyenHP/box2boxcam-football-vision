@@ -51,6 +51,7 @@ def build(root: Path, source: Path, output: Path) -> dict:
                  if line.startswith("API token:"))
     project_id = json.loads((source / "review/label_studio_project.json").read_text())["project_id"]
     project = _label_studio_request(f"{BASE}/api/projects/{project_id}/", token)
+    # Title of the existing local Label Studio project (French: "All balls"); must match as-is.
     if project["title"] != "PitchLens — Match iPhone — Tous les ballons":
         raise ValueError("Unexpected review project")
     proposals = json.loads((source / "review/tasks.json").read_text())
@@ -124,10 +125,10 @@ def build(root: Path, source: Path, output: Path) -> dict:
                        ("review_snapshot.json", snapshot), ("pending_review.json", omitted)):
         (staging / name).write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n")
     (staging / "README.md").write_text(
-        f"# Match iPhone — annotations humaines v001\n\n{len(selected)} images validées, {report['boxes']} boîtes. "
-        "Tous les ballons visibles, y compris les ballons de réserve et immobiles. "
-        "Les propositions non soumises et les brouillons restent hors entraînement. "
-        "Une seule session, réservée au train ; pas de validation indépendante sur ce match.\n")
+        f"# iPhone match — human annotations v001\n\n{len(selected)} validated images, {report['boxes']} boxes. "
+        "All visible balls, including spare and stationary balls. "
+        "Unsubmitted proposals and drafts stay out of training. "
+        "A single session, reserved for train; no independent validation on this match.\n")
     if output.exists():
         raise FileExistsError("Output appeared during export; staging preserved")
     staging.rename(output)

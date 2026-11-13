@@ -52,7 +52,7 @@ def build(project_root: Path) -> dict:
     parent = project_root / "data/processed/v001"
     destination = project_root / "data/processed/v002"
     if destination.exists():
-        raise FileExistsError(f"Version déjà présente, aucun écrasement : {destination}")
+        raise FileExistsError(f"Version already present, no overwriting: {destination}")
     manifest_bytes = (parent / "manifest.csv").read_bytes()
     decision_bytes = (parent / "qa_review_decisions.csv").read_bytes()
     rows = list(csv.DictReader(io.StringIO(manifest_bytes.decode())))
@@ -149,7 +149,7 @@ def build(project_root: Path) -> dict:
         staging.rename(destination)
     except BaseException:
         # Preserve partial artifacts for diagnosis instead of deleting source data.
-        print(f"Construction interrompue ; fichiers partiels : {staging}")
+        print(f"Build interrupted; partial files: {staging}")
         raise
     report_path = project_root / "models/reports/infactory_v002_summary.json"
     report_path.write_text(json.dumps(report, indent=2) + "\n")

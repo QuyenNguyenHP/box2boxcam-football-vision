@@ -46,11 +46,11 @@ def sampled_frame_numbers(
 ) -> list[int]:
     """Return stride-aligned frames, optionally spread across the whole video."""
     if total_frames <= 0:
-        raise ValueError("La vidéo ne contient aucune image")
+        raise ValueError("The video contains no frames")
     if stride <= 0:
-        raise ValueError("stride doit être strictement positif")
+        raise ValueError("stride must be strictly positive")
     if max_samples is not None and max_samples <= 0:
-        raise ValueError("max_samples doit être strictement positif ou None")
+        raise ValueError("max_samples must be strictly positive or None")
 
     eligible = list(range(0, total_frames, stride))
     if max_samples is None or max_samples >= len(eligible):
@@ -88,7 +88,7 @@ def _relative_to_project(path: Path, project_root: Path) -> str:
     try:
         return str(path.resolve().relative_to(project_root.resolve()))
     except ValueError as error:
-        raise ValueError(f"Le fichier doit être dans le projet : {path}") from error
+        raise ValueError(f"The file must be inside the project: {path}") from error
 
 
 def reusable_video_extraction(
@@ -110,16 +110,16 @@ def reusable_video_extraction(
     unexpected = actual_entries - allowed_entries
     if unexpected:
         raise FileExistsError(
-            "Sortie déjà présente avec des fichiers non provisoires, aucun "
-            f"écrasement automatique : {output_root} ({sorted(unexpected)})"
+            "Output already present with non-temporary files, no "
+            f"automatic overwrite: {output_root} ({sorted(unexpected)})"
         )
 
     images_dir = output_root / "images"
     labels_dir = output_root / "teacher_labels"
     if not images_dir.is_dir() or not labels_dir.is_dir():
         raise FileExistsError(
-            f"Extraction interrompue et incomplète : {output_root}. "
-            "Les dossiers images/ et teacher_labels/ sont tous deux requis."
+            f"Extraction interrupted and incomplete: {output_root}. "
+            "Both the images/ and teacher_labels/ folders are required."
         )
 
     expected_images = {f"frame_{frame:08d}.jpg" for frame in selected_frames}
@@ -128,9 +128,9 @@ def reusable_video_extraction(
     actual_labels = {path.name for path in labels_dir.iterdir() if path.is_file()}
     if actual_images != expected_images or actual_labels != expected_labels:
         raise FileExistsError(
-            "Extraction interrompue mais non réutilisable : "
-            f"{len(actual_images)}/{len(expected_images)} images et "
-            f"{len(actual_labels)}/{len(expected_labels)} labels dans {output_root}."
+            "Extraction interrupted and not reusable: "
+            f"{len(actual_images)}/{len(expected_images)} images and "
+            f"{len(actual_labels)}/{len(expected_labels)} labels in {output_root}."
         )
 
     return [
@@ -172,12 +172,12 @@ def prepare_video_pseudo_labels(
     if not video_path.is_file():
         raise FileNotFoundError(video_path)
     if not 0 < confidence <= 1:
-        raise ValueError("confidence doit être dans ]0, 1]")
+        raise ValueError("confidence must be in (0, 1]")
     if image_size <= 0 or max_detections <= 0:
-        raise ValueError("image_size et max_detections doivent être positifs")
+        raise ValueError("image_size and max_detections must be positive")
     capture = cv2.VideoCapture(str(video_path))
     if not capture.isOpened():
-        raise RuntimeError(f"OpenCV ne peut pas ouvrir : {video_path}")
+        raise RuntimeError(f"OpenCV cannot open: {video_path}")
     fps = float(capture.get(cv2.CAP_PROP_FPS) or 30.0)
     total_frames = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
     width = int(capture.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -206,7 +206,7 @@ def prepare_video_pseudo_labels(
                     if not cv2.imwrite(
                         str(image_path), image, [int(cv2.IMWRITE_JPEG_QUALITY), 95]
                     ):
-                        raise RuntimeError(f"Échec d'écriture : {image_path}")
+                        raise RuntimeError(f"Write failure: {image_path}")
                     label_path.write_text("")
                     extracted.append(
                         (sample_index, source_frame, image_path, label_path)
@@ -220,7 +220,7 @@ def prepare_video_pseudo_labels(
 
     if len(extracted) != len(selected):
         raise RuntimeError(
-            f"Extraction incomplète : {len(extracted)} / {len(selected)} images"
+            f"Incomplete extraction: {len(extracted)} / {len(selected)} images"
         )
 
     started_at = time.perf_counter()
@@ -228,8 +228,8 @@ def prepare_video_pseudo_labels(
     class_name = model.names[source_class_id]
     if str(class_name).lower() not in {"sports ball", "ball"}:
         raise ValueError(
-            f"La classe {source_class_id} du teacher est {class_name!r}, "
-            "pas 'sports ball'. Pour un modèle PitchLens à une classe, utiliser 0."
+            f"Teacher class {source_class_id} is {class_name!r}, "
+            "not 'sports ball'. For a single-class PitchLens model, use 0."
         )
 
     image_paths = [str(row[2]) for row in extracted]
@@ -344,7 +344,7 @@ def prepare_video_pseudo_labels(
 def expected_sample_count(total_frames: int, stride: int) -> int:
     """Count frames selected by ``range(0, total_frames, stride)``."""
     if total_frames <= 0 or stride <= 0:
-        raise ValueError("total_frames et stride doivent être positifs")
+        raise ValueError("total_frames and stride must be positive")
     return math.ceil(total_frames / stride)
 
 
@@ -389,7 +389,7 @@ def deduplicate_teacher_boxes(
 ) -> list[dict[str, Any]]:
     """Keep priority-teacher boxes and add only non-overlapping complements."""
     if not 0 < iou_threshold <= 1:
-        raise ValueError("iou_threshold doit être dans ]0, 1]")
+        raise ValueError("iou_threshold must be in (0, 1]")
     priority = {name: index for index, name in enumerate(teacher_priority)}
     ordered = sorted(
         predictions,
@@ -417,10 +417,10 @@ def combine_teacher_datasets(
     output_root = output_root.resolve()
     source_roots = [path.resolve() for path in source_roots]
     if len(source_roots) < 2:
-        raise ValueError("Au moins deux datasets teachers sont nécessaires")
+        raise ValueError("At least two teacher datasets are required")
     if output_root.exists() and any(output_root.iterdir()):
         raise FileExistsError(
-            f"Sortie déjà présente, aucun écrasement automatique : {output_root}"
+            f"Output already present, no automatic overwrite: {output_root}"
         )
 
     manifests: list[list[dict[str, str]]] = []
@@ -448,7 +448,7 @@ def combine_teacher_datasets(
     for manifest in manifests[1:]:
         item_ids = [f"{row['sequence']}_{int(row['frame']):06d}" for row in manifest]
         if item_ids != reference_ids:
-            raise ValueError("Les datasets teachers ne couvrent pas les mêmes images")
+            raise ValueError("The teacher datasets do not cover the same images")
 
     labels_dir = output_root / "teacher_labels"
     labels_dir.mkdir(parents=True)

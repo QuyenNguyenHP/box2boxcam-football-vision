@@ -197,21 +197,21 @@ def build(root: Path, inputs: Path, output: Path, videos: dict | None = None) ->
     for name, data in (("review_manifest.json", rows), ("build_report.json", report), ("audit.json", validation)):
         (staging / name).write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n")
     (staging / "README.md").write_text(
-        f"# Ballons jugés automatiquement ({output.name}) — AUCUNE revue humaine\n\n"
-        f"**Aucun humain n'a vérifié ces labels** (no human reviewed these labels). "
-        f"{len(selected)} images de train, {status['positive']} positives, {status['negative']} négatives, "
-        f"{report['boxes']} boîtes, {report['masked_images']} images masquées.\n\n"
-        "Des candidats du détecteur et de Luna ont été jugés sur des recadrages zoomés par un modèle de vision "
-        "(`ball` / `not_ball` / `unsure`). `ball` donne une boîte YOLO ; `not_ball` reste du fond ; "
-        "`unsure` est recouvert d'un rectangle gris (114, 114, 114), agrandi de 50 % (au moins 24 px), "
-        "dans une copie JPEG qualité 95. Les images avec un candidat de plus de 64 px de côté, ou dont un "
-        "ballon chevauche un masque, sont écartées.\n\n"
-        "Calibration à l'aveugle contre des labels humains, sur des candidats du détecteur : 98,7 % de "
-        "réponses justes quand le juge est confiant (1 `not_ball` faux sur 272 ; 3 `ball` faux sur 45). "
-        "Limite connue : un ballon proposé ni par le détecteur ni par Luna reste non annoté.\n\n"
-        "Train uniquement. `review_manifest.json` garde la provenance complète (chemin et SHA-256 source, "
-        "match, clip, verdict, sources et confiances de chaque candidat, masquage). Les fichiers du juge sont "
-        "copiés dans `judge_inputs/`.\n")
+        f"# Auto-judged balls ({output.name}) — NO human review\n\n"
+        f"**No human verified these labels** (no human reviewed these labels). "
+        f"{len(selected)} train images, {status['positive']} positives, {status['negative']} negatives, "
+        f"{report['boxes']} boxes, {report['masked_images']} masked images.\n\n"
+        "Candidates from the detector and from Luna were judged on zoomed crops by a vision model "
+        "(`ball` / `not_ball` / `unsure`). `ball` yields a YOLO box; `not_ball` stays background; "
+        "`unsure` is covered by a grey rectangle (114, 114, 114), enlarged by 50% (at least 24 px), "
+        "in a JPEG copy at quality 95. Images with a candidate larger than 64 px on a side, or in which a "
+        "ball overlaps a mask, are dropped.\n\n"
+        "Blind calibration against human labels, on detector candidates: 98.7% of "
+        "answers correct when the judge is confident (1 wrong `not_ball` out of 272; 3 wrong `ball` out of 45). "
+        "Known limitation: a ball proposed by neither the detector nor Luna stays unannotated.\n\n"
+        "Train only. `review_manifest.json` keeps the full provenance (source path and SHA-256, "
+        "match, clip, verdict, sources and confidences of each candidate, masking). The judge files are "
+        "copied into `judge_inputs/`.\n")
     if output.exists():
         raise FileExistsError("Output appeared during export; staging preserved")
     staging.rename(output)

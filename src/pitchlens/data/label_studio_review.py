@@ -28,7 +28,7 @@ def prediction_index(paths: list[Path]) -> dict[str, dict[str, Any]]:
 def _rectangle(bbox: list[int], width: int, height: int) -> dict[str, Any]:
     x0, y0, x1, y1 = bbox
     if not (0 <= x0 < x1 <= width and 0 <= y0 < y1 <= height):
-        raise ValueError(f"Boîte invalide : {bbox}")
+        raise ValueError(f"Invalid box: {bbox}")
     return {
         "id": "luna-ball",
         "from_name": "bbox",
@@ -70,22 +70,23 @@ def build_tasks(
             else:
                 result = [_rectangle(box, width, height)] if box is not None else []
             confidence = float(row["confidence"])
-            state = (f"{len(result)} ballon(s) proposé(s)" if result else "aucun ballon proposé") if "balls" in row else ("boîte proposée" if box is not None else "aucun ballon proposé")
+            state = (f"{len(result)} ball(s) proposed" if result else "no ball proposed") if "balls" in row else ("box proposed" if box is not None else "no ball proposed")
             context = (
-                f"Confiance Luna : {confidence:.0%} · {state}\n"
-                f"Indice temporel : {row.get('temporal_evidence') or '—'}\n"
-                f"Ambiguïté : {row.get('ambiguity') or '—'}"
+                f"Luna confidence: {confidence:.0%} · {state}\n"
+                f"Temporal cue: {row.get('temporal_evidence') or '—'}\n"
+                f"Ambiguity: {row.get('ambiguity') or '—'}"
             )
             if "balls" in row:
                 context += "\n" + "\n".join(
-                    f"Ballon {index + 1} : {ball['confidence']:.0%} · {ball.get('location', 'unknown')} · {ball.get('visibility', '—')} · {ball.get('temporal_evidence') or '—'}"
+                    f"Ball {index + 1}: {ball['confidence']:.0%} · {ball.get('location', 'unknown')} · {ball.get('visibility', '—')} · {ball.get('temporal_evidence') or '—'}"
                     for index, ball in enumerate(row["balls"])
                 )
         else:
             result = []
             confidence = 0.0
+            # Persisted status value in existing tasks ("Luna response missing"); keep as-is.
             state = "réponse Luna manquante"
-            context = "Aucune réponse exploitable : vérifier cette image à la main."
+            context = "No usable response: check this image by hand."
         tasks.append(
             {
                 "data": {
@@ -130,20 +131,20 @@ def extract_review_frames(
         return 0, len(needed)
     capture = cv2.VideoCapture(str(video_path))
     if not capture.isOpened():
-        raise RuntimeError(f"Vidéo illisible : {video_path}")
+        raise RuntimeError(f"Unreadable video: {video_path}")
     created = 0
     try:
         for number in range(max(missing) + 1):
             if number in missing:
                 ok, frame = capture.read()
                 if not ok:
-                    raise RuntimeError(f"Lecture impossible à l'image {number}")
+                    raise RuntimeError(f"Cannot read frame {number}")
                 path = frames_dir / f"frame_{number:08d}.jpg"
                 if not cv2.imwrite(str(path), frame, [cv2.IMWRITE_JPEG_QUALITY, quality]):
-                    raise RuntimeError(f"Écriture impossible : {path}")
+                    raise RuntimeError(f"Cannot write: {path}")
                 created += 1
             elif not capture.grab():
-                raise RuntimeError(f"Lecture impossible à l'image {number}")
+                raise RuntimeError(f"Cannot read frame {number}")
     finally:
         capture.release()
     return created, len(needed)
@@ -161,7 +162,7 @@ def prepare_review(
     cases = plan["cases"]
     frames = [int(case["source_frame"]) for case in cases]
     if len(frames) != len(set(frames)):
-        raise ValueError("Le plan contient des images en double")
+        raise ValueError("The plan contains duplicate images")
     output_root.mkdir(parents=True, exist_ok=True)
     tasks = build_tasks(plan, predictions)
     target = output_root / "tasks.json"
@@ -170,7 +171,7 @@ def prepare_review(
         if [row["data"]["item_id"] for row in old] != [
             row["data"]["item_id"] for row in tasks
         ]:
-            raise RuntimeError("tasks.json existe avec un autre inventaire")
+            raise RuntimeError("tasks.json exists with a different inventory")
     target.write_text(json.dumps(tasks, ensure_ascii=False, indent=2) + "\n")
     created, total = extract_review_frames(video, output_root / "frames", frames)
     return {
@@ -214,7 +215,7 @@ def sync_local_project(
 ) -> dict[str, int]:
     """Fill missing Luna predictions without reimporting tasks or touching reviews."""
     if base_url not in {"http://127.0.0.1:8080", "http://localhost:8080"}:
-        raise ValueError("La synchronisation est réservée au serveur Label Studio local")
+        raise ValueError("Synchronization is restricted to the local Label Studio server")
     desired = {
         row["data"]["item_id"]: row
         for row in json.loads(tasks_path.read_text(encoding="utf-8"))
@@ -233,11 +234,11 @@ def sync_local_project(
     if len(listed) != len(desired):
         raise ValueError(
             f"Projet local : {len(listed)} tâches ; plan : {len(desired)}. "
-            "Synchronisation annulée pour éviter des doublons."
+            "Synchronization cancelled to avoid duplicates."
         )
     ids = [row["data"]["item_id"] for row in listed]
     if len(set(ids)) != len(ids) or set(ids) != set(desired):
-        raise ValueError("Les images du projet local ne correspondent pas au plan")
+        raise ValueError("The images of the local project do not match the plan")
     updated = 0
     already_reviewed = 0
     still_missing = 0
@@ -258,7 +259,7 @@ def sync_local_project(
             continue
         predictions = current["predictions"]
         if len(predictions) != 1:
-            raise ValueError(f"{item_id} : {len(predictions)} prédictions locales")
+            raise ValueError(f"{item_id}: {len(predictions)} local predictions")
         _label_studio_request(
             f"{base_url}/api/predictions/{predictions[0]['id']}/",
             token,
@@ -286,27 +287,27 @@ def download_local_export(
 ) -> list[dict[str, Any]]:
     """Download *all* tasks, including untouched ones, for a truthful audit."""
     if base_url not in {"http://127.0.0.1:8080", "http://localhost:8080"}:
-        raise ValueError("L'export automatique est réservé au serveur local")
+        raise ValueError("Automatic export is restricted to the local server")
     tasks = _label_studio_request(
         f"{base_url}/api/projects/{project_id}/export"
         "?exportType=JSON&download_all_tasks=true",
         token,
     )
     if not isinstance(tasks, list):
-        raise TypeError("Label Studio n'a pas renvoyé une liste de tâches")
+        raise TypeError("Label Studio did not return a list of tasks")
     return tasks
 
 
 def _box_from_result(result: dict[str, Any], width: int, height: int) -> list[int]:
     value = result["value"]
     if float(value.get("rotation", 0)) != 0:
-        raise ValueError("Les boîtes tournées ne sont pas prises en charge")
+        raise ValueError("Rotated boxes are not supported")
     x0 = round(float(value["x"]) * width / 100)
     y0 = round(float(value["y"]) * height / 100)
     x1 = round((float(value["x"]) + float(value["width"])) * width / 100)
     y1 = round((float(value["y"]) + float(value["height"])) * height / 100)
     if not (0 <= x0 < x1 <= width and 0 <= y0 < y1 <= height):
-        raise ValueError(f"Boîte exportée invalide : {[x0, y0, x1, y1]}")
+        raise ValueError(f"Invalid exported box: {[x0, y0, x1, y1]}")
     return [x0, y0, x1, y1]
 
 
@@ -328,9 +329,9 @@ def export_review(
     """Export only submitted human annotations; unreviewed tasks stay pending."""
     tasks = json.loads(export_path.read_text(encoding="utf-8"))
     if not isinstance(tasks, list):
-        raise TypeError("L'export Label Studio doit être une liste de tâches JSON")
+        raise TypeError("The Label Studio export must be a JSON list of tasks")
     if output_root.exists() and any(output_root.iterdir()):
-        raise FileExistsError(f"Dossier d'export déjà rempli : {output_root}")
+        raise FileExistsError(f"Export folder already populated: {output_root}")
     rows = []
     labels_to_write: dict[str, str] = {}
     seen: set[str] = set()
@@ -338,9 +339,9 @@ def export_review(
         data = task["data"]
         item_id = str(data["item_id"])
         if expected_ids is not None and item_id not in expected_ids:
-            raise ValueError(f"Image hors du plan de revue : {item_id}")
+            raise ValueError(f"Image outside the review plan: {item_id}")
         if item_id in seen:
-            raise ValueError(f"Image présente plusieurs fois dans l'export : {item_id}")
+            raise ValueError(f"Image present several times in the export: {item_id}")
         seen.add(item_id)
         annotations = [
             row for row in task.get("annotations", []) if not row.get("was_cancelled")
@@ -349,7 +350,7 @@ def export_review(
             continue
         image_width, image_height = data.get("width", width), data.get("height", height)
         if not isinstance(image_width, int) or not isinstance(image_height, int) or image_width <= 0 or image_height <= 0:
-            raise ValueError(f"Dimensions de l'image manquantes ou invalides : {item_id}")
+            raise ValueError(f"Image dimensions missing or invalid: {item_id}")
         annotation = max(
             annotations,
             key=lambda row: (str(row.get("updated_at") or ""), int(row.get("id") or 0)),

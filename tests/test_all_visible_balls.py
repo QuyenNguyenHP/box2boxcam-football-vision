@@ -68,7 +68,7 @@ class AllVisibleTests(unittest.TestCase):
         plan = self.plan()
         body = prediction_request_body(case=plan["cases"][0], file_ids={"0": "data:image/jpeg;base64,YQ==", "3": "file-next"}, plan=plan)
         self.assertEqual(body["text"]["format"]["schema"], ALL_BALLS_SCHEMA)
-        self.assertIn("TOUS", body["input"][0]["content"])
+        self.assertIn("ALL", body["input"][0]["content"])
         images = [i for i in body["input"][1]["content"] if i["type"] == "input_image"]
         self.assertIn("image_url", images[0])
         self.assertNotIn("file_id", images[0])

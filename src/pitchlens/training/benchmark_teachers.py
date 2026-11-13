@@ -140,12 +140,12 @@ def write_comparison(
     import matplotlib.pyplot as plt
 
     display_names = {
-        "yolo26n_v002_finetuned": "Nano fine-tuné",
-        "yolo26x_coco_raw": "X COCO brut",
-        "yolo26x_v002_finetuned": "X fine-tuné",
+        "yolo26n_v002_finetuned": "Nano fine-tuned",
+        "yolo26x_coco_raw": "X raw COCO",
+        "yolo26x_v002_finetuned": "X fine-tuned",
     }
     model_names = list(results)
-    accuracy_names = ["mAP50", "mAP50–95", "Précision", "Rappel", "F1"]
+    accuracy_names = ["mAP50", "mAP50–95", "Precision", "Recall", "F1"]
     accuracy_values = {
         name: [
             results[name]["map50"],
@@ -156,7 +156,7 @@ def write_comparison(
         ]
         for name in model_names
     }
-    error_names = ["Bonnes détections", "Fausses détections", "Ballons ratés"]
+    error_names = ["Correct detections", "False detections", "Missed balls"]
     error_values = {
         name: [
             results[name]["fixed"]["tp"],
@@ -182,7 +182,7 @@ def write_comparison(
     axes[0].set_xticks(range(5), accuracy_names)
     axes[0].set_ylim(0, 0.75)
     axes[0].set_ylabel("Score")
-    axes[0].set_title("Qualité sur validation v002")
+    axes[0].set_title("Quality on v002 validation")
     axes[0].legend()
 
     for model_index, name in enumerate(model_names):
@@ -197,10 +197,10 @@ def write_comparison(
         )
         axes[1].bar_label(bars, fontsize=8)
     axes[1].set_xticks(range(3), error_names)
-    axes[1].set_ylabel("Nombre de boîtes")
+    axes[1].set_ylabel("Number of boxes")
     axes[1].set_title("Point fixe : confiance 0,25 / IoU 0,50")
     axes[1].legend()
-    figure.suptitle("Teachers comparés à résolution identique (640 px, 670 images)")
+    figure.suptitle("Teachers compared at identical resolution (640 px, 670 images)")
     figure.tight_layout()
     figure.savefig(output_root / "comparison.png", dpi=160, bbox_inches="tight")
     plt.close(figure)
@@ -230,7 +230,7 @@ def run(project_root: Path) -> dict[str, Any]:
     }
     results = {}
     for name, weights in models.items():
-        print(f"Évaluation : {name}", flush=True)
+        print(f"Evaluation: {name}", flush=True)
         results[name] = evaluate_teacher(
             weights=weights,
             dataset_yaml=dataset_yaml,

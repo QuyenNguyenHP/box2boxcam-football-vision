@@ -48,7 +48,7 @@ def benchmark_targets(rows, model_key, confidence=.25, matching_iou=.2, cached_m
     predictions; missing boxes must never silently bias the benchmark.
     """
     if confidence < cached_min_confidence:
-        raise ValueError("Le cache est filtré à 0,25 : refaire l'inférence pour un seuil inférieur.")
+        raise ValueError("The cache is filtered at 0.25: re-run inference for a lower threshold.")
     counts = Counter()
     decisions = []
     for row in rows:

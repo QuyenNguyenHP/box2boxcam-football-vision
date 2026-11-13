@@ -30,7 +30,7 @@ class LunaBatchTests(unittest.TestCase):
             "model": "gpt-6-luna", "reasoning_effort": "max",
             "image_detail": "original", "max_output_tokens": 32768,
             "annotation_prompt": "Annotate the visible ball, including held or static balls.",
-            "target_instruction": "Localise le ballon visible dans CURRENT.",
+            "target_instruction": "Locate the visible ball in CURRENT.",
         }
         body = prediction_request_body(
             case=case, file_ids={"0": "file-0", "3": "file-3"}, plan=plan,
@@ -45,7 +45,7 @@ class LunaBatchTests(unittest.TestCase):
             case=case, file_ids={"0": "file-0", "3": "file-3"}, plan=plan,
         )
         self.assertEqual(default["input"][0]["content"], DEVELOPER_PROMPT)
-        self.assertIn("ballon en jeu", default["input"][1]["content"][0]["text"])
+        self.assertIn("ball in play", default["input"][1]["content"][0]["text"])
 
     def test_expired_collection_requires_opt_in(self):
         with patch("pitchlens.data.luna_batch.build_plan", return_value={}), patch(

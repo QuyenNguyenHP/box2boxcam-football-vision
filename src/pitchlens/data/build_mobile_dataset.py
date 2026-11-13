@@ -19,6 +19,8 @@ def select_luna_rows(rows):
     for row in rows:
         if row["split"] not in {"train", "val"}:
             continue
+        # "réponse Luna manquante" ("Luna response missing") is the status value
+        # persisted in existing review tasks; keep it as-is.
         if row["status"] == "negative" and row["luna_status"] == "réponse Luna manquante":
             omitted.append(row)
         else:

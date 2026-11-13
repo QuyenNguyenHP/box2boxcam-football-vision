@@ -35,7 +35,7 @@ def choose_splits(groups: dict[str, Counter]) -> dict[str, str]:
             if best is None or score < best[0]:
                 best = (score, mapping)
     if best is None:
-        raise ValueError("Au moins quatre groupes sont nécessaires")
+        raise ValueError("At least four groups are required")
     return best[1]
 
 
@@ -50,7 +50,7 @@ def build_dataset(root: Path) -> dict:
     with (export / "review_manifest.csv").open(newline="") as stream:
         rows = list(csv.DictReader(stream))
     if len(rows) != 1232 or len({row["item_id"] for row in rows}) != len(rows):
-        raise ValueError("L'export doit contenir les 1232 images uniques soumises")
+        raise ValueError("The export must contain the 1232 unique submitted images")
     tasks = {
         row["data"]["item_id"]: row["data"]
         for row in json.loads((review / "tasks.json").read_text())
@@ -61,7 +61,7 @@ def build_dataset(root: Path) -> dict:
     for row in rows:
         frame = int(row["source_frame"])
         if row["status"] not in {"positive", "negative", "excluded"}:
-            raise ValueError(f"Décision non soumise pour {row['item_id']}")
+            raise ValueError(f"Decision not submitted for {row['item_id']}")
         if row["status"] == "excluded":
             excluded["human_excluded"] += 1
             continue
@@ -70,7 +70,7 @@ def build_dataset(root: Path) -> dict:
             continue
         owners = [group for group in matches if group["start"] <= frame < group["end"]]
         if len(owners) != 1:
-            raise ValueError(f"Groupe ambigu pour {row['item_id']}")
+            raise ValueError(f"Ambiguous group for {row['item_id']}")
         row = dict(row, match_id=owners[0]["id"])
         row["luna_status"] = tasks[row["item_id"]]["luna_status"]
         row["source_image"] = str(review / "frames" / (row["item_id"] + ".jpg"))
@@ -81,7 +81,7 @@ def build_dataset(root: Path) -> dict:
         row["split"] = mapping[row["match_id"]]
     destination = root / "data/processed/luna_v001"
     if destination.exists():
-        raise FileExistsError(f"Dataset immuable déjà présent : {destination}")
+        raise FileExistsError(f"Immutable dataset already present: {destination}")
     # Validate all sources before creating any output.
     for row in selected:
         for path in (Path(row["source_image"]), export / "labels" / (row["item_id"] + ".txt")):
@@ -121,6 +121,7 @@ def build_dataset(root: Path) -> dict:
         "grouping_method": "manual visual inspection; inferred match identities",
         "match_leakage": 0,
         "images_without_luna_answer_submitted_empty": sum(
+            # "réponse Luna manquante" = "Luna response missing" (persisted status value)
             row["luna_status"] == "réponse Luna manquante" and row["status"] == "negative"
             for row in selected
         ),
