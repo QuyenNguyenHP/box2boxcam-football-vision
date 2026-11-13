@@ -1,0 +1,42 @@
+{
+  "experiment_id": "yolo26s_mobile_auto_field_v005_960_20261111",
+  "dataset": "data/processed/mobile_v005",
+  "baseline_dataset": "mobile_v004",
+  "extra_train_sources": [
+    "auto_field_judged_v001"
+  ],
+  "negative_diagnostic_source": "hard_negatives_home_v001",
+  "dataset_repo": "Totorotibo84/pitchlens-mobile-v005-private",
+  "model_repo": "Totorotibo84/pitchlens-yolo26s-mobile-auto-field-v005-960-20261111-private",
+  "previous_weights": "models/checkpoints/baseline_runs/yolo26s_mobile_field_v004_960_20261015/artifacts/best.pt",
+  "reference_key": "small_v004_960",
+  "reference_filename": "inputs/small_v004_960_best.pt",
+  "base_model": "yolo26s.pt",
+  "initialization": "coco_pretrained",
+  "class_name": "sports ball",
+  "sports_ball_transfer": "retain_full_classifier",
+  "imgsz": 960,
+  "epochs": 30,
+  "patience": 8,
+  "batch": 8,
+  "publish_every_epochs": 2,
+  "seed": 42,
+  "optimizer": "AdamW",
+  "lr0": 0.001,
+  "hardware": "a10g-small",
+  "job_timeout": "90m",
+  "repositories_private": true,
+  "include_tv": false,
+  "fixed_confidence": 0.25,
+  "matching_iou": 0.5,
+  "test_split_used_for_selection": false,
+  "classification_hidden_widths": [
+    128,
+    128,
+    128,
+    128,
+    128,
+    128
+  ],
+  "comparison": "Same Small 960 recipe and same 168-image validation as the v004 Small reference (COCO initialization, 30 epochs, seed 42); only change: train adds auto_field_judged_v001 (automatic labels, no human review)"
+}

@@ -221,6 +221,9 @@ def build(root: Path, output: Path | None = None, *, include_tv=False, extra_tra
         report["source_manifests_sha256"][baseline_dataset] = sha256(baseline / "manifest.json")
         for name in extra_train_sources:
             report["source_manifests_sha256"][name] = sha256(root / "data/processed" / name / "review_manifest.json")
+    automatic = sorted({r["source_dataset"] for r in rows if str(r.get("label_source")).startswith("auto_")})
+    if automatic:
+        report["unreviewed_automatic_label_images"] = sum(r["source_dataset"] in automatic for r in rows)
     for name, value in (("manifest.json", rows), ("quarantine.json", omitted),
                         ("build_report.json", report), ("audit.json", result)):
         (output / name).write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
@@ -228,9 +231,13 @@ def build(root: Path, output: Path | None = None, *, include_tv=False, extra_tra
         f"# PitchLens {dataset_name} — private training experiment\n\n"
         "Train: reviewed Luna compilation + Lou Mistrau personal train"
         + (" + the 3048 curated Infactory train images" if include_tv else "")
-        + (" + reviewed extras: " + ", ".join(extra_train_sources) if extra_train_sources else "")
+        + (" + reviewed extras: " + ", ".join(n for n in extra_train_sources if n not in automatic)
+           if set(extra_train_sources) - set(automatic) else "")
+        + (" + automatically judged extras: " + ", ".join(automatic) if automatic else "")
         + ". Validation: the original separate Luna match groups; no reserved test images.\n\n"
-        "Ambiguous empty labels from missing Luna answers are quarantined, not silently used "
+        + ("WARNING: labels of " + ", ".join(automatic) + " were judged automatically; NO human reviewed them.\n\n"
+           if automatic else "")
+        + "Ambiguous empty labels from missing Luna answers are quarantined, not silently used "
         "as negatives. Existing reviewed exports are unchanged. Human-corrected positive "
         "labels remain included even if the original Luna answer was missing.\n\n"
         "Images use hardlinks; do not edit them in place. `manifest.json` records origin, "
