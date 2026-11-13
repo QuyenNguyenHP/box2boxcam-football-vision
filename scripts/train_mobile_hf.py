@@ -148,9 +148,9 @@ def main():
         for i in range(2):
             for j in range(2):
                 axis.text(j, i, "—" if np.isnan(values[i, j]) else str(int(values[i, j])), ha="center", va="center")
-        axis.set(xticks=[0, 1], yticks=[0, 1], xticklabels=["Ballon réel", "Aucun objet associé"],
-                 yticklabels=["Ballon prédit", "Ballon manqué"], xlabel="Annotation", ylabel="Prédiction",
-                 title=f"{name} — conf ≥ 0,25 ; IoU ≥ 0,50")
+        axis.set(xticks=[0, 1], yticks=[0, 1], xticklabels=["Real ball", "No matching object"],
+                 yticklabels=["Predicted ball", "Missed ball"], xlabel="Annotation", ylabel="Prediction",
+                 title=f"{name} — conf >= 0.25; IoU >= 0.50")
         fig.tight_layout()
         fig.savefig(artifacts / "evaluation" / name / "fixed_confusion_matrix.png", dpi=130)
         plt.close(fig)

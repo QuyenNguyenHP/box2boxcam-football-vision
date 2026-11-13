@@ -239,7 +239,7 @@ def write_plot(results: dict[str, dict]) -> None:
     metric_series = {
         "mAP50": [results[key]["map50"] for key in resolutions],
         "mAP50–95": [results[key]["map50_95"] for key in resolutions],
-        "Précision": [results[key]["fixed"]["precision"] for key in resolutions],
+        "Precision": [results[key]["fixed"]["precision"] for key in resolutions],
         "Rappel": [results[key]["fixed"]["recall"] for key in resolutions],
         "F1": [results[key]["fixed"]["f1"] for key in resolutions],
     }
@@ -248,9 +248,9 @@ def write_plot(results: dict[str, dict]) -> None:
         for resolution, value in zip(resolutions, values, strict=True):
             axes[0].annotate(f"{value:.1%}", (resolution, value), fontsize=8)
     axes[0].set_ylim(0, 0.85)
-    axes[0].set_xlabel("Résolution d'inférence")
+    axes[0].set_xlabel("Inference resolution")
     axes[0].set_ylabel("Score")
-    axes[0].set_title("Qualité globale — validation v002")
+    axes[0].set_title("Overall quality: v002 validation")
     axes[0].legend()
     axes[0].grid(alpha=0.2)
 
@@ -258,7 +258,7 @@ def write_plot(results: dict[str, dict]) -> None:
         "tiny_<8px": "Tiny <8 px",
         "small_8-16px": "Small 8–16 px",
         "medium_16-32px": "Medium 16–32 px",
-        "large_>=32px": "Large ≥32 px",
+        "large_>=32px": "Large >=32 px",
     }
     for category, label in size_labels.items():
         values = [
@@ -270,12 +270,12 @@ def write_plot(results: dict[str, dict]) -> None:
             if value is not None:
                 axes[1].annotate(f"{value:.1%}", (resolution, value), fontsize=8)
     axes[1].set_ylim(0, 1.0)
-    axes[1].set_xlabel("Résolution d'inférence")
-    axes[1].set_ylabel("Rappel à confiance 0,25 / IoU 0,50")
-    axes[1].set_title("Rappel selon la taille du ballon à 640 px")
+    axes[1].set_xlabel("Inference resolution")
+    axes[1].set_ylabel("Recall at confidence 0.25 / IoU 0.50")
+    axes[1].set_title("Recall by ball size at 640 px")
     axes[1].legend()
     axes[1].grid(alpha=0.2)
-    figure.suptitle("Même YOLO26x adapté, seule la résolution change")
+    figure.suptitle("Same fine-tuned YOLO26x, only the resolution changes")
     figure.tight_layout()
     figure.savefig(ARTIFACT_ROOT / "comparison.png", dpi=170, bbox_inches="tight")
     plt.close(figure)

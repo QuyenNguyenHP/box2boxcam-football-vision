@@ -50,7 +50,7 @@ def import_review(root: Path, source: Path):
     active_model = "gpt-6-luna" if all(
         any(p["model_version"] == "gpt-6-luna" for p in task["predictions"])
         for task in tasks
-    ) else "YOLO26n v003 960px — propositions"
+    ) else "YOLO26n v003 960px proposals"
     project = matches[0] if matches else request("/api/projects/", "POST", {
         "title": TITLE, "label_config": config,
         "description": "22 private clips, one session. All visible balls including stationary sideline balls. Independent YOLO v003 and Luna proposals; human review required before training.",

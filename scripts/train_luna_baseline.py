@@ -68,7 +68,7 @@ def main():
     build = json.loads((data_root / "build_report.json").read_text())
     checked = audit(data_root, target_size=args.imgsz)
     if checked["issues_count"] or checked["images"] != build["images"]:
-        raise ValueError("Échec de l'audit du dataset")
+        raise ValueError("Dataset audit failed")
     run = args.output or ROOT / "models/checkpoints/baseline_runs" / (
         "yolo26n_luna_v001_" + datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
     )
@@ -106,14 +106,14 @@ def main():
     try:
         print(f"Run : {run}\nDataset : {build['images']} images, 10 groupes de matchs", flush=True)
         for label, weights in (("pretrained", pretrained), ("v002", previous)):
-            print(f"Validation avant — {label}", flush=True)
+            print(f"Pre-training validation: {label}", flush=True)
             report["validation"][label] = evaluate(weights, dataset, run, "val", "val_" + label, args.imgsz)
             save_report()
         model = YOLO(str(pretrained))
 
         def progress(trainer):
             print(
-                f"Époque {trainer.epoch + 1}/{args.epochs} — "
+                f"Epoch {trainer.epoch + 1}/{args.epochs} — "
                 f"mAP50 val={trainer.metrics.get('metrics/mAP50(B)', 0):.3f}",
                 flush=True,
             )
@@ -133,7 +133,7 @@ def main():
         save_report()
         # Test is accessed only after fitting/selection of best.pt is finished.
         for label, weights in (("pretrained", pretrained), ("v002", previous), ("luna", best)):
-            print(f"Test final commun — {label}", flush=True)
+            print(f"Common final test: {label}", flush=True)
             report["test"][label] = evaluate(weights, dataset, run, "test", "test_" + label, args.imgsz)
             save_report()
         with (run / "train/results.csv").open() as stream:

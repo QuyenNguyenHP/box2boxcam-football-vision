@@ -113,7 +113,7 @@ def main():
         label_config = original["label_config"]
         if args.dataset == "closeups":
             label_config = label_config.replace(
-                "vérification du ballon en jeu", "vérification du ballon visible — gros plans"
+                "in-play ball check", "visible-ball check: close-ups"
             )
         project = _label_studio_request(
             f"{BASE}/api/projects/", token, method="POST", payload={

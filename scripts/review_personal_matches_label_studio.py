@@ -158,11 +158,11 @@ def view_specs(role):
         }
 
     if role == "test":
-        return [("Test — tout corriger (sans seuil)", [])]
+        return [("Test: fix everything (no threshold)", [])]
     return [
-        ("Train — toutes les images", []),
+        ("Train: all images", []),
         (
-            "Train — seuil réglable",
+            "Train: adjustable threshold",
             [
                 score_filter("greater_or_equal"),
                 {
@@ -173,7 +173,7 @@ def view_specs(role):
                 },
             ],
         ),
-        ("Train — cas difficiles (< 0,94)", [score_filter("less")]),
+        ("Train: hard cases (< 0.94)", [score_filter("less")]),
     ]
 
 

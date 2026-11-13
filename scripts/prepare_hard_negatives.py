@@ -143,16 +143,16 @@ def freeze(root, config, *, confirm_negative):
                         ("audit.json", validation), ("config.json", config)):
         _atomic_json(staging / name, value)
     (staging / "README.md").write_text(
-        "# Négatifs difficiles — maison\n\n"
-        f"{len(rows)} images sans ballon, issues des neuf clips IMG_7016–IMG_7024. "
-        "Absence de ballon confirmée par l'utilisateur ; inspection de début/milieu "
-        "de chaque clip. Une image sur six, JPEG 95, résolution et orientation préservées.\n\n"
-        "labels/ contient explicitement des fichiers vides. Aucune classe négative "
-        "ni annotation Luna. images/ partage les JPEG par liens physiques. "
-        "Le manifeste conserve vidéo, frame, présentation temporelle et empreintes.\n\n"
-        "Toutes ces candidates sont destinées au train. Une évaluation dessus décrit "
-        "l'apprentissage, pas la généralisation à d'autres objets ou scènes. "
-        "Sources et autres exports conservés. Dataset privé, figé.\n")
+        "# Hard negatives: home\n\n"
+        f"{len(rows)} images without a ball, taken from the nine clips IMG_7016-IMG_7024. "
+        "Absence of a ball confirmed by the owner; start/middle of "
+        "each clip inspected. One frame in six, JPEG 95, resolution and orientation preserved.\n\n"
+        "labels/ explicitly contains empty files. No negative class "
+        "and no Luna annotation. images/ shares the JPEGs through hard links. "
+        "The manifest keeps video, frame, presentation time and hashes.\n\n"
+        "All these candidates are meant for train. An evaluation on them describes "
+        "training fit, not generalization to other objects or scenes. "
+        "Sources and other exports kept. Private, frozen dataset.\n")
     if output.exists():
         raise FileExistsError("Output appeared during export")
     staging.rename(output)

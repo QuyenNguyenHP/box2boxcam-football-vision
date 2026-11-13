@@ -20,23 +20,23 @@ from pitchlens.data.label_studio_review import (
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     actions = parser.add_subparsers(dest="action", required=True)
-    actions.add_parser("prepare", help="Créer les images et les tâches Label Studio")
-    actions.add_parser("sync", help="Ajouter les réponses Luna de rattrapage sans doublons")
-    actions.add_parser("serve", help="Démarrer Label Studio sur localhost:8080")
+    actions.add_parser("prepare", help="Create the images and Label Studio tasks")
+    actions.add_parser("sync", help="Add the catch-up Luna responses without duplicates")
+    actions.add_parser("serve", help="Start Label Studio on localhost:8080")
     local_export = actions.add_parser(
-        "export-local", help="Exporter toutes les tâches locales et convertir la revue en YOLO"
+        "export-local", help="Export all local tasks and convert the review to YOLO"
     )
-    local_export.add_argument("output_dir", type=Path, help="Nouveau dossier de sortie")
-    export = actions.add_parser("export", help="Convertir les corrections en YOLO")
-    export.add_argument("json_file", type=Path, help="Export JSON de Label Studio")
-    export.add_argument("output_dir", type=Path, help="Nouveau dossier de sortie")
+    local_export.add_argument("output_dir", type=Path, help="New output directory")
+    export = actions.add_parser("export", help="Convert the corrections to YOLO")
+    export.add_argument("json_file", type=Path, help="Label Studio JSON export")
+    export.add_argument("output_dir", type=Path, help="New output directory")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     review_root = root / "data/interim/gpt6_luna_label_studio_review"
     if args.action == "serve":
         executable = root / ".venv-label-studio/bin/label-studio"
         if not executable.is_file():
-            raise FileNotFoundError(f"Label Studio n'est pas installé : {executable}")
+            raise FileNotFoundError(f"Label Studio is not installed: {executable}")
         env = os.environ.copy()
         env.update({
             "LABEL_STUDIO_DISABLE_UPDATES": "true",
@@ -74,7 +74,7 @@ def main() -> None:
             expected_ids = {str(case["item_id"]) for case in plan["cases"]}
             tasks = download_local_export(token=token)
             if {str(task["data"]["item_id"]) for task in tasks} != expected_ids:
-                raise ValueError("L'export local ne contient pas le plan complet")
+                raise ValueError("The local export does not contain the full plan")
             with tempfile.TemporaryDirectory(prefix="pitchlens-review-") as directory:
                 temporary_json = Path(directory) / "all_tasks.json"
                 temporary_json.write_text(json.dumps(tasks, ensure_ascii=False))

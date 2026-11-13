@@ -18,16 +18,16 @@ from pitchlens.data.luna_batch import (
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Annoter des triplets vidéo avec GPT-6 Luna via Batch API."
+        description="Annotate video frame triplets with GPT-6 Luna through the Batch API."
     )
     parser.add_argument(
         "action", choices=("plan", "submit", "status", "collect", "cleanup")
     )
-    parser.add_argument("config", type=Path, help="Configuration TOML du run")
+    parser.add_argument("config", type=Path, help="TOML run configuration")
     parser.add_argument(
         "--force",
         action="store_true",
-        help="Autoriser cleanup avant une collecte réussie",
+        help="Allow cleanup before a successful collection",
     )
     args = parser.parse_args()
 

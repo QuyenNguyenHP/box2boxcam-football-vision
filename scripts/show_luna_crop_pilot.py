@@ -62,7 +62,7 @@ def main():
             ]
             for variant, title in (
                 ("zoom", "Zoom seul"),
-                ("zoom_grid", "Zoom + repères"),
+                ("zoom_grid", "Zoom + reference marks"),
             ):
                 result = by_case.get((case["item_id"], variant))
                 if result:
@@ -78,7 +78,7 @@ def main():
                         )
                     )
                 else:
-                    options.append((title, None, None, "réponse non exploitable"))
+                    options.append((title, None, None, "unusable response"))
             for column, (title, box, confidence, note) in enumerate(options):
                 ax = axes[row_index][column]
                 ax.imshow(pixels)
@@ -112,7 +112,7 @@ def main():
                     )
             pixels.close()
         fig.suptitle(
-            "Même zoom propre, trois propositions — aucune référence humaine",
+            "Same clean zoom, three proposals; no human reference",
             fontsize=13,
         )
         fig.tight_layout(rect=(0, 0, 1, 0.98), h_pad=3)

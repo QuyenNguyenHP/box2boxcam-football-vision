@@ -1,13 +1,13 @@
 <View>
-  <Header value="PitchLens — TOUS les ballons visibles" />
-  <Header value="Inclure les ballons immobiles, de réserve, sur les bords et près des cages. Une boîte par ballon visible, même partiellement. Corriger les faux positifs et ajouter les omissions." size="4" />
+  <Header value="PitchLens — ALL visible balls" />
+  <Header value="Include stationary balls, spare balls, balls at the edges and near the goals. One box per visible ball, even if partially visible. Fix false positives and add missed balls." size="4" />
   <Text name="frame_info" value="$frame_info" />
   <Image name="image" value="$image" maxWidth="1400px" zoom="true" zoomControl="true" />
   <Rectangle name="bbox" toName="image" strokeColor="#e11d48" strokeWidth="1" opacity="0.05" canRotate="false" />
   <Choices name="decision" toName="image" choice="single" showInLine="true">
     <Choice value="Exclure image" />
   </Choices>
-  <Header value="Propositions à vérifier" size="4" />
+  <Header value="Proposals to check" size="4" />
   <Text name="luna_context" value="$luna_context" />
   <Text name="teacher_context" value="$teacher_context" />
 </View>

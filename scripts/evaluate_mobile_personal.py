@@ -38,8 +38,8 @@ def draw_matrix(fixed, path, title):
     for i in range(2):
         for j in range(2):
             axis.text(j, i, "—" if np.isnan(values[i, j]) else str(int(values[i, j])), ha="center", va="center")
-    axis.set(xticks=[0, 1], yticks=[0, 1], xticklabels=["Ballon réel", "Fond"],
-             yticklabels=["Ballon prédit", "Manqué"], title=title)
+    axis.set(xticks=[0, 1], yticks=[0, 1], xticklabels=["Real ball", "Background"],
+             yticklabels=["Predicted ball", "Missed"], title=title)
     fig.tight_layout()
     fig.savefig(path, dpi=130)
     plt.close(fig)
@@ -102,7 +102,7 @@ def make_video(weights, source, output, confidence=.25, size=960):
                 predictions.append({"source_frame": processed, "selected": selected})
                 processed += 1
                 if processed % 150 == 0:
-                    print(f"Vidéo : {processed}/{total} images", flush=True)
+                    print(f"Video: {processed}/{total} images", flush=True)
             if processed != total:
                 raise RuntimeError(f"Incomplete video decode: {processed}/{total}")
         except BrokenPipeError as error:
@@ -192,7 +192,7 @@ def main():
 
     save()
     for key, path in weights.items():
-        print(f"Test détecteur — {key} @960, batch 1 CPU", flush=True)
+        print(f"Detector test: {key} @960, batch 1 CPU", flush=True)
         model = YOLO(str(path))
         started = time.perf_counter()
         with quiet_ultralytics_progress():
@@ -201,7 +201,7 @@ def main():
                                max_det=100, plots=True, verbose=False, project=str(output), name=key, exist_ok=False)
         report["detection"][key] = {"map50": float(result.box.map50), "map50_95": float(result.box.map),
                                     "fixed": result.fixed_threshold, "seconds": time.perf_counter() - started}
-        draw_matrix(result.fixed_threshold, output / key / "fixed_confusion_matrix.png", key + " — conf 0,25 ; IoU 0,50")
+        draw_matrix(result.fixed_threshold, output / key / "fixed_confusion_matrix.png", key + " — conf 0.25; IoU 0.50")
         print(json.dumps(report["detection"][key], indent=2), flush=True)
         save()
         # Cache per-image predictions once for the looser camera-target metric.
@@ -222,11 +222,11 @@ def main():
     (output / "predictions.json").write_text(json.dumps(rows, indent=2) + "\n")
     report["metrics_status"] = "complete"
     save()
-    print("Création de la vidéo complète — une frame à la fois", flush=True)
+    print("Creating the full video, one frame at a time", flush=True)
     report["video"] = make_video(weights["mobile"], source, output / "lou_mistrau_nano960_ball.mp4")
     report["status"] = "complete"
     save()
-    print(f"Terminé : {output}", flush=True)
+    print(f"Done: {output}", flush=True)
 
 
 if __name__ == "__main__":

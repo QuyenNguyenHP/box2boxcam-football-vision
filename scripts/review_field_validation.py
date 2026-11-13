@@ -118,7 +118,7 @@ def make_tasks(config_path):
             if not row:
                 task["predictions"] = []
                 task["data"]["luna_context"] = (
-                    "Propositions Luna en attente. Une tâche vide ne signifie pas une image sans ballon."
+                    "Luna proposals pending. An empty task does not mean an image without a ball."
                 )
             else:
                 prediction = task["predictions"][0]
