@@ -63,7 +63,7 @@
       },
       "hardware_price_usd_per_hour": 1.0000200000000001,
       "result_revision": "1a6ece0b91de8e87634f0366fea88acfcaa4380d",
-      "local_result": "/Users/thibaultgillard/Documents/Projet_perso/pitchlens/models/checkpoints/baseline_runs/yolo26n_mobile_field_v004_1280_20261015"
+      "local_result": "models/checkpoints/baseline_runs/yolo26n_mobile_field_v004_1280_20261015"
     },
     {
       "job_id": "6ad14bd6c662881452255e2c",
@@ -116,7 +116,7 @@
       },
       "hardware_price_usd_per_hour": 1.0000200000000001,
       "result_revision": "bead736a5ceea086ffc3d46f315ba8fb57f8179d",
-      "local_result": "/Users/thibaultgillard/Documents/Projet_perso/pitchlens/models/checkpoints/baseline_runs/yolo26s_mobile_field_v004_960_20261015"
+      "local_result": "models/checkpoints/baseline_runs/yolo26s_mobile_field_v004_960_20261015"
     }
   ],
   "status": "complete",
@@ -152,7 +152,7 @@
       "epochs": 30,
       "best_epoch": 28,
       "training_seconds": 1531.105608092,
-      "best_weights": "/Users/thibaultgillard/Documents/Projet_perso/pitchlens/models/checkpoints/baseline_runs/yolo26n_mobile_field_v004_960_20261014/artifacts/best.pt",
+      "best_weights": "models/checkpoints/baseline_runs/yolo26n_mobile_field_v004_960_20261014/artifacts/best.pt",
       "best_weights_sha256": "cd3ad62956b77987d830414231fcaa9246350cb8caaaace8c3923b6213d38a71",
       "dataset_revision": "77c48dac63cd314bd3d0a54b9d2caf2be0ed4641"
     },
@@ -186,7 +186,7 @@
       "epochs": 15,
       "best_epoch": 7,
       "training_seconds": 1147.5206801180002,
-      "best_weights": "/Users/thibaultgillard/Documents/Projet_perso/pitchlens/models/checkpoints/baseline_runs/yolo26n_mobile_field_v004_1280_20261015/artifacts/best.pt",
+      "best_weights": "models/checkpoints/baseline_runs/yolo26n_mobile_field_v004_1280_20261015/artifacts/best.pt",
       "best_weights_sha256": "0e1857301cf93a3cd7350d1a6eb428c51e8d75afb56c8304af7bc06c156be4df",
       "dataset_revision": "77c48dac63cd314bd3d0a54b9d2caf2be0ed4641"
     },
@@ -220,7 +220,7 @@
       "epochs": 26,
       "best_epoch": 18,
       "training_seconds": 1506.326444236,
-      "best_weights": "/Users/thibaultgillard/Documents/Projet_perso/pitchlens/models/checkpoints/baseline_runs/yolo26s_mobile_field_v004_960_20261015/artifacts/best.pt",
+      "best_weights": "models/checkpoints/baseline_runs/yolo26s_mobile_field_v004_960_20261015/artifacts/best.pt",
       "best_weights_sha256": "988d751f751ad166b92f449e4eee8b26e6b81059ddc7f17610d5c1ee4c8c40d0",
       "dataset_revision": "77c48dac63cd314bd3d0a54b9d2caf2be0ed4641"
     }

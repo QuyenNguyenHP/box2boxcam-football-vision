@@ -30,7 +30,7 @@
   "job_url": "https://huggingface.co/jobs/Totorotibo84/6aca4776fee2c9007018867a",
   "message": null,
   "result_revision": "9e458990fb19ea78e445c0455b9d762eb8ec37aa",
-  "local_result": "/Users/thibaultgillard/Documents/Projet_perso/pitchlens/models/checkpoints/baseline_runs/yolo26n_mobile_v001_960_20261010",
+  "local_result": "models/checkpoints/baseline_runs/yolo26n_mobile_v001_960_20261010",
   "validation": {
     "pretrained": {
       "map50": 0.39337164612221676,
