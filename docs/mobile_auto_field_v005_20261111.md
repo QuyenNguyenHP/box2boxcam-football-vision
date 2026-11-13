@@ -4,7 +4,7 @@ Small v005 adds 196 iPhone images whose labels were judged automatically (no hum
 
 ## New source
 
-`auto_field_judged_v001`: 208 unreviewed iPhone images (the 12 October match and `lou_mistrau` clips from 30 September and 7 October), absent from `mobile_v004`, the validation set, the reserved test clip and the reserved 14 October session. Their 999 candidates (full-frame detector, tiled detector, Luna) were judged on zoomed crops by a vision model: 179 `ball`, 650 `not_ball`, 170 `unsure`.
+`auto_field_judged_v001`: 208 unreviewed iPhone images (the 12 October match and `club_match` clips from 30 September and 7 October), absent from `mobile_v004`, the validation set, the reserved test clip and the reserved 14 October session. Their 999 candidates (full-frame detector, tiled detector, Luna) were judged on zoomed crops by a vision model: 179 `ball`, 650 `not_ball`, 170 `unsure`.
 
 **No human checked these labels.** The `label_source` field is `auto_judged_claude_sonnet` in the manifests, and the `mobile_v005` README says so.
 
@@ -23,7 +23,7 @@ Blind against human labels, on detector candidates, the judge is right 98.7% of 
 
 A ball proposed by neither the detector nor Luna stays unannotated and becomes background.
 
-A quick visual check of the 84 `not_ball` kept with detector confidence >= 0.6 found candidate 150 (`2026-09-30_lou_mistrau_19h38m04_frame_00002412`, confidence 0.65) to be a real blurred ball at a player's foot, trained here as background. A few others (931, 451, 248) remain ambiguous. This rate is compatible with the calibration, but these errors land precisely on hard negatives.
+A quick visual check of the 84 `not_ball` kept with detector confidence >= 0.6 found candidate 150 (`2026-09-30_club_match_19h38m04_frame_00002412`, confidence 0.65) to be a real blurred ball at a player's foot, trained here as background. A few others (931, 451, 248) remain ambiguous. This rate is compatible with the calibration, but these errors land precisely on hard negatives.
 
 ## Numbers
 
@@ -38,7 +38,7 @@ A quick visual check of the 84 `not_ball` kept with detector confidence >= 0.6 f
 | Masked images / masks | 106 / 148 |
 | `not_ball` kept with detector confidence >= 0.25 | 310 |
 
-By match: 12 October session 138 images (87 positive, 125 boxes), `lou_mistrau` 7 October 40 (23 positive, 36 boxes), `lou_mistrau` 30 September 18 (9 positive, 14 boxes).
+By match: 12 October session 138 images (87 positive, 125 boxes), `club_match` 7 October 40 (23 positive, 36 boxes), `club_match` 30 September 18 (9 positive, 14 boxes).
 
 `mobile_v005` reuses `mobile_v004` unchanged and adds the source to train: 3,002 train images (2,534 positive, 468 negative) and the same 168 validation images. Image/label hashes of validation are identical to v004.
 

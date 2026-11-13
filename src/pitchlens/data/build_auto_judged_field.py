@@ -102,7 +102,7 @@ def video_sources(root: Path) -> dict:
     field = json.loads((root / "data/interim/gpt6_luna_field_all_balls_20261014/source_manifest.json").read_text())
     videos = {Path(v["file"]).stem: {"source_video": v["source_video"], "source_video_sha256": v["sha256"]}
               for v in field["videos"]}
-    for row in json.loads((root / "data/processed/lou_mistrau_train_v001/review_manifest.json").read_text()):
+    for row in json.loads((root / "data/processed/club_match_train_v001/review_manifest.json").read_text()):
         videos[row["video_id"]] = {"source_video": row["source_video"],
                                    "source_video_sha256": row["source_video_sha256"]}
     return videos

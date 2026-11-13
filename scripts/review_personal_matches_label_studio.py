@@ -23,17 +23,17 @@ from pitchlens.data.luna_batch import _atomic_json
 
 BASE = "http://127.0.0.1:8080"
 TITLES = {
-    "train": "PitchLens — Lou Mistrau — TRAIN",
-    "test": "PitchLens — Lou Mistrau — TEST (30 septembre)",
+    "train": "PitchLens — club match — TRAIN",
+    "test": "PitchLens — club match — TEST (30 septembre)",
 }
 
 
 def prepare(root: Path):
     import cv2
 
-    source = root / "data/interim/gpt6_luna_lou_mistrau_20261008"
+    source = root / "data/interim/gpt6_luna_club_match_20261008"
     shared = root / "data/interim/gpt6_luna_label_studio_review"
-    output = shared / "lou_mistrau_20261008"
+    output = shared / "club_match_20261008"
     frames = output / "frames"
     prediction_path = source / "predictions.json"
     predictions = json.loads(prediction_path.read_text())["predictions"]
@@ -118,7 +118,7 @@ def prepare(root: Path):
                 raise ValueError(f"Unknown intended split: {role}")
             task["data"].update(
                 {
-                    "image": f"/data/local-files/?d=lou_mistrau_20261008/frames/{row['item_id']}.jpg",
+                    "image": f"/data/local-files/?d=club_match_20261008/frames/{row['item_id']}.jpg",
                     "video_id": video_id,
                     "source_video": row["source_video"],
                     "image_path": str(
@@ -196,7 +196,7 @@ def import_projects(root, output, tasks):
     for role, title in TITLES.items():
         aliases = {title}
         if role == "train":
-            aliases.add("PitchLens — Lou Mistrau — TRAIN (7 octobre)")
+            aliases.add("PitchLens — club match — TRAIN (7 octobre)")
         matches = [p for p in old_projects if p["title"] in aliases]
         if len(matches) > 1:
             raise ValueError("Ambiguous existing project title")
@@ -233,7 +233,7 @@ def import_projects(root, output, tasks):
                 {
                     "project": project_id,
                     "path": str(output / "frames"),
-                    "title": "Lou Mistrau review images",
+                    "title": "club match review images",
                     "regex_filter": "^$",
                     "use_blob_urls": True,
                     "recursive_scan": False,

@@ -9,7 +9,7 @@ Nano v004 retrains from COCO on `mobile_v003` plus 148 human-annotated frames of
 | Source | Train | Validation |
 |---|---:|---:|
 | Base Luna compilation | 739 | 168 |
-| Personal `lou_mistrau` footage | 808 | 0 |
+| Personal `club_match` footage | 808 | 0 |
 | Already-reviewed shorts | 603 | 0 |
 | Close-up balls | 445 | 0 |
 | False positives: videos with no ball | 63 | 0 |

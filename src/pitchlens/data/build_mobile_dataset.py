@@ -98,7 +98,7 @@ def build(root: Path, output: Path | None = None, *, include_tv=False, extra_tra
     if baseline_dataset != "mobile_v001" and (include_tv or not extra_train_sources):
         raise ValueError("A different baseline is supported only for additive modern enrichment")
     luna = root / "data/processed/luna_v001"
-    personal = root / "data/processed/lou_mistrau_train_v001"
+    personal = root / "data/processed/club_match_train_v001"
     baseline = root / "data/processed" / baseline_dataset
     if include_tv:
         # Freeze exactly the first experiment, not a fresh selection or split.
@@ -127,10 +127,10 @@ def build(root: Path, output: Path | None = None, *, include_tv=False, extra_tra
         for row in json.loads((personal / "review_manifest.json").read_text()):
             if row["split"] == "train":
                 rows.append({key: row[key] for key in ("item_id", "match_id", "split", "status", "source_frame", "label_source")}
-                            | {"source_dataset": "lou_mistrau_train_v001"})
+                            | {"source_dataset": "club_match_train_v001"})
     assert_no_reserved_training(root, rows)
     check_groups(rows)
-    reserved_directories = [luna / "test/images", root / "data/processed/lou_mistrau_test_v001/test/images"]
+    reserved_directories = [luna / "test/images", root / "data/processed/club_match_test_v001/test/images"]
     if include_tv:
         reserved_directories.extend(root / "data/processed/v002" / split / "images" for split in ("val", "test"))
     test_hashes = {
@@ -190,7 +190,7 @@ def build(root: Path, output: Path | None = None, *, include_tv=False, extra_tra
         "image_storage": "hardlinks to immutable reviewed exports",
         "visibility": "private experiment; no new public distribution",
         "source_manifests_sha256": {"luna_v001": sha256(luna / "manifest.csv"),
-                                    "lou_mistrau_train_v001": sha256(personal / "review_manifest.json")},
+                                    "club_match_train_v001": sha256(personal / "review_manifest.json")},
     }
     if include_tv:
         base_rows = json.loads((baseline / "manifest.json").read_text())
@@ -231,7 +231,7 @@ def build(root: Path, output: Path | None = None, *, include_tv=False, extra_tra
         (output / name).write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
     (output / "README.md").write_text(
         f"# PitchLens {dataset_name} — private training experiment\n\n"
-        "Train: reviewed Luna compilation + Lou Mistrau personal train"
+        "Train: reviewed Luna compilation + club match personal train"
         + (" + the 3048 curated Infactory train images" if include_tv else "")
         + (" + reviewed extras: " + ", ".join(n for n in extra_train_sources if n not in automatic)
            if set(extra_train_sources) - set(automatic) else "")

@@ -109,7 +109,7 @@ Training needs the datasets, which are published separately (see below), and a H
 
 ## Data provenance and privacy
 
-- Own footage (amateur matches filmed with an iPhone), faces blurred before publication. Folder names such as `lou_mistrau_*` are session labels of this footage.
+- Own footage (amateur matches filmed with an iPhone), faces blurred before publication. Folder names such as `club_match_*` are session labels of this footage.
 - Third-party clips are referenced by URL only (`configs/video_download_sources.json`); they are never redistributed.
 - Public datasets used: see [docs/dataset_assessment.md](docs/dataset_assessment.md).
 - Frames were sent to third-party model APIs (the `gpt-6-luna` multimodal model, and Claude for judging candidates) to propose ball boxes. These proposals are not ground truth; human review is described in the docs.

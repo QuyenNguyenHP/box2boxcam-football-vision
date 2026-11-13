@@ -143,7 +143,7 @@ def main():
     training_report = json.loads((run / "training_report.json").read_text())
     if training_report["status"] != "complete" or training_report["test_split_used"]:
         raise RuntimeError("Training must be complete and selected on validation only")
-    dataset = ROOT / "data/processed/lou_mistrau_test_v001"
+    dataset = ROOT / "data/processed/club_match_test_v001"
     build = json.loads((dataset / "build_report.json").read_text())
     source = ROOT / build["source_video"]
     if sha256(source) != build["source_video_sha256"]:
@@ -163,7 +163,7 @@ def main():
             raise ValueError("Weights changed since the frozen final evaluation")
         torch.set_num_threads(4)
         cv2.setNumThreads(2)
-        report["video"] = make_video(weights["mobile"], source, output / "lou_mistrau_nano960_ball.mp4")
+        report["video"] = make_video(weights["mobile"], source, output / "club_match_nano960_ball.mp4")
         report["status"] = "complete"
         (output / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
         print(f"Video complete; test metrics unchanged: {output}", flush=True)
@@ -223,7 +223,7 @@ def main():
     report["metrics_status"] = "complete"
     save()
     print("Creating the full video, one frame at a time", flush=True)
-    report["video"] = make_video(weights["mobile"], source, output / "lou_mistrau_nano960_ball.mp4")
+    report["video"] = make_video(weights["mobile"], source, output / "club_match_nano960_ball.mp4")
     report["status"] = "complete"
     save()
     print(f"Done: {output}", flush=True)

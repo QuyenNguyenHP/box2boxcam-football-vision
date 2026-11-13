@@ -27,9 +27,9 @@ from pitchlens.data.label_studio_review import (
 )
 
 THRESHOLDS = {
-    "2026-09-30_lou_mistrau_19h38m04": 0.86,
-    "2026-10-07_lou_mistrau_20h40m43": 0.88,
-    "2026-10-07_lou_mistrau_20h47m20": 0.88,
+    "2026-09-30_club_match_19h38m04": 0.86,
+    "2026-10-07_club_match_20h40m43": 0.88,
+    "2026-10-07_club_match_20h47m20": 0.88,
 }
 
 
@@ -63,8 +63,8 @@ def build(root: Path, output: Path, *, confirm_reviewed: bool) -> dict:
         raise FileExistsError(f"Frozen dataset already exists: {output}")
     shared = root / "data/interim/gpt6_luna_label_studio_review"
     proposal_paths = [
-        shared / "lou_mistrau_20261008/tasks_train.json",
-        shared / "gpt6_luna_lou_mistrau_long_train_20261009/tasks.json",
+        shared / "club_match_20261008/tasks_train.json",
+        shared / "gpt6_luna_club_match_long_train_20261009/tasks.json",
     ]
     proposals = [p for path in proposal_paths for p in json.loads(path.read_text())]
     expected = {p["data"]["item_id"]: p for p in proposals}
@@ -93,14 +93,14 @@ def build(root: Path, output: Path, *, confirm_reviewed: bool) -> dict:
     live_by_id = {t["data"]["item_id"]: t for t in listed}
     if len(live_by_id) != len(listed) or set(live_by_id) != set(expected):
         raise ValueError("Live/export task inventories differ")
-    test_root = root / "data/processed/lou_mistrau_test_v001"
+    test_root = root / "data/processed/club_match_test_v001"
     test_rows = json.loads((test_root / "review_manifest.json").read_text())
     if set(ids) & {row["item_id"] for row in test_rows}:
         raise ValueError("Test frames found in train")
     predictions = {}
     source_paths = [
-        root / "data/interim/gpt6_luna_lou_mistrau_20261008/predictions.json",
-        root / "data/interim/gpt6_luna_lou_mistrau_long_train_20261009/predictions.json",
+        root / "data/interim/gpt6_luna_club_match_20261008/predictions.json",
+        root / "data/interim/gpt6_luna_club_match_long_train_20261009/predictions.json",
     ]
     for path in source_paths:
         for p in json.loads(path.read_text())["predictions"]:
@@ -142,7 +142,7 @@ def build(root: Path, output: Path, *, confirm_reviewed: bool) -> dict:
                 and r["luna_confidence"] < r["confidence_threshold"] for r in kept
             ),
         }
-    failure_path = root / "data/interim/gpt6_luna_lou_mistrau_long_train_20261009/2026-09-30_lou_mistrau_19h38m04/failures.json"
+    failure_path = root / "data/interim/gpt6_luna_club_match_long_train_20261009/2026-09-30_club_match_19h38m04/failures.json"
     failures = json.loads(failure_path.read_text())["failures"]
     report = {
         "created_at": datetime.now(UTC).isoformat(), "dataset": str(output),
@@ -192,7 +192,7 @@ def build(root: Path, output: Path, *, confirm_reviewed: bool) -> dict:
     _save_json(staging / "build_report.json", report)
     _save_json(staging / "audit.json", validation)
     (staging / "README.md").write_text(
-        "# lou_mistrau train v001\n\n"
+        "# club_match train v001\n\n"
         f"{len(selected)} reviewed images: {counts['positive']} positives and {counts['negative']} negatives.\n\n"
         "Inclusive thresholds confirmed by the user: 0.86 for the long video of "
         "30 September; 0.88 for the two videos of 7 October. Submitted corrections "
@@ -204,7 +204,7 @@ def build(root: Path, output: Path, *, confirm_reviewed: bool) -> dict:
         "remain in the review, not in this train set. No paid request was re-run.\n\n"
         "This folder only defines the train set. A distinct validation set must be chosen "
         "before configuring a full training run; do not use the test set as val. "
-        "The short video of 30 September remains in lou_mistrau_test_v001. "
+        "The short video of 30 September remains in club_match_test_v001. "
         "The same match is therefore present in train and test, but in distinct clips: "
         "this is not an evaluation on an independent match.\n\n"
         "## Files\n\n"
@@ -230,7 +230,7 @@ def main() -> None:
     parser.add_argument("--confirm-reviewed-thresholds", action="store_true")
     args = parser.parse_args()
     root = args.root.resolve()
-    output = (args.output or root / "data/processed/lou_mistrau_train_v001").resolve()
+    output = (args.output or root / "data/processed/club_match_train_v001").resolve()
     print(json.dumps(build(root, output, confirm_reviewed=args.confirm_reviewed_thresholds),
                      ensure_ascii=False, indent=2))
 

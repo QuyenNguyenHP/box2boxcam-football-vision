@@ -1,4 +1,4 @@
-"""Freeze the reviewed short Lou Mistrau clip as a test-only YOLO dataset.
+"""Freeze the reviewed short club match clip as a test-only YOLO dataset.
 
 Submitted corrections win. Untouched Luna proposals require explicit confirmation
 that the user reviewed them unchanged. No confidence filter applies to test.
@@ -27,7 +27,7 @@ from pitchlens.data.label_studio_review import (
     download_local_export,
 )
 
-VIDEO_ID = "2026-09-30_lou_mistrau_19h41m35"
+VIDEO_ID = "2026-09-30_club_match_19h41m35"
 BASE_URL = "http://127.0.0.1:8080"
 
 
@@ -118,7 +118,7 @@ def build(root: Path, output: Path, *, confirm_unchanged: bool) -> dict:
     if output.exists():
         raise FileExistsError(f"Frozen dataset already exists: {output}")
     shared = root / "data/interim/gpt6_luna_label_studio_review"
-    proposal_path = shared / "lou_mistrau_20261008/tasks_test.json"
+    proposal_path = shared / "club_match_20261008/tasks_test.json"
     proposals = json.loads(proposal_path.read_text())
     expected = {p["data"]["item_id"]: p for p in proposals}
     if len(expected) != 380 or len(proposals) != 380:
@@ -160,7 +160,7 @@ def build(root: Path, output: Path, *, confirm_unchanged: bool) -> dict:
                 if pixels.size != (row["width"], row["height"]):
                     raise ValueError(f"Image/annotation dimensions differ: {image}")
         rows.append(row)
-    source_predictions = root / "data/interim/gpt6_luna_lou_mistrau_20261008/predictions.json"
+    source_predictions = root / "data/interim/gpt6_luna_club_match_20261008/predictions.json"
     records = json.loads(source_predictions.read_text())["predictions"]
     video_hashes = {p["source_video_sha256"] for p in records if p["video_id"] == VIDEO_ID}
     if len(video_hashes) != 1:
@@ -229,7 +229,7 @@ def build(root: Path, output: Path, *, confirm_unchanged: bool) -> dict:
     validation["root"] = str(output)
     _save_json(staging / "audit.json", validation)
     (staging / "README.md").write_text(
-        "# lou_mistrau test v001\n\n"
+        "# club_match test v001\n\n"
         f"Short video of 30 September 2026: {len(rows)} images, one frame out of four.\n"
         f"After review: **{report['retained_images']} images retained**, including "
         f"{counts['positive']} with a ball and {counts['negative']} without a ball. "
@@ -272,7 +272,7 @@ def main() -> None:
     parser.add_argument("--confirm-reviewed-unchanged", action="store_true")
     args = parser.parse_args()
     root = args.root.resolve()
-    output = (args.output or root / "data/processed/lou_mistrau_test_v001").resolve()
+    output = (args.output or root / "data/processed/club_match_test_v001").resolve()
     print(json.dumps(build(root, output, confirm_unchanged=args.confirm_reviewed_unchanged),
                      ensure_ascii=False, indent=2))
 
