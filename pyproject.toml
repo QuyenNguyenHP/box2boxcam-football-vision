@@ -5,8 +5,10 @@ build-backend = "hatchling.build"
 [project]
 name = "pitchlens"
 version = "0.1.0"
-description = "Data and training pipeline for low-cost football camera tracking"
+description = "Data, training and evaluation pipeline for low-cost automatic football camera tracking (ball detection)"
 readme = "README.md"
+license = "AGPL-3.0-only"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
 dependencies = [
   "huggingface-hub>=1.4,<2",
@@ -16,6 +18,9 @@ dependencies = [
 [project.optional-dependencies]
 training = [
   "ultralytics==8.4.153",
+  "torch>=2.4",
+  "numpy>=1.26",
+  "opencv-python>=4.10,<5",
 ]
 dev = [
   "ruff>=0.12",
