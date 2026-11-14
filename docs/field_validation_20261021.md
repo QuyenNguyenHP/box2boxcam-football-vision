@@ -17,7 +17,7 @@ This 2 Hz reference suits a first detection comparison. It cannot precisely meas
 
 ## Human review
 
-Luna (`gpt-6-luna`, effort `max`, a third-party multimodal model API) proposes boxes from the three images. The evaluated Nano/Small models do not provide the pre-annotations. This does not remove Luna's errors: **no proposal is ground truth**.
+A third-party multimodal model (called through a paid API, highest reasoning effort) proposes boxes from the three images. The evaluated Nano/Small models do not provide the pre-annotations. This does not remove the model's errors: **no proposal is ground truth**.
 
 **Submit is the only confirmation click needed.** The large image is shown alone; context and active-ball options are collapsed. For each image:
 
@@ -32,10 +32,10 @@ Images with no visible ball must also be explicitly verified. A missing API resp
 
 ## Commands
 
-From the repository root, `scripts/run_field_validation_pipeline.py` waits for batches already submitted, collects responses and synchronizes proposals into the review project. A failure never triggers a new paid submission.
+From the repository root, `scripts/run_field_validation_pipeline.py` waits for batches already submitted to the paid model, collects responses and synchronizes proposals into the review project. A failure never triggers a new paid submission.
 
 ```sh
-# Review status: launches neither Luna nor training.
+# Review status: launches neither the paid model nor training.
 python scripts/review_field_validation.py status
 
 # Resume only the synchronization of already-collected responses.

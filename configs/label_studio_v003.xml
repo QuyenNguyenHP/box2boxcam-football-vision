@@ -6,6 +6,6 @@
   <Choices name="decision" toName="image" choice="single" showInLine="true">
     <Choice value="Exclure image" />
   </Choices>
-  <Header value="Luna hint (check against the image)" size="4" />
+  <Header value="Model hint (check against the image)" size="4" />
   <Text name="luna_context" value="$luna_context" />
 </View>

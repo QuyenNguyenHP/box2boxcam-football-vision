@@ -1,5 +1,5 @@
 # Retry only API-successful requests that failed local parsing because the
-# first run exhausted max_output_tokens during GPT-6 Luna's reasoning.
+# first run exhausted max_output_tokens during the multimodal model's reasoning.
 
 video = "data/external/videos/inference_input_yt.mp4"
 output = "data/interim/gpt6_luna_api_full_stride4_retry"

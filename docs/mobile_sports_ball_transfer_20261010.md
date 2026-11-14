@@ -31,7 +31,7 @@ These checks are in `tests/test_sports_ball_transfer.py`. The launcher repeats t
 
 ## Data and comparison
 
-**No Infactory/TV image of v002 added.** The same private revision of dataset `mobile_v001` is reused: 1,547 train (1,390 with a ball, 157 negatives); 168 val (134 with a ball, 34 negatives). Annotations stay numbered 0. Images and labels are verified by SHA-256. Only the worker YAML takes the name `sports ball`. No test is used to train or select weights.
+**No Infactory/TV image (dataset v002) added.** The same private revision of dataset `mobile_v001` is reused: 1,547 train (1,390 with a ball, 157 negatives); 168 val (134 with a ball, 34 negatives). Annotations stay numbered 0. Images and labels are verified by SHA-256. Only the worker YAML takes the name `sports ball`. No test is used to train or select weights.
 
 Other settings stay those of the first recent trial: YOLO26n, 960 px, batch 8, AdamW, lr 0.001, seed 42, 60 epochs maximum, patience 12, same augmentations. Initialization restarts from the original COCO, **not** from the recent best.pt, which only serves as reference on the same 168 images.
 

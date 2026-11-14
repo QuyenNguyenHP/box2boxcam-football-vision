@@ -1,13 +1,13 @@
 # Nano 960: do the old TV images help?
 
-Adding the v002 TV train set (3,048 images) to the recent iPhone-style data improves mAP50-95 (42.5% to 46.1%) and cuts false detections (34 to 11), at the cost of recall (92 to 87 detected balls). The gain is not uniform.
+Adding the TV train set of dataset v002 (3,048 images) to the recent iPhone-style data improves mAP50-95 (42.5% to 46.1%) and cuts false detections (34 to 11), at the cost of recall (92 to 87 detected balls). The gain is not uniform.
 
-This second experiment adds the **v002 train set**, without its old validations or tests. Already-excluded images stay excluded. Exported post-correction annotations are used, not the old YOLO proposals. Quality is heterogeneous: this trial assumes neither that all TV images are bad nor that adding them will help.
+This second experiment adds the **v002 train set** (the published dataset), without its old validations or tests. Already-excluded images stay excluded. Exported post-correction annotations are used, not the old YOLO proposals. Quality is heterogeneous: this trial assumes neither that all TV images are bad nor that adding them will help.
 
 | Data | Recent only (finished) | Recent + TV (new trial) |
 |---|---:|---:|
 | Recent train | 1,547 | 1,547 |
-| TV train v002 | 0 | 3,048 |
+| TV train (v002) | 0 | 3,048 |
 | Total train | 1,547 | 4,595 |
 | Train with a ball | 1,390 | 3,503 |
 | Train without a ball | 157 | 1,092 |

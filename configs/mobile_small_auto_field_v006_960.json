@@ -38,5 +38,5 @@
     128,
     128
   ],
-  "comparison": "Same Small 960 recipe and same 168-image validation as the v004 Small reference (COCO initialization, 30 epochs, seed 42); only change: train adds auto_field_judged_v004 (automatic labels; the user reviewed the ball and unsure crops by clicking: 21 balls rejected to masks, 63 unsure promoted to ball; not_ball left as judged)"
+  "comparison": "Same Small 960 recipe and same 168-image validation as the first field model (Small) reference (COCO initialization, 30 epochs, seed 42); only change: train adds auto_field_judged_v004 (automatic labels; the user reviewed the ball and unsure crops by clicking: 21 balls rejected to masks, 63 unsure promoted to ball; not_ball left as judged)"
 }

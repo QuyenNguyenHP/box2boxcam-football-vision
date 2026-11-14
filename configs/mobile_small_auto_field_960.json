@@ -38,5 +38,5 @@
     128,
     128
   ],
-  "comparison": "Same Small 960 recipe and same 168-image validation as the v004 Small reference (COCO initialization, 30 epochs, seed 42); only change: train adds auto_field_judged_v001 (automatic labels, no human review)"
+  "comparison": "Same Small 960 recipe and same 168-image validation as the first field model (Small) reference (COCO initialization, 30 epochs, seed 42); only change: train adds auto_field_judged_v001 (automatic labels, no human review)"
 }

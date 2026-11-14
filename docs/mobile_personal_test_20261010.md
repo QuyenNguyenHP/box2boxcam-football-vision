@@ -1,6 +1,6 @@
-# Nano mobile 960: final personal test
+# Mobile Nano at 960 px: personal test
 
-Comparison of the earlier Luna-trained nano and the new mobile nano on 292 reviewed frames of a short clip. The new nano raises detection F1 from 12.9% to 64.2% and framing decisions from 17.5% to 68.5% correct, on a clip from the same match as part of its training data.
+Comparison of an earlier Nano (trained on frames proposed by a multimodal model, at 640 px) and the first mobile Nano on 292 reviewed frames of a short clip. The new nano raises detection F1 from 12.9% to 64.2% and framing decisions from 17.5% to 68.5% correct, on a clip from the same match as part of its training data.
 
 ## Protocol
 
@@ -52,6 +52,6 @@ The full video shows the new nano on all 1,517 frames of the clip, at the source
 
 ## Conclusion
 
-The gain is large on this clip, but 59 positive frames remain without a target, 23 target a wrong box and 10 negatives trigger an alert. A video from another match/date is needed to measure more independent generalization. No new GPU job or paid Luna call was launched for this evaluation.
+The gain is large on this clip, but 59 positive frames remain without a target, 23 target a wrong box and 10 negatives trigger an alert. A video from another match/date is needed to measure more independent generalization. No new GPU job or paid model call was launched for this evaluation.
 
 Reproduction: `scripts/evaluate_mobile_personal.py --output <new_dir>` runs the evaluation into a new folder; `--video-only` regenerates only the video when metrics are already frozen, after checking the weights are unchanged. Results are presented in `notebooks/09_mobile_training.ipynb`.

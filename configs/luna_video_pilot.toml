@@ -1,4 +1,4 @@
-# API reproduction of the 12 cases already inspected with GPT-6 Luna in Codex.
+# API reproduction of the 12 cases already inspected manually with the multimodal model.
 # This validates the API prompt before paying for the complete video.
 
 video = "data/external/videos/inference_input_yt.mp4"

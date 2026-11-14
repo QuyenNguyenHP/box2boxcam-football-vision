@@ -40,7 +40,7 @@
         <Choice value="Rôle indéterminé" />
       </Choices>
     </Panel>
-    <Panel value="Luna notes: proposals to check">
+    <Panel value="Model notes: proposals to check">
       <Text name="luna_context" value="$luna_context" />
     </Panel>
   </Collapse>
