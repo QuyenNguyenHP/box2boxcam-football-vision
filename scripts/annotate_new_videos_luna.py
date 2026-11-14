@@ -16,7 +16,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from pitchlens.data.luna_batch import (
+from box2boxcam.data.luna_batch import (
     TERMINAL_BATCH_STATUSES,
     LunaBatchConfig,
     _atomic_json,

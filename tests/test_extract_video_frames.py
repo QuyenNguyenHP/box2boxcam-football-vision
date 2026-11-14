@@ -8,7 +8,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from pitchlens.data.extract_video_frames import extract_video_frames
+from box2boxcam.data.extract_video_frames import extract_video_frames
 
 
 class ExtractionTests(unittest.TestCase):

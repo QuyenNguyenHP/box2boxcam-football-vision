@@ -12,9 +12,9 @@ import torch
 from huggingface_hub import HfApi, hf_hub_download
 from ultralytics import YOLO
 
-MODEL_REPO = os.environ["PITCHLENS_MODEL_REPO"]
-INPUT_ROOT = Path(os.environ.get("PITCHLENS_INPUT_ROOT", "/input"))
-OUTPUT_ROOT = Path("/tmp/pitchlens_video_pilot")
+MODEL_REPO = os.environ["BOX2BOXCAM_MODEL_REPO"]
+INPUT_ROOT = Path(os.environ.get("BOX2BOXCAM_INPUT_ROOT", "/input"))
+OUTPUT_ROOT = Path("/tmp/box2boxcam_video_pilot")
 REMOTE_OUTPUT = "video_pilots/highres960_pilot100"
 DATASET_ID = "video_teacher_inference_input_yt_pilot100_yolo26x_highres960"
 LOCAL_DATASET_ROOT = f"data/interim/{DATASET_ID}"

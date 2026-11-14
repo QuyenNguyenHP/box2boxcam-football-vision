@@ -8,12 +8,12 @@ import os
 import shutil
 from pathlib import Path
 
-from pitchlens.data.label_studio_review import (
+from box2boxcam.data.label_studio_review import (
     _label_studio_request,
     build_tasks,
     download_local_export,
 )
-from pitchlens.data.luna_batch import _atomic_json
+from box2boxcam.data.luna_batch import _atomic_json
 
 BASE = "http://127.0.0.1:8080"
 
@@ -63,11 +63,11 @@ def append_review(
     project = request(f"/api/projects/{project_id}/")
     allowed_titles = (
         {
-            "PitchLens — club match — TRAIN",
-            "PitchLens — club match — TRAIN (7 octobre)",
+            "box2boxcam — club match — TRAIN",
+            "box2boxcam — club match — TRAIN (7 octobre)",
         }
         if project_id == 3
-        else {"PitchLens — club match — TEST (30 septembre)"}
+        else {"box2boxcam — club match — TEST (30 septembre)"}
     )
     if project["title"] not in allowed_titles:
         raise ValueError("Unexpected destination project")
@@ -180,11 +180,11 @@ def append_review(
     ids = [t["data"]["item_id"] for t in verified]
     if len(ids) != len(set(ids)) or set(ids) != set(existing_ids) | expected:
         raise ValueError("Appended inventory mismatch")
-    if project_id == 3 and project["title"] != "PitchLens — club match — TRAIN":
+    if project_id == 3 and project["title"] != "box2boxcam — club match — TRAIN":
         request(
             f"/api/projects/{project_id}/",
             "PATCH",
-            {"title": "PitchLens — club match — TRAIN"},
+            {"title": "box2boxcam — club match — TRAIN"},
         )
     report = {
         "project_id": project_id,

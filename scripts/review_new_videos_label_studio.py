@@ -8,20 +8,20 @@ import json
 import os
 from pathlib import Path
 
-from pitchlens.data.label_studio_review import (
+from box2boxcam.data.label_studio_review import (
     _label_studio_request,
     build_tasks,
     download_local_export,
 )
-from pitchlens.data.luna_batch import _atomic_json
+from box2boxcam.data.luna_batch import _atomic_json
 
-TITLE = "PitchLens — Luna max — 782 nouvelles images"
+TITLE = "box2boxcam — Luna max — 782 nouvelles images"
 BASE = "http://127.0.0.1:8080"
 DATASETS = {
     "shorts": ("gpt6_luna_new_videos_20260928", "new_videos_20260928", TITLE),
     "closeups": (
         "gpt6_luna_personal_closeups_20261011", "personal_closeups_20261011",
-        "PitchLens — Gros plans — Luna max (11 octobre)",
+        "box2boxcam — Gros plans — Luna max (11 octobre)",
     ),
 }
 

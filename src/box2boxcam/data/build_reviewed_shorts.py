@@ -20,9 +20,9 @@ from pathlib import Path
 
 from PIL import Image
 
-from pitchlens.data.audit_yolo import audit
-from pitchlens.data.build_personal_test import BASE_URL, _save_json, select_review
-from pitchlens.data.label_studio_review import (
+from box2boxcam.data.audit_yolo import audit
+from box2boxcam.data.build_personal_test import BASE_URL, _save_json, select_review
+from box2boxcam.data.label_studio_review import (
     _label_studio_request,
     _yolo_line,
     download_local_export,
@@ -81,7 +81,7 @@ def build(root: Path, output: Path, *, threshold: float, confirm_reviewed: bool)
         if line.startswith("API token:")
     )
     project = _label_studio_request(BASE_URL + "/api/projects/2/", token)
-    if project["title"] != "PitchLens — Luna max — 782 nouvelles images":
+    if project["title"] != "box2boxcam — Luna max — 782 nouvelles images":
         raise ValueError("Unexpected Label Studio project")
     tasks = download_local_export(token=token, project_id=2)
     listed = []

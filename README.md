@@ -1,7 +1,6 @@
-<!-- PROJECT_NAME: PitchLens  (working name; see "Renaming" at the end of this file) -->
-# PitchLens
+# box2boxcam
 
-An iPhone on a ~160 EUR DockKit gimbal films your amateur football match by itself: no subscription, and the gimbal stays useful for everything else. This repository holds the data, training and evaluation pipeline for the ball detector that drives the camera. The iPhone app (Swift tracking, replay workshop) lives in a separate repository, [pitchlens-ios](https://github.com/Thibault-GILLARD/pitchlens-ios).
+box2boxcam: football (soccer) ball detection and an auto-tracking camera for amateur matches. A box-to-box midfielder covers the whole pitch, and the camera does the same with bounding boxes. An iPhone on a ~160 EUR DockKit gimbal films your amateur football match by itself, driven by a small YOLO ball detector: no subscription, and the gimbal stays useful for everything else. This repository holds the data, training and evaluation pipeline for the ball detector that drives the camera. The box2boxcam iOS app (Swift tracking, replay workshop; closed for now) lives in a separate repository.
 
 > Demo: _GIF / video placeholder, to be added (`docs/media/demo.gif`)._
 
@@ -68,8 +67,8 @@ A closed-loop benchmark on SoccerTrack v2 panoramas (16 segments, 577 s, split i
 
 | Path | Content |
 |---|---|
-| `src/pitchlens/data/` | dataset building, audits, annotation review tools |
-| `src/pitchlens/training/` | evaluation, camera-targeting scoring, teacher benchmarks |
+| `src/box2boxcam/data/` | dataset building, audits, annotation review tools |
+| `src/box2boxcam/training/` | evaluation, camera-targeting scoring, teacher benchmarks |
 | `scripts/` | Hugging Face Jobs training, evaluation, annotation and review scripts |
 | `configs/` | dataset recipes, training configs, Label Studio templates |
 | `notebooks/` | exploration and training notebooks (no outputs stored) |
@@ -82,6 +81,8 @@ A closed-loop benchmark on SoccerTrack v2 panoramas (16 segments, 577 s, split i
 Python 3.11 or newer.
 
 ```sh
+git clone https://github.com/<github-user>/box2boxcam-football-vision
+cd box2boxcam-football-vision
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -e '.[dev]'                   # tests and lint only
@@ -98,12 +99,14 @@ Annotation and remote-training scripts call paid services; the tests do not.
 python -m unittest discover -s tests
 python -m ruff check .
 
-python -m pitchlens.data.list_sources                          # registered data sources
+python -m box2boxcam.data.list_sources                          # registered data sources
 python scripts/mobile_training_hf.py prepare --config configs/mobile_small_auto_field_v006_960.json
 python scripts/mobile_training_hf.py launch  --config configs/mobile_small_auto_field_v006_960.json   # paid HF Job
 python scripts/mobile_training_hf.py collect --config configs/mobile_small_auto_field_v006_960.json
 python scripts/evaluate_mobile_personal.py --output models/reports/my_eval
 ```
+
+Public targets: model `<hf-user>/box2boxcam-football-ball-detection`, dataset `<hf-user>/box2boxcam-football-amateur-match-frames`. The `configs/mobile_*.json` files still point to the author's existing private Hugging Face repos (`pitchlens-*`, kept so those artefacts stay reachable).
 
 Training needs the datasets, which are published separately (see below), and a Hugging Face token in `.env`. The reserved-match protocol is in [docs/field_validation_20261021.md](docs/field_validation_20261021.md); the reserved frames must never enter training.
 
@@ -122,7 +125,7 @@ Players in the footage may be identifiable. Do not republish raw frames without 
 - Raise recall on small, far balls without adding false positives.
 - Replace body-orientation direction by a tracked-velocity signal used to confirm or end persistence, and re-test on fresh held-out segments.
 - Off-pitch spare-ball filter in the app; Core ML export of the next model.
-- Demo video, public datasets and weights, project rename.
+- Demo video, public datasets and weights, and publishing under the final project name.
 
 ## Licensing
 
@@ -136,7 +139,3 @@ Not legal advice.
 ## Citation and acknowledgements
 
 SoccerTrack v2: Scott et al., arXiv:2508.01802, https://github.com/AtomScott/SoccerTrack-v2 (dataset CC BY 4.0, code MIT). Detectors are fine-tuned YOLO26 models from Ultralytics.
-
-## Renaming
-
-The working name is "PitchLens". To rename, change it in: the Python package `src/pitchlens/` (and every `pitchlens` import), `pyproject.toml`, this README and `docs/hf_*`, the Hugging Face repo ids in `configs/*.json` and scripts (`<user>/pitchlens-*`), temporary directory names in scripts, and the Label Studio project titles.

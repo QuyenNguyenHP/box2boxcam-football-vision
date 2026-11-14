@@ -1,6 +1,6 @@
 # High-resolution 960 px checkpoint
 
-`best.pt` is the primary PitchLens annotation teacher. It continues from the 640 px v002 checkpoint and was fine-tuned for 12 epochs at 960 px on an NVIDIA A10G.
+`best.pt` is the primary box2boxcam annotation teacher. It continues from the 640 px v002 checkpoint and was fine-tuned for 12 epochs at 960 px on an NVIDIA A10G.
 
 ## Locked validation results at 960 px
 

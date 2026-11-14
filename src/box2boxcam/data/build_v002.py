@@ -12,7 +12,7 @@ import tempfile
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from pitchlens.data.audit_yolo import audit
+from box2boxcam.data.audit_yolo import audit
 
 
 def validate_label(text: str) -> int:
@@ -133,7 +133,7 @@ def build(project_root: Path) -> dict:
         if result["issues_count"] or result["images"] != expected:
             raise ValueError(f"Final audit failed: {result}")
         report = {
-            "dataset_id": "pitchlens_infactory_v002",
+            "dataset_id": "box2boxcam_infactory_v002",
             "source": json.loads((project_root / "data/manifests/infactory_ball_tracking.json").read_text()),
             "policy": "No decision keeps original labels; multiple real balls allowed; original sequence splits preserved.",
             "quality_status": "user_curated_with_original_labels_kept_by_default",

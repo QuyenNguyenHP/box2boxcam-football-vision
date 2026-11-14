@@ -14,10 +14,10 @@ from pathlib import Path
 
 from PIL import Image
 
-from pitchlens.data.audit_yolo import audit
-from pitchlens.data.build_mobile_dataset import sha256
-from pitchlens.data.build_personal_test import select_review
-from pitchlens.data.label_studio_review import (
+from box2boxcam.data.audit_yolo import audit
+from box2boxcam.data.build_mobile_dataset import sha256
+from box2boxcam.data.build_personal_test import select_review
+from box2boxcam.data.label_studio_review import (
     _label_studio_request,
     _yolo_line,
     download_local_export,
@@ -52,7 +52,7 @@ def build(root: Path, source: Path, output: Path) -> dict:
     project_id = json.loads((source / "review/label_studio_project.json").read_text())["project_id"]
     project = _label_studio_request(f"{BASE}/api/projects/{project_id}/", token)
     # Title of the existing local Label Studio project (French: "All balls"); must match as-is.
-    if project["title"] != "PitchLens — Match iPhone — Tous les ballons":
+    if project["title"] != "box2boxcam — Match iPhone — Tous les ballons":
         raise ValueError("Unexpected review project")
     proposals = json.loads((source / "review/tasks.json").read_text())
     expected = {task["data"]["item_id"]: task for task in proposals}

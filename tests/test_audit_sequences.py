@@ -11,7 +11,7 @@ ROOT = Path(__file__).parents[1]
 SRC = ROOT / "src"
 sys.path.insert(0, str(SRC))
 
-from pitchlens.data.audit_sequences import audit_sequences
+from box2boxcam.data.audit_sequences import audit_sequences
 
 
 class SequenceAuditTests(unittest.TestCase):

@@ -1,7 +1,7 @@
 import copy
 import unittest
 
-from pitchlens.data.build_reviewed_closeups import select_closeup
+from box2boxcam.data.build_reviewed_closeups import select_closeup
 
 
 class CloseupSelectionTests(unittest.TestCase):

@@ -1,7 +1,7 @@
 import copy
 import unittest
 
-from pitchlens.data.build_personal_train import select_train
+from box2boxcam.data.build_personal_train import select_train
 
 
 class PersonalTrainSelectionTests(unittest.TestCase):

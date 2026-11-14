@@ -42,7 +42,7 @@ def download_dataset(
         "source_url": f"https://huggingface.co/datasets/{repo_id}",
     }
     rendered_manifest = json.dumps(manifest, indent=2) + "\n"
-    (destination / "pitchlens_source_manifest.json").write_text(rendered_manifest)
+    (destination / "box2boxcam_source_manifest.json").write_text(rendered_manifest)
 
     # The copy beside the raw files travels with a local download. The second
     # copy is deliberately outside data/raw so Git can preserve provenance

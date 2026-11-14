@@ -9,7 +9,7 @@ import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from pitchlens.data.audit_yolo import IMAGE_SUFFIXES, split_name
+from box2boxcam.data.audit_yolo import IMAGE_SUFFIXES, split_name
 
 ROBOFLOW_SUFFIX = re.compile(r"\.rf\.[0-9a-f]+$", re.IGNORECASE)
 ORIGINAL_EXTENSION = re.compile(r"_(?:jpg|jpeg|png)$", re.IGNORECASE)

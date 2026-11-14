@@ -1,4 +1,4 @@
-"""Persistent notebook interface for reviewing PitchLens annotations."""
+"""Persistent notebook interface for reviewing box2boxcam annotations."""
 
 from __future__ import annotations
 

@@ -3,7 +3,7 @@ license: cc-by-nc-4.0
 library_name: ultralytics
 pipeline_tag: object-detection
 datasets:
-- Totorotibo84/pitchlens-v002
+- <hf-user>/box2boxcam-football-amateur-match-frames
 tags:
 - yolo
 - object-detection
@@ -11,14 +11,14 @@ tags:
 - soccer
 - ball-detection
 - tiny-object-detection
-- pitchlens
+- box2boxcam
 ---
 
-# PitchLens YOLO26x Ball-Detection Teacher
+# box2boxcam YOLO26x Ball-Detection Teacher
 
-This repository contains the large annotation teacher used by PitchLens to propose football bounding boxes before human review. It is deliberately optimized for recall and annotation quality rather than mobile deployment.
+This repository contains the large annotation teacher used by box2boxcam to propose football bounding boxes before human review. It is deliberately optimized for recall and annotation quality rather than mobile deployment.
 
-The model was fine-tuned on [PitchLens Ball Detection v002](https://huggingface.co/datasets/Totorotibo84/pitchlens-v002), a sequence-safe, human-curated derivative of the Infactory Soccer Ball Tracking dataset.
+The model was fine-tuned on [box2boxcam Ball Detection v002](https://huggingface.co/datasets/<hf-user>/box2boxcam-football-amateur-match-frames), a sequence-safe, human-curated derivative of the Infactory Soccer Ball Tracking dataset.
 
 ## Checkpoints
 
@@ -29,7 +29,7 @@ The model was fine-tuned on [PitchLens Ball Detection v002](https://huggingface.
 
 ## Validation results
 
-All rows use the same locked PitchLens v002 validation set and the same evaluator. Fixed-threshold precision, recall and F1 use confidence 0.25 and IoU 0.5.
+All rows use the same locked box2boxcam v002 validation set and the same evaluator. Fixed-threshold precision, recall and F1 use confidence 0.25 and IoU 0.5.
 
 | Experiment | mAP50 | mAP50–95 | Precision | Recall | F1 | TP | FP | FN | FP on negatives |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -48,7 +48,7 @@ from huggingface_hub import hf_hub_download
 from ultralytics import YOLO
 
 weights = hf_hub_download(
-    repo_id="Totorotibo84/pitchlens-yolo26x-v002-teacher",
+    repo_id="<hf-user>/box2boxcam-football-ball-detection",
     filename="highres_960/best.pt",
 )
 model = YOLO(weights)
@@ -61,7 +61,7 @@ results = model.predict(
 )
 ```
 
-The checkpoint has one class: `ball`. For pseudo-label generation, PitchLens uses a lower confidence threshold and sends every proposal to human review.
+The checkpoint has one class: `ball`. For pseudo-label generation, box2boxcam uses a lower confidence threshold and sends every proposal to human review.
 
 ## Repository contents
 

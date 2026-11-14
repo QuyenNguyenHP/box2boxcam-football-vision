@@ -1,4 +1,4 @@
-"""Fine-tune and evaluate the large PitchLens annotation teacher on HF Jobs."""
+"""Fine-tune and evaluate the large box2boxcam annotation teacher on HF Jobs."""
 
 from __future__ import annotations
 
@@ -16,9 +16,9 @@ from ultralytics import YOLO
 from ultralytics.models.yolo.detect import DetectionValidator
 from ultralytics.utils.metrics import ConfusionMatrix
 
-DATASET_REPO = os.environ["PITCHLENS_DATASET_REPO"]
-MODEL_REPO = os.environ["PITCHLENS_MODEL_REPO"]
-WORK_ROOT = Path("/tmp/pitchlens_teacher")
+DATASET_REPO = os.environ["BOX2BOXCAM_DATASET_REPO"]
+MODEL_REPO = os.environ["BOX2BOXCAM_MODEL_REPO"]
+WORK_ROOT = Path("/tmp/box2boxcam_teacher")
 DATA_ROOT = WORK_ROOT / "dataset"
 RUN_ROOT = WORK_ROOT / "run"
 ARTIFACT_ROOT = WORK_ROOT / "artifacts"
@@ -121,12 +121,12 @@ tags:
 - object-detection
 - football
 - ball-detection
-- pitchlens
+- box2boxcam
 ---
 
-# PitchLens YOLO26x v002 teacher
+# box2boxcam YOLO26x v002 teacher
 
-Non-commercial annotation teacher fine-tuned on PitchLens Infactory v002. It
+Non-commercial annotation teacher fine-tuned on box2boxcam Infactory v002. It
 is intended for dataset construction, not mobile deployment.
 
 ## Controlled validation at 640 px
@@ -246,7 +246,7 @@ def main() -> None:
         repo_id=MODEL_REPO,
         repo_type="model",
         folder_path=ARTIFACT_ROOT,
-        commit_message="Train YOLO26x teacher on PitchLens v002",
+        commit_message="Train YOLO26x teacher on box2boxcam v002",
     )
     print(json.dumps(report, indent=2), flush=True)
 

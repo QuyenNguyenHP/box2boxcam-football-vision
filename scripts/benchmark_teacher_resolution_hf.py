@@ -21,9 +21,9 @@ from ultralytics import YOLO
 from ultralytics.models.yolo.detect import DetectionValidator
 from ultralytics.utils.metrics import ConfusionMatrix, box_iou
 
-DATASET_REPO = os.environ["PITCHLENS_DATASET_REPO"]
-MODEL_REPO = os.environ["PITCHLENS_MODEL_REPO"]
-WORK_ROOT = Path("/tmp/pitchlens_resolution_benchmark")
+DATASET_REPO = os.environ["BOX2BOXCAM_DATASET_REPO"]
+MODEL_REPO = os.environ["BOX2BOXCAM_MODEL_REPO"]
+WORK_ROOT = Path("/tmp/box2boxcam_resolution_benchmark")
 DATA_ROOT = WORK_ROOT / "dataset"
 RUN_ROOT = WORK_ROOT / "runs"
 ARTIFACT_ROOT = WORK_ROOT / "artifacts"

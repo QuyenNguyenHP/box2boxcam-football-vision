@@ -33,7 +33,7 @@ The new session annotates all visible balls, including stationary or touchline o
 ## Commands
 
 - Configuration: `configs/mobile_nano_field_all_balls_960.json`.
-- Freezing of the new review is implemented in `src/pitchlens/data/build_reviewed_field.py` and checked by tests for human selection, explicit negatives, multiple boxes and excluded drafts.
+- Freezing of the new review is implemented in `src/box2boxcam/data/build_reviewed_field.py` and checked by tests for human selection, explicit negatives, multiple boxes and excluded drafts.
 
 ```sh
 python scripts/mobile_training_hf.py status --config configs/mobile_nano_field_all_balls_960.json

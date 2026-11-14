@@ -11,7 +11,7 @@ ROOT = Path(__file__).parents[1]
 SRC = ROOT / "src"
 sys.path.insert(0, str(SRC))
 
-from pitchlens.data.review import ReviewStore, build_master_queue
+from box2boxcam.data.review import ReviewStore, build_master_queue
 
 
 class ReviewStoreTests(unittest.TestCase):
@@ -23,7 +23,7 @@ class ReviewStoreTests(unittest.TestCase):
         from matplotlib.backend_bases import MouseEvent
         from PIL import Image
 
-        from pitchlens.data.review import ReviewWidget
+        from box2boxcam.data.review import ReviewWidget
 
         with tempfile.TemporaryDirectory() as temporary_directory:
             image_path = Path(temporary_directory) / "frame.jpg"

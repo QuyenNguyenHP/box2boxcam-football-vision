@@ -1,5 +1,5 @@
 {
-  "dataset_id": "pitchlens_infactory_v001",
+  "dataset_id": "box2boxcam_infactory_v001",
   "quality_status": "working_dataset_visual_review_required",
   "source_registry_id": "infactory_ball_tracking",
   "source_revision": "75854a5837dd3302cbb1843355ecc1a6f124f818",

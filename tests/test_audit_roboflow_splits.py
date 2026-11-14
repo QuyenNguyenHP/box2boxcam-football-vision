@@ -11,7 +11,7 @@ ROOT = Path(__file__).parents[1]
 SRC = ROOT / "src"
 sys.path.insert(0, str(SRC))
 
-from pitchlens.data.audit_roboflow_splits import audit_splits
+from box2boxcam.data.audit_roboflow_splits import audit_splits
 
 
 class RoboflowSplitAuditTests(unittest.TestCase):

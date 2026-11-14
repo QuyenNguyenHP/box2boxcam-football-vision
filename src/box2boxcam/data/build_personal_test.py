@@ -19,8 +19,8 @@ from pathlib import Path
 
 from PIL import Image
 
-from pitchlens.data.audit_yolo import audit
-from pitchlens.data.label_studio_review import (
+from box2boxcam.data.audit_yolo import audit
+from box2boxcam.data.label_studio_review import (
     _box_from_result,
     _label_studio_request,
     _yolo_line,

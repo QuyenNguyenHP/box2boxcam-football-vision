@@ -12,10 +12,10 @@ from pathlib import Path
 
 from PIL import Image
 
-from pitchlens.data.audit_yolo import audit
-from pitchlens.data.build_mobile_dataset import sha256
-from pitchlens.data.build_personal_test import BASE_URL, _save_json, select_review
-from pitchlens.data.label_studio_review import (
+from box2boxcam.data.audit_yolo import audit
+from box2boxcam.data.build_mobile_dataset import sha256
+from box2boxcam.data.build_personal_test import BASE_URL, _save_json, select_review
+from box2boxcam.data.label_studio_review import (
     _label_studio_request,
     _yolo_line,
     download_local_export,
@@ -52,7 +52,7 @@ def build(root: Path, output: Path, *, confirm_reviewed: bool) -> dict:
     token = next(s.partition(": ")[2] for s in (shared / "local_login.txt").read_text().splitlines()
                  if s.startswith("API token:"))
     project = _label_studio_request(f"{BASE_URL}/api/projects/{project_id}/", token)
-    if project["title"] != "PitchLens — Gros plans — Luna max (11 octobre)":
+    if project["title"] != "box2boxcam — Gros plans — Luna max (11 octobre)":
         raise ValueError("Unexpected close-up review project")
     tasks = download_local_export(token=token, project_id=project_id)
     listed, page = [], 1

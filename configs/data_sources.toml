@@ -68,8 +68,8 @@ status = "candidate_download_requires_auth"
 notes = "Version 4 contains 4948 generated 640x640 tiles from 1237 browsable images, split 3956/492/500. Preprocessing is 2x2 tiling, auto-orient, then stretch to 640x640; no augmentations are declared. Must audit leakage from parent images after download."
 
 [[sources]]
-id = "pitchlens_own_capture"
-name = "PitchLens own sideline captures"
+id = "box2boxcam_own_capture"
+name = "box2boxcam own sideline captures"
 url = "local://data/raw/own_capture"
 kind = "videos"
 domain = "target_amateur_sideline_iphone"

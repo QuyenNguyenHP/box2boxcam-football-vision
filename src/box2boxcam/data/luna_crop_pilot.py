@@ -11,7 +11,7 @@ from typing import Any
 
 from PIL import Image, ImageDraw, ImageFont
 
-from pitchlens.data.luna_batch import (
+from box2boxcam.data.luna_batch import (
     OUTPUT_SCHEMA,
     _atomic_json,
     _download_file,
@@ -333,7 +333,7 @@ def submit(root: Path, config: dict, plan: dict, client: Any) -> dict:
         input_file_id=state["input_file_id"],
         endpoint="/v1/responses",
         completion_window="24h",
-        metadata={"project": "pitchlens", "run": output.name},
+        metadata={"project": "box2boxcam", "run": output.name},
     )
     state.update(batch_id=batch.id, batch_status=batch.status)
     _atomic_json(state_path, state)

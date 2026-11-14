@@ -9,7 +9,7 @@ ROOT = Path(__file__).parents[1]
 SRC = ROOT / "src"
 sys.path.insert(0, str(SRC))
 
-from pitchlens.data.list_sources import load_sources
+from box2boxcam.data.list_sources import load_sources
 
 
 class DataSourceRegistryTests(unittest.TestCase):

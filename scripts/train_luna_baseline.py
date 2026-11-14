@@ -23,9 +23,9 @@ import torch
 import ultralytics
 from ultralytics import YOLO, settings
 
-from pitchlens.data.audit_yolo import audit
-from pitchlens.training.diagnostics import quiet_ultralytics_progress
-from pitchlens.training.evaluate import BallValidator
+from box2boxcam.data.audit_yolo import audit
+from box2boxcam.training.diagnostics import quiet_ultralytics_progress
+from box2boxcam.training.evaluate import BallValidator
 
 
 def summary(result):

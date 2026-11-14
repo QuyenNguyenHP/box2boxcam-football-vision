@@ -14,17 +14,17 @@ import shutil
 from collections import defaultdict
 from pathlib import Path
 
-from pitchlens.data.label_studio_review import (
+from box2boxcam.data.label_studio_review import (
     _label_studio_request,
     build_tasks,
     download_local_export,
 )
-from pitchlens.data.luna_batch import _atomic_json
+from box2boxcam.data.luna_batch import _atomic_json
 
 BASE = "http://127.0.0.1:8080"
 TITLES = {
-    "train": "PitchLens — club match — TRAIN",
-    "test": "PitchLens — club match — TEST (30 septembre)",
+    "train": "box2boxcam — club match — TRAIN",
+    "test": "box2boxcam — club match — TEST (30 septembre)",
 }
 
 
@@ -196,7 +196,7 @@ def import_projects(root, output, tasks):
     for role, title in TITLES.items():
         aliases = {title}
         if role == "train":
-            aliases.add("PitchLens — club match — TRAIN (7 octobre)")
+            aliases.add("box2boxcam — club match — TRAIN (7 octobre)")
         matches = [p for p in old_projects if p["title"] in aliases]
         if len(matches) > 1:
             raise ValueError("Ambiguous existing project title")

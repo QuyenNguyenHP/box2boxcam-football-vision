@@ -9,7 +9,7 @@ ROOT = Path(__file__).parents[1]
 SRC = ROOT / "src"
 sys.path.insert(0, str(SRC))
 
-from pitchlens.data.pseudo_label_video import (
+from box2boxcam.data.pseudo_label_video import (
     box_iou_xywh,
     deduplicate_teacher_boxes,
     expected_sample_count,

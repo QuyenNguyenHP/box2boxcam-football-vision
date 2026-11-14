@@ -19,10 +19,10 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 
-from pitchlens.data.audit_yolo import audit
-from pitchlens.data.build_mobile_dataset import sha256
-from pitchlens.data.label_studio_review import _yolo_line
-from pitchlens.data.reserved_sessions import assert_no_reserved_training
+from box2boxcam.data.audit_yolo import audit
+from box2boxcam.data.build_mobile_dataset import sha256
+from box2boxcam.data.label_studio_review import _yolo_line
+from box2boxcam.data.reserved_sessions import assert_no_reserved_training
 
 LABEL_SOURCE = "auto_judged_claude_sonnet"
 MAX_SIDE = 64

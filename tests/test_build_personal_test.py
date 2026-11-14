@@ -1,6 +1,6 @@
 import unittest
 
-from pitchlens.data.build_personal_test import select_review
+from box2boxcam.data.build_personal_test import select_review
 
 
 class PersonalTestExportTests(unittest.TestCase):

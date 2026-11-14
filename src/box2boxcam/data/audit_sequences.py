@@ -9,7 +9,7 @@ from collections import defaultdict
 from pathlib import Path
 from statistics import median
 
-from pitchlens.data.audit_yolo import IMAGE_SUFFIXES, label_path_for
+from box2boxcam.data.audit_yolo import IMAGE_SUFFIXES, label_path_for
 
 FRAME_NAME = re.compile(r"^(?P<sequence>.+)_(?P<frame>[0-9]+)$")
 

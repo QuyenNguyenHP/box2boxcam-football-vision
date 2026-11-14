@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from pitchlens.data.luna_crop_pilot import (
+from box2boxcam.data.luna_crop_pilot import (
     budget_bound,
     crop_geometry,
     restore_bbox,

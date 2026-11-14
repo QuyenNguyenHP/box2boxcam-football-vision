@@ -7,7 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from pitchlens.data.pseudo_label_video import sampled_frame_numbers
+from box2boxcam.data.pseudo_label_video import sampled_frame_numbers
 
 
 def extract_video_frames(*, project_root: Path, download_manifest: Path,

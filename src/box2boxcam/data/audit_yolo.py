@@ -1,4 +1,4 @@
-"""Audit a YOLO object-detection dataset before it enters PitchLens."""
+"""Audit a YOLO object-detection dataset before it enters box2boxcam."""
 
 from __future__ import annotations
 

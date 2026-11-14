@@ -9,22 +9,22 @@ import os
 from collections import Counter
 from pathlib import Path
 
-from pitchlens.data.build_mobile_dataset import sha256
-from pitchlens.data.field_validation import (
+from box2boxcam.data.build_mobile_dataset import sha256
+from box2boxcam.data.field_validation import (
     SUBMIT_PROTOCOL,
     parse_reviewed_task,
     proposed_role,
 )
-from pitchlens.data.label_studio_review import (
+from box2boxcam.data.label_studio_review import (
     _label_studio_request,
     build_tasks,
     download_local_export,
 )
-from pitchlens.data.luna_batch import _atomic_json, _yolo_line
+from box2boxcam.data.luna_batch import _atomic_json, _yolo_line
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "http://127.0.0.1:8080"
-TITLE = "PitchLens — Validation terrain — 14 octobre 2026"
+TITLE = "box2boxcam — Validation terrain — 14 octobre 2026"
 EXPOSED = "field_validation_20261021"
 SHARED = ROOT / "data/interim/gpt6_luna_label_studio_review"
 

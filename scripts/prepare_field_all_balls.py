@@ -13,9 +13,9 @@ import os
 from collections import Counter
 from pathlib import Path
 
-from pitchlens.data.label_studio_review import _rectangle, build_tasks
-from pitchlens.data.luna_batch import _atomic_json, _yolo_line, prediction_boxes
-from pitchlens.data.luna_inline_batch import prepare_inline
+from box2boxcam.data.label_studio_review import _rectangle, build_tasks
+from box2boxcam.data.luna_batch import _atomic_json, _yolo_line, prediction_boxes
+from box2boxcam.data.luna_inline_batch import prepare_inline
 
 
 def load_run(root, path):

@@ -13,5 +13,5 @@
     "archive_crc_valid": true,
     "inference_tested": false
   },
-  "status": "official_pretrained_weights_not_finetuned_on_pitchlens"
+  "status": "official_pretrained_weights_not_finetuned_on_box2boxcam"
 }

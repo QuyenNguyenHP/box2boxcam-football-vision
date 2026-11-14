@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pitchlens.data.label_studio_review import _box_from_result
+from box2boxcam.data.label_studio_review import _box_from_result
 
 # The choice values below (French) are persisted in existing Label Studio
 # exports and must match them exactly: do not translate. In English:

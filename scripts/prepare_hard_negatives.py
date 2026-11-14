@@ -13,10 +13,10 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageOps
 
-from pitchlens.data.audit_yolo import audit
-from pitchlens.data.build_mobile_dataset import sha256
-from pitchlens.data.extract_video_frames import extract_video_frames
-from pitchlens.data.luna_batch import _atomic_json
+from box2boxcam.data.audit_yolo import audit
+from box2boxcam.data.build_mobile_dataset import sha256
+from box2boxcam.data.extract_video_frames import extract_video_frames
+from box2boxcam.data.luna_batch import _atomic_json
 
 ROOT = Path(__file__).resolve().parents[1]
 

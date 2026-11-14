@@ -161,7 +161,7 @@ def prepare_video_pseudo_labels(
     """Extract video frames, pseudo-label them and create a review manifest.
 
     ``source_class_id=32`` is COCO's ``sports ball`` class. Every retained box
-    is remapped to PitchLens class 0 in the generated YOLO labels.
+    is remapped to box2boxcam class 0 in the generated YOLO labels.
     """
     import cv2
     from ultralytics import YOLO
@@ -229,7 +229,7 @@ def prepare_video_pseudo_labels(
     if str(class_name).lower() not in {"sports ball", "ball"}:
         raise ValueError(
             f"Teacher class {source_class_id} is {class_name!r}, "
-            "not 'sports ball'. For a single-class PitchLens model, use 0."
+            "not 'sports ball'. For a single-class box2boxcam model, use 0."
         )
 
     image_paths = [str(row[2]) for row in extracted]

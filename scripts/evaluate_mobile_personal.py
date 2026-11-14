@@ -20,11 +20,11 @@ import numpy as np
 import torch
 from ultralytics import YOLO, settings
 
-from pitchlens.data.audit_yolo import audit
-from pitchlens.data.build_mobile_dataset import sha256
-from pitchlens.training.camera_benchmark import benchmark_targets
-from pitchlens.training.diagnostics import quiet_ultralytics_progress
-from pitchlens.training.evaluate import BallValidator
+from box2boxcam.data.audit_yolo import audit
+from box2boxcam.data.build_mobile_dataset import sha256
+from box2boxcam.training.camera_benchmark import benchmark_targets
+from box2boxcam.training.diagnostics import quiet_ultralytics_progress
+from box2boxcam.training.evaluate import BallValidator
 
 ROOT = Path(__file__).resolve().parents[1]
 

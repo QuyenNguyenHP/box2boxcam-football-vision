@@ -6,15 +6,15 @@ import json
 import os
 from pathlib import Path
 
-from pitchlens.data.label_studio_review import (
+from box2boxcam.data.label_studio_review import (
     _label_studio_request,
     download_local_export,
     export_review,
 )
-from pitchlens.data.luna_batch import _atomic_json
+from box2boxcam.data.luna_batch import _atomic_json
 
 BASE = "http://127.0.0.1:8080"
-TITLE = "PitchLens — Match iPhone — Tous les ballons"
+TITLE = "box2boxcam — Match iPhone — Tous les ballons"
 
 
 def import_review(root: Path, source: Path):

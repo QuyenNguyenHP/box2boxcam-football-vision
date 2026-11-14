@@ -18,7 +18,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from pitchlens.data.pseudo_label_video import sampled_frame_numbers
+from box2boxcam.data.pseudo_label_video import sampled_frame_numbers
 
 STATE_VERSION = 1
 TERMINAL_BATCH_STATUSES = {"completed", "failed", "expired", "cancelled"}
@@ -583,7 +583,7 @@ def submit_batch(config: LunaBatchConfig) -> dict[str, Any]:
         endpoint="/v1/responses",
         completion_window="24h",
         metadata={
-            "project": "pitchlens",
+            "project": "box2boxcam",
             "run": config.output_root.name,
         },
     )

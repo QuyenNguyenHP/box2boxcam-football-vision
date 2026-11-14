@@ -47,7 +47,7 @@ By match: 12 October session 138 images (87 positive, 125 boxes), `club_match` 7
 Configuration `configs/mobile_small_auto_field_960.json`: same recipe as Small v004 (YOLO26s COCO, `sports ball` transfer, 960 px, 30 epochs, patience 8, batch 8, AdamW lr0 0.001, seed 42, A10G GPU, 90 min limit, private repositories). The reference evaluated on the same validation is the current Small v004. Only the train set changes, but these images are close in time to images already in train.
 
 ```sh
-python -m pitchlens.data.build_auto_judged_field <judge_output_dir>
+python -m box2boxcam.data.build_auto_judged_field <judge_output_dir>
 python scripts/mobile_training_hf.py prepare --config configs/mobile_small_auto_field_960.json
 python scripts/mobile_training_hf.py launch --config configs/mobile_small_auto_field_960.json
 ```

@@ -9,7 +9,7 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-from pitchlens.data.label_studio_review import (
+from box2boxcam.data.label_studio_review import (
     download_local_export,
     export_review,
     prepare_review,
@@ -75,7 +75,7 @@ def main() -> None:
             tasks = download_local_export(token=token)
             if {str(task["data"]["item_id"]) for task in tasks} != expected_ids:
                 raise ValueError("The local export does not contain the full plan")
-            with tempfile.TemporaryDirectory(prefix="pitchlens-review-") as directory:
+            with tempfile.TemporaryDirectory(prefix="box2boxcam-review-") as directory:
                 temporary_json = Path(directory) / "all_tasks.json"
                 temporary_json.write_text(json.dumps(tasks, ensure_ascii=False))
                 report = export_review(

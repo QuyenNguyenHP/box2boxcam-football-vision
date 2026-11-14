@@ -1,6 +1,6 @@
 import unittest
 
-from pitchlens.data.build_v002 import resolve_label, validate_label
+from box2boxcam.data.build_v002 import resolve_label, validate_label
 
 
 class BuildPolicyTests(unittest.TestCase):

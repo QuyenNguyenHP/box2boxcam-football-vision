@@ -7,7 +7,7 @@
   "frame_stride": 4,
   "temporal_offset": 3,
   "max_output_tokens": 32768,
-  "prompt_cache_key": "pitchlens-ball-annotation-v1",
+  "prompt_cache_key": "box2boxcam-ball-annotation-v1",
   "train_confidence_threshold": 0.94,
   "upload_workers": 2,
   "poll_seconds": 60,

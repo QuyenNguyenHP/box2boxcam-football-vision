@@ -1,5 +1,5 @@
 <View>
-  <Header value="PitchLens — in-play ball check" />
+  <Header value="box2boxcam — in-play ball check" />
   <Text name="frame_info" value="$frame_info" />
   <Image name="image" value="$image" maxWidth="1400px" zoom="true" zoomControl="true" />
   <Rectangle name="bbox" toName="image" strokeColor="#e11d48" strokeWidth="1" opacity="0.05" canRotate="false" />

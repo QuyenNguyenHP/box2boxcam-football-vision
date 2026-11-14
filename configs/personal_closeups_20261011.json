@@ -7,7 +7,7 @@
   "frame_stride": 4,
   "temporal_offset": 3,
   "max_output_tokens": 32768,
-  "prompt_cache_key": "pitchlens-ball-closeups-v1",
+  "prompt_cache_key": "box2boxcam-ball-closeups-v1",
   "train_confidence_threshold": 0.94,
   "retain_all_sampled_frames": true,
   "upload_workers": 2,

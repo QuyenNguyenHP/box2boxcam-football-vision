@@ -1,6 +1,6 @@
 # Initial dataset assessment
 
-Assessment of the public football-ball datasets considered for PitchLens (state as of 15 September 2026), the cleaning applied to Infactory, and the resulting `v001` and `v002` working datasets. Infactory is the best starting point after cleaning; none of the sources matches the real target (a fixed iPhone on an amateur touchline).
+Assessment of the public football-ball datasets considered for box2boxcam (state as of 15 September 2026), the cleaning applied to Infactory, and the resulting `v001` and `v002` working datasets. Infactory is the best starting point after cleaning; none of the sources matches the real target (a fixed iPhone on an amateur touchline).
 
 ## Short conclusion
 
@@ -20,7 +20,7 @@ Because the project is currently non-commercial, research-only and non-commercia
 | SoccerNet Tracking | High for tracking | Later, after NDA | Very rich temporally, heavy and research-only |
 | SoccerNet v3 H250 | Potentially high | Blocked by license | Interesting long-distance subset, license not displayed |
 | Dryad Sport Ball 2026 | Uncertain | Blocked | Small annotation package, external images/videos not retrieved |
-| PitchLens captures | Essential | To be created later | Only source that matches the target product |
+| box2boxcam captures | Essential | To be created later | Only source that matches the target product |
 
 License terms and source links are centralized in `configs/data_sources.toml`.
 
@@ -112,7 +112,7 @@ The [SoccerNet v3 H250 subset](https://zenodo.org/records/7808511) contains 19,7
 
 `data/external/videos/inference_input_yt.mp4`, the source of the 1,120 `luna_v001` images, was downloaded from <https://www.youtube.com/watch?v=vL0r9ek1nqQ>. This origin is stated by the project owner and has not been re-verified. Redistribution rights are not cleared: annotations and the URL may be published, frames and the video may not. Recorded in `configs/data_sources.toml` and `configs/video_download_sources.json`.
 
-## Scientific rules for PitchLens
+## Scientific rules for box2boxcam
 
 1. **A source group never crosses splits.** For video, the group is the video or match, never the frame.
 2. **The final test stays human and clean.** No teacher pseudo-label is accepted as test ground truth.

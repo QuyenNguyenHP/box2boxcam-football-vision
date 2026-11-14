@@ -9,8 +9,8 @@ import os
 from collections import Counter
 from pathlib import Path
 
-from pitchlens.data.audit_yolo import audit
-from pitchlens.data.reserved_sessions import assert_no_reserved_training
+from box2boxcam.data.audit_yolo import audit
+from box2boxcam.data.reserved_sessions import assert_no_reserved_training
 
 
 def select_luna_rows(rows):
@@ -173,7 +173,7 @@ def build(root: Path, output: Path | None = None, *, include_tv=False, extra_tra
     if result["issues_count"]:
         raise ValueError(f"New dataset failed audit: {result['issues_count']}")
     report = {
-        "dataset_id": "pitchlens_" + dataset_name, "images": len(rows),
+        "dataset_id": "box2boxcam_" + dataset_name, "images": len(rows),
         # Original review statuses can be stale after human correction. Count the
         # exported labels, not statuses such as positive_single/review_multi.
         "splits": {split: {"images": result["split_counts"][split]["images"],
@@ -230,7 +230,7 @@ def build(root: Path, output: Path | None = None, *, include_tv=False, extra_tra
                         ("build_report.json", report), ("audit.json", result)):
         (output / name).write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
     (output / "README.md").write_text(
-        f"# PitchLens {dataset_name} — private training experiment\n\n"
+        f"# box2boxcam {dataset_name} — private training experiment\n\n"
         "Train: reviewed Luna compilation + club match personal train"
         + (" + the 3048 curated Infactory train images" if include_tv else "")
         + (" + reviewed extras: " + ", ".join(n for n in extra_train_sources if n not in automatic)

@@ -11,8 +11,8 @@ from typing import Any
 import torch
 from ultralytics import YOLO
 
-from pitchlens.training.diagnostics import quiet_ultralytics_progress
-from pitchlens.training.evaluate import BallValidator
+from box2boxcam.training.diagnostics import quiet_ultralytics_progress
+from box2boxcam.training.evaluate import BallValidator
 
 
 def _summary(result: Any, elapsed_seconds: float) -> dict[str, Any]:
@@ -83,7 +83,7 @@ def write_comparison(
 ) -> dict[str, Any]:
     comparison = {
         "protocol": {
-            "dataset": "pitchlens_infactory_v002",
+            "dataset": "box2boxcam_infactory_v002",
             "split": "val",
             "images": 670,
             "image_size": 640,

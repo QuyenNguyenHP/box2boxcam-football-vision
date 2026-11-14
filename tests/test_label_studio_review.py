@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from pitchlens.data.label_studio_review import (
+from box2boxcam.data.label_studio_review import (
     build_tasks,
     export_review,
     prediction_index,

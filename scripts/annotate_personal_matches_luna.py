@@ -19,7 +19,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from pitchlens.data.luna_batch import (
+from box2boxcam.data.luna_batch import (
     TERMINAL_BATCH_STATUSES,
     _atomic_json,
     build_plan,
@@ -287,7 +287,7 @@ def main():
     root = Path(__file__).resolve().parents[1]
     raw, output, configs = prepare(root, args.config)
     if raw.get("inline_images"):
-        from pitchlens.data.luna_inline_batch import (
+        from box2boxcam.data.luna_inline_batch import (
             collect_inline_batch,
             refresh_inline_status,
             submit_inline_batch,

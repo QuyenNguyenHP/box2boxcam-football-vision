@@ -5,8 +5,8 @@ from pathlib import Path
 
 from PIL import Image
 
-from pitchlens.data.build_auto_judged_field import build, judge_frame, mask_rectangle
-from pitchlens.data.build_mobile_dataset import sha256
+from box2boxcam.data.build_auto_judged_field import build, judge_frame, mask_rectangle
+from box2boxcam.data.build_mobile_dataset import sha256
 
 
 class AutoJudgedPolicyTests(unittest.TestCase):

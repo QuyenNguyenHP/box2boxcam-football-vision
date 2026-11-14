@@ -6,7 +6,7 @@ import argparse
 import json
 from pathlib import Path
 
-from pitchlens.data.luna_batch import (
+from box2boxcam.data.luna_batch import (
     build_plan,
     cleanup_remote_files,
     collect_batch,

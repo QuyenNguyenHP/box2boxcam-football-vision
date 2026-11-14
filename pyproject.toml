@@ -3,7 +3,7 @@ requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [project]
-name = "pitchlens"
+name = "box2boxcam"
 version = "0.1.0"
 description = "Data, training and evaluation pipeline for low-cost automatic football camera tracking (ball detection)"
 readme = "README.md"
@@ -38,7 +38,7 @@ annotation = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/pitchlens"]
+packages = ["src/box2boxcam"]
 
 [tool.ruff]
 line-length = 88

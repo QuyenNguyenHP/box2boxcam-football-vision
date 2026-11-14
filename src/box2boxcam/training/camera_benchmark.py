@@ -9,7 +9,7 @@ from collections import Counter
 
 import numpy as np
 
-from pitchlens.training.diagnostics import box_iou
+from box2boxcam.training.diagnostics import box_iou
 
 
 def score_target(ground_truth, predictions, confidences, confidence=.25, matching_iou=.2):

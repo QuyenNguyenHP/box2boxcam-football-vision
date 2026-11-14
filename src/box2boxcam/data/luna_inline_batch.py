@@ -10,7 +10,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from pitchlens.data.luna_batch import (
+from box2boxcam.data.luna_batch import (
     TERMINAL_BATCH_STATUSES,
     LunaBatchConfig,
     _atomic_json,
@@ -146,7 +146,7 @@ def submit_inline_batch(config: LunaBatchConfig) -> dict:
             _atomic_json(path, state)
         batch = client.batches.create(
             input_file_id=shard["input_file_id"], endpoint="/v1/responses", completion_window="24h",
-            metadata={"project": "pitchlens", "run": config.output_root.name, "scope": "all_visible"},
+            metadata={"project": "box2boxcam", "run": config.output_root.name, "scope": "all_visible"},
         )
         shard["batch_id"], shard["batch_status"] = batch.id, batch.status
         _atomic_json(path, state)

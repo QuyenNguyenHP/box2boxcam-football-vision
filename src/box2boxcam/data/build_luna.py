@@ -115,7 +115,7 @@ def build_dataset(root: Path) -> dict:
         for split in ("train", "val", "test")
     }
     report = {
-        "dataset_id": "pitchlens_luna_v001_private_pilot",
+        "dataset_id": "box2boxcam_luna_v001_private_pilot",
         "images": len(selected), "splits": counts, "excluded": dict(excluded),
         "match_groups": matches,
         "grouping_method": "manual visual inspection; inferred match identities",
