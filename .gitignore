@@ -57,3 +57,4 @@ local_login.txt
 
 # Internal working material (job receipts, inventories, dev log). Never published.
 internal/
+.claude/

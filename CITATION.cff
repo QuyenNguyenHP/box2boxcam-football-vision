@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "box2boxcam: football (soccer) ball detection and auto-tracking camera for amateur matches"
+type: software
+authors:
+  - family-names: Gillard
+    given-names: Thibault
+repository-code: "https://github.com/Thibault-GILLARD/box2boxcam-football-vision"
+license: AGPL-3.0-only
+date-released: "2026-11-14"
+keywords:
+  - football
+  - soccer
+  - ball detection
+  - YOLO
+  - object detection
+  - DockKit
