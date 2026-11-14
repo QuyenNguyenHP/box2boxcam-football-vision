@@ -6,11 +6,13 @@ from pathlib import Path
 import numpy as np
 
 
-def run_detector(weights, image_paths, imgsz=960, conf=0.05, device=None):
+def run_detector(weights, image_paths, imgsz=960, conf=0.05, device=None, classes=None):
     """Detections ``[(boxes_xyxy (m, 4), confidences (m,)), ...]`` in image pixels.
 
     Images are read at full resolution and resized by the model to ``imgsz``;
     ``conf`` is the lowest confidence kept (all thresholds are applied afterwards).
+    ``classes`` restricts the output to those class ids (e.g. ``[32]`` keeps only the
+    COCO "sports ball" of a stock model).
     """
     import cv2
     from ultralytics import YOLO
@@ -22,7 +24,12 @@ def run_detector(weights, image_paths, imgsz=960, conf=0.05, device=None):
         if image is None:
             raise OSError(f"cannot read {path}")
         result = model.predict(
-            image, imgsz=imgsz, conf=conf, device=device, verbose=False
+            image,
+            imgsz=imgsz,
+            conf=conf,
+            device=device,
+            classes=classes,
+            verbose=False,
         )[0].boxes
         out.append((result.xyxy.cpu().numpy(), result.conf.cpu().numpy()))
     return out

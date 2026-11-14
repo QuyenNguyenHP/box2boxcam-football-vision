@@ -186,5 +186,21 @@ class ReportTest(unittest.TestCase):
         self.assertEqual((recovered["b_misses"], recovered["a_recovers"]), (4, 4))
 
 
+class ClassFilterTest(unittest.TestCase):
+    def test_parse_class_filters(self):
+        import sys
+
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+        from evaluate_detector import parse_class_filters
+
+        self.assertEqual(
+            parse_class_filters(["yolo26s=32", "other=1,2"]),
+            {"yolo26s": [32], "other": [1, 2]},
+        )
+        self.assertEqual(parse_class_filters([]), {})
+        with self.assertRaises(SystemExit):
+            parse_class_filters(["nostem"])
+
+
 if __name__ == "__main__":
     unittest.main()

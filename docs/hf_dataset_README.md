@@ -72,7 +72,7 @@ box2boxcam-v002/
 from huggingface_hub import snapshot_download
 
 dataset_root = snapshot_download(
-    repo_id="<hf-user>/box2boxcam-football-amateur-match-frames",
+    repo_id="Totorotibo84/box2boxcam-football-ball-detection-dataset",
     repo_type="dataset",
 )
 print(dataset_root)
@@ -97,4 +97,4 @@ Please attribute both:
 
 ## Related model
 
-The matching high-resolution annotation teacher is available at [<hf-user>/box2boxcam-football-ball-detection](https://huggingface.co/<hf-user>/box2boxcam-football-ball-detection).
+The matching high-resolution annotation teacher is available at [Totorotibo84/box2boxcam-football-ball-detection](https://huggingface.co/Totorotibo84/box2boxcam-football-ball-detection).

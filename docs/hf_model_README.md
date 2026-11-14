@@ -3,7 +3,7 @@ license: cc-by-nc-4.0
 library_name: ultralytics
 pipeline_tag: object-detection
 datasets:
-- <hf-user>/box2boxcam-football-amateur-match-frames
+- Totorotibo84/box2boxcam-football-ball-detection-dataset
 tags:
 - yolo
 - object-detection
@@ -18,7 +18,7 @@ tags:
 
 This repository contains the large annotation teacher used by box2boxcam to propose football bounding boxes before human review. It is deliberately optimized for recall and annotation quality rather than mobile deployment.
 
-The model was fine-tuned on [box2boxcam Ball Detection v002](https://huggingface.co/datasets/<hf-user>/box2boxcam-football-amateur-match-frames), a sequence-safe, human-curated derivative of the Infactory Soccer Ball Tracking dataset.
+The model was fine-tuned on [box2boxcam Ball Detection v002](https://huggingface.co/datasets/Totorotibo84/box2boxcam-football-ball-detection-dataset), a sequence-safe, human-curated derivative of the Infactory Soccer Ball Tracking dataset.
 
 ## Checkpoints
 
@@ -48,7 +48,7 @@ from huggingface_hub import hf_hub_download
 from ultralytics import YOLO
 
 weights = hf_hub_download(
-    repo_id="<hf-user>/box2boxcam-football-ball-detection",
+    repo_id="Totorotibo84/box2boxcam-football-ball-detection",
     filename="highres_960/best.pt",
 )
 model = YOLO(weights)

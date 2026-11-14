@@ -58,6 +58,14 @@ def build_parser() -> argparse.ArgumentParser:
         default=0.05,
         help="Lowest confidence kept at inference; thresholds are applied afterwards.",
     )
+    p.add_argument(
+        "--class-filter",
+        action="append",
+        default=[],
+        metavar="STEM=ID[,ID]",
+        help="Keep only these class ids for the model whose file stem is STEM, e.g. "
+        "yolo26s=32 for the COCO sports ball of a stock model. Repeatable.",
+    )
     p.add_argument("--device", help="Torch device (default: chosen by Ultralytics).")
     p.add_argument(
         "--thresholds", type=float, nargs="+", default=list(DEFAULT_THRESHOLDS)
@@ -81,17 +89,35 @@ def build_parser() -> argparse.ArgumentParser:
     return p
 
 
+def parse_class_filters(specs):
+    """``["stem=32,33"]`` -> ``{"stem": [32, 33]}``."""
+    out = {}
+    for spec in specs:
+        stem, _, ids = spec.partition("=")
+        if not stem or not ids:
+            raise SystemExit(f"--class-filter expects STEM=ID[,ID], got {spec!r}")
+        out[stem] = [int(i) for i in ids.split(",")]
+    return out
+
+
 def detections_for(weights, frames, args):
+    classes = parse_class_filters(args.class_filter).get(weights.stem)
     ids = [f.id for f in frames]
     cache = None
     if args.cache_dir:
         args.cache_dir.mkdir(parents=True, exist_ok=True)
-        key = f"{weights.stem}_{args.imgsz}_{args.conf}.json"
+        tag = "" if classes is None else "_c" + "-".join(map(str, classes))
+        key = f"{weights.stem}_{args.imgsz}_{args.conf}{tag}.json"
         cache = args.cache_dir / key
         if cache.exists():
             return load_detections(cache, ids)
     dets = run_detector(
-        weights, [f.path for f in frames], args.imgsz, args.conf, args.device
+        weights,
+        [f.path for f in frames],
+        args.imgsz,
+        args.conf,
+        args.device,
+        classes,
     )
     if cache:
         save_detections(cache, ids, dets)

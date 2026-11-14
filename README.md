@@ -1,4 +1,4 @@
-# box2boxcam
+# box2boxcam: football (soccer) ball detection
 
 box2boxcam: football (soccer) ball detection and an auto-tracking camera for amateur matches. A box-to-box midfielder covers the whole pitch, and the camera does the same with bounding boxes. An iPhone on a ~160 EUR DockKit gimbal films your amateur football match by itself, driven by a small YOLO ball detector: no subscription, and the gimbal stays useful for everything else. This repository holds the data, training and evaluation pipeline for the ball detector that drives the camera. The box2boxcam iOS app (Swift tracking, replay workshop; closed for now) lives in a separate repository.
 
@@ -14,14 +14,13 @@ DockKit gimbals confirmed by their maker (research of 13 Nov 2026; not legal or 
 
 | Device | DockKit | List price |
 |---|---|---|
-| DJI Osmo Mobile (DockKit model), **tested by the author** | yes | see below |
 | DJI Osmo Mobile 8 | yes, native (iPhone 12+, iOS 18.5+) | 159 EUR (Nov 2025) |
 | DJI Osmo Mobile 8P | yes | 159 / 189 / 219 EUR (May 2026) |
 | Insta360 Flow 2 Pro | yes (iPhone 12+, iOS 17+) | 169.99 EUR RRP (Jan 2025) |
 | Insta360 Flow Pro | yes (first DockKit gimbal, 2024) | EUR price not verified |
 | Belkin Auto-Tracking Stand Pro (a stand, not handheld) | yes | $179.99 (Jan 2024) |
 
-The author tested the DJI Osmo Mobile DockKit model. Third-party DockKit control (`setAngularVelocity`) behaviour depends on the maker and iOS version; one developer-forum report says it did not work on the Osmo Mobile 8, so test on your own gimbal. Not DockKit: Insta360 Flow 2 (non-Pro), DJI Osmo Mobile 7P.
+The author uses a DJI Osmo Mobile DockKit model. He bought it second-hand for 85 EUR and recommends buying used: with an iPhone you already own, the whole setup can cost under 100 EUR. Third-party DockKit control (`setAngularVelocity`) behaviour depends on the maker and iOS version; one developer-forum report says it did not work on the Osmo Mobile 8, so test on your own gimbal. Not DockKit: Insta360 Flow 2 (non-Pro), DJI Osmo Mobile 7P.
 
 ## Price comparison
 
@@ -48,6 +47,26 @@ Reserved match, never used for training: 396 frames, 219 balls, 149 of them smal
 | 0.55 | 81 / 23 | 82 / 16 | 81 / 3 |
 
 v006 makes far fewer false boxes at equal recall; recall itself did not improve in a demonstrated way. **Recall on small, far balls is still under 50 %**: v006 finds 57 of the 149 small balls at 0.25. See [model sizes](docs/mobile_size_comparison_20261015.md) and [v004](docs/mobile_field_v004_20261014.md).
+
+### Fine-tuning vs stock YOLO
+
+The point of fine-tuning, measured on the same independent test split of the public dataset (396 frames, 219 balls, 149 of them 16 px or smaller; heads blurred). Stock YOLO26s is the COCO-pretrained model, keeping only the COCO class "sports ball" (class 32); box2boxcam v1.0 is the fine-tuned detector. Same tool (`scripts/evaluate_detector.py`), 960 px input, IoU >= 0.5, true / false positives per confidence threshold.
+
+| Model | 0.25 | 0.35 | 0.45 | 0.55 | Recall / precision at 0.25 | Small balls found at 0.25 | Max TP at FP <= 25 / 60 / 100 / 200 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Stock YOLO26s (COCO "sports ball") | 51 / 55 | 47 / 22 | 35 / 9 | 27 / 4 | 23 % / 48 % | 23 of 149 | 47 / 53 / 65 / 72 |
+| Before automatic field labels | 96 / 207 | 93 / 113 | 88 / 61 | 81 / 18 | 44 % / 32 % | 54 of 149 | 85 / 88 / 92 / 96 |
+| **box2boxcam v1.0** | **99 / 100** | **92 / 52** | **85 / 22** | **82 / 4** | **45 % / 50 %** | **55 of 149** | **86 / 93 / 99 / 111** |
+
+Stock YOLO26s does find some balls: 51 of the 219 at confidence 0.25 (86 even at its lowest threshold of 0.05, with 536 false boxes), but it misses most of the small, far balls that matter on a sideline phone video. Fine-tuning roughly doubles the balls found at every threshold (99 against 51 at 0.25) and finds 55 of the 149 small balls against 23. A paired bootstrap over frames (2000 resamples, fine-tuned minus stock) gives +48 true positives at 0.25 (95 % interval +36 to +61), +55 at 0.55 (+41 to +69, with no change in false positives), and +34 to +40 true positives at every false-positive budget of 25 to 200 (all intervals exclude zero). Blurring heads barely matters: on the same frames unblurred, the fine-tuned model scores 100 / 103, 93 / 60, 86 / 30 and 81 / 3, and the stock model 56 / 57, 46 / 24, 35 / 11 and 27 / 3.
+
+![Precision-recall curves of stock YOLO26s, the intermediate model and box2boxcam v1.0 on the test split](docs/assets/pr_curve_test_split.png)
+
+Precision against recall over all confidence thresholds on the test split. Circles mark confidence 0.25, squares 0.55.
+
+![Training curves of box2boxcam v1.0](docs/assets/training_curves.png)
+
+Training curves of the released model (30 epochs): box and class loss on the training and validation sets, and validation mAP50 and mAP50-95 per epoch. The validation set is the one used during training (it shares its match with the training set), not the independent test split above.
 
 ## What did not work
 
@@ -83,7 +102,7 @@ A closed-loop benchmark on SoccerTrack v2 panoramas (16 segments, 577 s, split i
 Python 3.11 or newer.
 
 ```sh
-git clone https://github.com/<github-user>/box2boxcam-football-vision
+git clone https://github.com/Thibault-GILLARD/box2boxcam-football-vision
 cd box2boxcam-football-vision
 python3 -m venv .venv
 source .venv/bin/activate
@@ -120,7 +139,7 @@ python scripts/run_camera_benchmark.py --soccertrack-root soccertrack-v2 --set R
 
 Labels for `evaluate_detector.py` are a directory of YOLO `.txt` files or a JSON file of pixel boxes (layouts in `src/box2boxcam/evaluation/ground_truth.py`). Getting SoccerTrack v2 (gated, CC BY 4.0), the expected folder layout, metric definitions and caveats are in [docs/camera_guidance_benchmark.md](docs/camera_guidance_benchmark.md).
 
-Public targets: model `<hf-user>/box2boxcam-football-ball-detection`, dataset `<hf-user>/box2boxcam-football-amateur-match-frames`. The `configs/mobile_*.json` files still point to the author's existing private Hugging Face repos (`pitchlens-*`, kept so those artefacts stay reachable).
+Public targets: model `Totorotibo84/box2boxcam-football-ball-detection`, dataset `Totorotibo84/box2boxcam-football-ball-detection-dataset`. The `configs/mobile_*.json` files still point to the author's existing private Hugging Face repos (`pitchlens-*`, kept so those artefacts stay reachable).
 
 Training needs the datasets, which are published separately (see below), and a Hugging Face token in `.env`. The reserved-match protocol is in [docs/field_validation_20261021.md](docs/field_validation_20261021.md); the reserved frames must never enter training.
 
@@ -153,3 +172,11 @@ Not legal advice.
 ## Citation and acknowledgements
 
 SoccerTrack v2: Scott et al., arXiv:2508.01802, https://github.com/AtomScott/SoccerTrack-v2 (dataset CC BY 4.0, code MIT). Detectors are fine-tuned YOLO26 models from Ultralytics.
+
+## The box2boxcam project
+
+- Model: https://huggingface.co/Totorotibo84/box2boxcam-football-ball-detection
+- Dataset: https://huggingface.co/datasets/Totorotibo84/box2boxcam-football-ball-detection-dataset
+- Code: https://github.com/Thibault-GILLARD/box2boxcam-football-vision
+
+If this is useful to you, a star or a like is very welcome, and so is a message; issues and pull requests are warmly invited.
