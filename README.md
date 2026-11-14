@@ -69,6 +69,8 @@ A closed-loop benchmark on SoccerTrack v2 panoramas (16 segments, 577 s, split i
 |---|---|
 | `src/box2boxcam/data/` | dataset building, audits, annotation review tools |
 | `src/box2boxcam/training/` | evaluation, camera-targeting scoring, teacher benchmarks |
+| `src/box2boxcam/evaluation/` | held-out ball-detector evaluation: IoU matching, small-ball breakdown, false-positive budgets, paired bootstrap |
+| `src/box2boxcam/camera_sim/`, `src/box2boxcam/benchmark/` | closed-loop camera simulation and the SoccerTrack v2 guidance benchmark |
 | `scripts/` | Hugging Face Jobs training, evaluation, annotation and review scripts |
 | `configs/` | dataset recipes, training configs, Label Studio templates |
 | `notebooks/` | exploration and training notebooks (no outputs stored) |
@@ -87,6 +89,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -e '.[dev]'                   # tests and lint only
 python -m pip install -e '.[dev,training]'          # adds ultralytics, torch, OpenCV
+python -m pip install -e '.[dev,benchmark]'         # adds SciPy for the camera benchmark
 python -m pip install -e '.[annotation,notebook]'   # OpenAI client, JupyterLab, plots
 cp .env.example .env                                # then fill in keys locally
 ```
@@ -104,7 +107,18 @@ python scripts/mobile_training_hf.py prepare --config configs/mobile_small_auto_
 python scripts/mobile_training_hf.py launch  --config configs/mobile_small_auto_field_v006_960.json   # paid HF Job
 python scripts/mobile_training_hf.py collect --config configs/mobile_small_auto_field_v006_960.json
 python scripts/evaluate_mobile_personal.py --output models/reports/my_eval
+
+# held-out ball-detector evaluation (TP/FP, small balls, FP budgets, bootstrap A - B)
+python scripts/evaluate_detector.py --weights new.pt --compare reference.pt \
+    --frames-dir heldout/images --labels heldout/labels --out-json report.json
+
+# camera-guidance benchmark on SoccerTrack v2 (data and models are not included)
+python scripts/run_camera_benchmark.py --soccertrack-root soccertrack-v2 --set REF \
+    --variants current guard --out runs/camera/ref.json \
+    --people-weights yolo26s.pt --pose-weights yolo26s-pose.pt --ball-weights ball.pt
 ```
+
+Labels for `evaluate_detector.py` are a directory of YOLO `.txt` files or a JSON file of pixel boxes (layouts in `src/box2boxcam/evaluation/ground_truth.py`). Getting SoccerTrack v2 (gated, CC BY 4.0), the expected folder layout, metric definitions and caveats are in [docs/camera_guidance_benchmark.md](docs/camera_guidance_benchmark.md).
 
 Public targets: model `<hf-user>/box2boxcam-football-ball-detection`, dataset `<hf-user>/box2boxcam-football-amateur-match-frames`. The `configs/mobile_*.json` files still point to the author's existing private Hugging Face repos (`pitchlens-*`, kept so those artefacts stay reachable).
 

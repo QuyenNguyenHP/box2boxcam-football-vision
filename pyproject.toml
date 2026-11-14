@@ -22,6 +22,13 @@ training = [
   "numpy>=1.26",
   "opencv-python>=4.10,<5",
 ]
+benchmark = [
+  "ultralytics==8.4.153",
+  "torch>=2.4",
+  "numpy>=1.26",
+  "opencv-python>=4.10,<5",
+  "scipy>=1.11",
+]
 dev = [
   "ruff>=0.12",
 ]

@@ -1,0 +1,125 @@
+{
+ "note": "Fixed 2026-11-12 BEFORE any simulation result or GT inspection. Windows tile each 240 s clip (= first 240 s of the 1st half), skipping long dead-ball stretches seen in the action events (117093 30-62 s, 132831 124-147 s goal celebration); 117093 0-30 s is the sanity reference used all day and is excluded. Split interleaved in time so each set contains all three matches (day 4096x1080, night 3840x1906, day 3840x1504). TEST: at most ~5 looks, each logged in looks.log. FINAL: one look only, at the very end.",
+ "reference": [
+  {
+   "id": "117093_r",
+   "match": "117093",
+   "t0": 0,
+   "t1": 30
+  }
+ ],
+ "segments": [
+  {
+   "id": "117092_a",
+   "match": "117092",
+   "t0": 30,
+   "t1": 66,
+   "set": "TUNE"
+  },
+  {
+   "id": "117092_b",
+   "match": "117092",
+   "t0": 66,
+   "t1": 102,
+   "set": "TEST"
+  },
+  {
+   "id": "117092_c",
+   "match": "117092",
+   "t0": 102,
+   "t1": 138,
+   "set": "TUNE"
+  },
+  {
+   "id": "117092_d",
+   "match": "117092",
+   "t0": 138,
+   "t1": 174,
+   "set": "FINAL"
+  },
+  {
+   "id": "117092_e",
+   "match": "117092",
+   "t0": 174,
+   "t1": 210,
+   "set": "TUNE"
+  },
+  {
+   "id": "117092_f",
+   "match": "117092",
+   "t0": 210,
+   "t1": 240,
+   "set": "FINAL"
+  },
+  {
+   "id": "117093_a",
+   "match": "117093",
+   "t0": 62,
+   "t1": 100,
+   "set": "TUNE"
+  },
+  {
+   "id": "117093_b",
+   "match": "117093",
+   "t0": 100,
+   "t1": 138,
+   "set": "TEST"
+  },
+  {
+   "id": "117093_c",
+   "match": "117093",
+   "t0": 138,
+   "t1": 172,
+   "set": "TUNE"
+  },
+  {
+   "id": "117093_d",
+   "match": "117093",
+   "t0": 172,
+   "t1": 207,
+   "set": "FINAL"
+  },
+  {
+   "id": "117093_e",
+   "match": "117093",
+   "t0": 207,
+   "t1": 239,
+   "set": "TEST"
+  },
+  {
+   "id": "132831_a",
+   "match": "132831",
+   "t0": 10,
+   "t1": 48,
+   "set": "TUNE"
+  },
+  {
+   "id": "132831_b",
+   "match": "132831",
+   "t0": 48,
+   "t1": 86,
+   "set": "TEST"
+  },
+  {
+   "id": "132831_c",
+   "match": "132831",
+   "t0": 86,
+   "t1": 124,
+   "set": "TUNE"
+  },
+  {
+   "id": "132831_d",
+   "match": "132831",
+   "t0": 147,
+   "t1": 185,
+   "set": "TEST"
+  },
+  {
+   "id": "132831_e",
+   "match": "132831",
+   "t0": 185,
+   "t1": 223,
+   "set": "FINAL"
+  }
+ ]
+}
