@@ -92,3 +92,16 @@ data_license = "unknown-derived-from-soccernet"
 commercial_allowed = false
 status = "blocked_license_review"
 notes = "A 2.5 GB long-shot subset derived from SoccerNet v3 with 19786 images and ball/person labels. The Zenodo record does not display an explicit license; do not download or redistribute until the inherited SoccerNet terms are clarified."
+
+[[sources]]
+id = "youtube_vL0r9ek1nqQ"
+name = "YouTube video behind the luna_v001 dataset"
+url = "https://www.youtube.com/watch?v=vL0r9ek1nqQ"
+kind = "video"
+domain = "amateur_or_unknown_football_video"
+annotations = "luna_box_proposals_and_review_for_luna_v001"
+access = "public_url_owner_stated"
+data_license = "unknown"
+commercial_allowed = false
+status = "blocked_redistribution_not_cleared"
+notes = "Owner-stated, not re-verified: data/external/videos/inference_input_yt.mp4 was downloaded from this URL and is the source of luna_v001 (1,120 images). Redistribution rights are not cleared, so publish annotations and this URL only, never frames or the video."

@@ -111,6 +111,7 @@ Training needs the datasets, which are published separately (see below), and a H
 
 - Own footage (amateur matches filmed with an iPhone), faces blurred before publication. Folder names such as `club_match_*` are session labels of this footage.
 - Third-party clips are referenced by URL only (`configs/video_download_sources.json`); they are never redistributed.
+- The `luna_v001` frames (1,120 images) come from one YouTube video, <https://www.youtube.com/watch?v=vL0r9ek1nqQ>. Source stated by the owner, not re-verified; redistribution rights are not cleared, so only annotations and this URL are published, never frames or the video.
 - Public datasets used: see [docs/dataset_assessment.md](docs/dataset_assessment.md).
 - Frames were sent to third-party model APIs (the `gpt-6-luna` multimodal model, and Claude for judging candidates) to propose ball boxes. These proposals are not ground truth; human review is described in the docs.
 

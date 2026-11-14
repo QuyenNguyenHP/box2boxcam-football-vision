@@ -8,5 +8,15 @@
     "https://vm.tiktok.com/ZN8rutaU7/",
     "https://vm.tiktok.com/ZN8runXgH/",
     "https://vm.tiktok.com/ZN8rubp12/"
+  ],
+  "owner_stated_sources": [
+    {
+      "url": "https://www.youtube.com/watch?v=vL0r9ek1nqQ",
+      "local_file": "data/external/videos/inference_input_yt.mp4",
+      "derived_dataset": "luna_v001 (1,120 images)",
+      "provenance": "owner-stated, not re-verified",
+      "redistribution_rights": "not cleared",
+      "publication": "annotations and URL only; no frames or video redistributed"
+    }
   ]
 }

@@ -108,6 +108,10 @@ The [Dryad football package](https://datadryad.org/dataset/doi:10.5061/dryad.3bk
 
 The [SoccerNet v3 H250 subset](https://zenodo.org/records/7808511) contains 19,786 long-distance images with ball/person boxes. It is promising, but the Zenodo record shows no explicit license and derives from SoccerNet, so it stays blocked until clarified.
 
+### Video behind `luna_v001`
+
+`data/external/videos/inference_input_yt.mp4`, the source of the 1,120 `luna_v001` images, was downloaded from <https://www.youtube.com/watch?v=vL0r9ek1nqQ>. This origin is stated by the project owner and has not been re-verified. Redistribution rights are not cleared: annotations and the URL may be published, frames and the video may not. Recorded in `configs/data_sources.toml` and `configs/video_download_sources.json`.
+
 ## Scientific rules for PitchLens
 
 1. **A source group never crosses splits.** For video, the group is the video or match, never the frame.
