@@ -1,91 +1,48 @@
-# Nano 960 : les anciennes images TV aident-elles ?
+# Nano 960: do the old TV images help?
 
-Cette seconde expérience ajoute le **train de v002**, sans reprendre ses
-anciennes validations ni ses tests. Les images déjà exclues restent exclues.
-Les annotations exportées après correction sont utilisées, pas les anciennes
-propositions YOLO. La qualité est hétérogène : cet essai ne suppose pas que
-toutes les images TV sont mauvaises, ni que leur ajout sera bénéfique.
+Adding the TV train set of dataset v002 (3,048 images) to the recent iPhone-style data improves mAP50-95 (42.5% to 46.1%) and cuts false detections (34 to 11), at the cost of recall (92 to 87 detected balls). The gain is not uniform.
 
-| Données | Récent seul (terminé) | Récent + TV (nouvel essai) |
+This second experiment adds the **v002 train set** (the published dataset), without its old validations or tests. Already-excluded images stay excluded. Exported post-correction annotations are used, not the old YOLO proposals. Quality is heterogeneous: this trial assumes neither that all TV images are bad nor that adding them will help.
+
+| Data | Recent only (finished) | Recent + TV (new trial) |
 |---|---:|---:|
-| Train récent | 1 547 | 1 547 |
-| Train TV v002 | 0 | 3 048 |
-| Total train | 1 547 | 4 595 |
-| Train avec ballon | 1 390 | 3 503 |
-| Train sans ballon | 157 | 1 092 |
-| Validation, strictement identique | 168 | 168 |
-| Images de test utilisées pour entraîner | 0 | 0 |
+| Recent train | 1,547 | 1,547 |
+| TV train (v002) | 0 | 3,048 |
+| Total train | 1,547 | 4,595 |
+| Train with a ball | 1,390 | 3,503 |
+| Train without a ball | 157 | 1,092 |
+| Validation, strictly identical | 168 | 168 |
+| Test images used for training | 0 | 0 |
 
-La comparaison se fait avec **YOLO26n à 960 px**, la même initialisation COCO,
-le même batch de 8, AdamW, seed 42, les mêmes augmentations, 60 époques maximum
-et patience 12. Le modèle récent n'est **pas** le point de départ du nouvel
-entraînement : son `best.pt` sert de référence sur la validation commune.
-Il reste intact et les résultats du nouvel essai ont leur propre dossier.
+The comparison uses **YOLO26n at 960 px**, same COCO initialization, batch 8, AdamW, seed 42, same augmentations, 60 epochs maximum and patience 12. The recent model is **not** the starting point of the new training: its `best.pt` only serves as reference on the common validation, and the new trial has its own output folder.
 
-Attention à l'interprétation : nous changeons simultanément la quantité,
-le domaine visuel, la qualité des annotations et la proportion de négatifs
-(10,1 % → 23,8 %). Une époque contient aussi davantage de mises à jour.
-Ce n'est donc pas une mesure isolée de l'effet de la « qualité moyenne ».
-Les métriques diront surtout si **cet ajout précis** aide notre modèle.
+Interpretation caveat: quantity, visual domain, annotation quality and negative proportion (10.1% to 23.8%) change together, and an epoch also contains more updates. This is therefore not an isolated measure of the effect of "average quality". The metrics mainly say whether **this specific addition** helps our model.
 
-Le checkpoint est sélectionné sur la validation, jamais sur les 292 images
-personnelles. Ce benchmark personnel a déjà été regardé ; une nouvelle
-comparaison dessus sera exploratoire, pas un nouveau test aveugle. Le clip
-court de test et le clip long de train partagent le match du 30 septembre.
-Un autre match entièrement réservé serait nécessaire pour une mesure
-indépendante de la généralisation.
+The checkpoint is selected on validation, never on the 292 personal images. That personal benchmark has already been looked at; a new comparison on it would be exploratory, not a new blind test. The short test clip and the long train clip share the 30 September match; another fully reserved match would be needed for an independent generalization measure.
 
-## Fichiers et suivi
+Configuration: `configs/mobile_nano_tv_960.json`. The derived export `mobile_tv_v001` uses hard-linked JPEGs, with no second permanent copy. The private job was limited to two hours on an A10G (cap about 2 USD at 1 USD/h, not a billing forecast), doubled from the first trial because train is three times larger.
 
-- Configuration : `configs/mobile_nano_tv_960.json`.
-- Export dérivé : `data/processed/mobile_tv_v001`, avec manifestes et audit.
-  Les JPEG sont des liens physiques, sans deuxième copie permanente.
-- Présentation : section 10 du notebook existant `09_mobile_training.ipynb`.
-- Premier modèle : `models/checkpoints/baseline_runs/yolo26n_mobile_v001_960_20261010/artifacts/best.pt`.
-- Nouvel identifiant : `yolo26n_mobile_tv_v001_960_20261010`.
+## Final results on the common validation
 
-Le job privé HF est limité à deux heures sur A10G small. Au tarif constaté
-de 1 $/h, cela donne un plafond de calcul d'environ 2 $, et non une prévision
-du coût réellement facturé. Le délai est doublé par rapport au premier essai
-pour laisser le même nombre maximal d'époques avec trois fois plus de train.
+The job completed: 59 epochs, 4,574.8 seconds of training (about 76 minutes). Fixed-threshold metrics use confidence >= 0.25 and IoU >= 0.50.
 
-Job soumis le 10 octobre :
-[yolo26n_mobile_tv_v001_960_20261010](https://huggingface.co/jobs/Totorotibo84/6aca667f095c57808931454b).
-Le job est terminé : 59 époques, 4 574,8 secondes d'entraînement
-(environ 76 minutes). Le checkpoint final sélectionné sur la validation a été
-récupéré dans `models/checkpoints/baseline_runs/yolo26n_mobile_tv_v001_960_20261010/artifacts/best.pt`.
-
-## Résultats finaux sur la validation commune
-
-Les métriques au seuil fixe utilisent confiance ≥ 0,25 et IoU ≥ 0,50.
-
-| Mesure | Récent seul | Récent + TV |
+| Metric | Recent only | Recent + TV |
 |---|---:|---:|
-| mAP50 | 75,6 % | 75,0 % |
-| mAP50–95 | 42,5 % | 46,1 % |
-| Précision au seuil fixe | 73,0 % | 88,8 % |
-| Rappel au seuil fixe | 68,7 % | 64,9 % |
-| F1 au seuil fixe | 70,8 % | 75,0 % |
-| Bonnes détections | 92 | 87 |
-| Fausses détections | 34 | 11 |
-| Ballons ratés | 42 | 47 |
-| Fausses détections sur images négatives | 13 | 3 |
+| mAP50 | 75.6% | 75.0% |
+| mAP50-95 | 42.5% | 46.1% |
+| Precision at fixed threshold | 73.0% | 88.8% |
+| Recall at fixed threshold | 68.7% | 64.9% |
+| F1 at fixed threshold | 70.8% | 75.0% |
+| Good detections | 92 | 87 |
+| False detections | 34 | 11 |
+| Missed balls | 42 | 47 |
+| False detections on negative images | 13 | 3 |
 
-L'ajout améliore la localisation globale et réduit nettement les faux
-positifs, avec un compromis défavorable sur le rappel au seuil choisi :
-23 fausses détections de moins mais 5 ballons ratés de plus. Ce n'est donc pas
-une amélioration uniforme. Le benchmark personnel et les gros plans n'ont
-pas encore été réévalués avec ce nouveau checkpoint ; les résultats ci-dessus
-ne prouvent pas une amélioration sur ces situations.
-
-Ces commandes ne lancent pas de nouveau job payant :
+The addition improves overall localization and clearly reduces false positives, with an unfavorable recall trade-off at the chosen threshold: 23 fewer false detections but 5 more missed balls. It is not a uniform improvement. The personal benchmark and close-ups have not yet been re-evaluated with this checkpoint; the results above do not prove improvement in those situations.
 
 ```bash
 python scripts/mobile_training_hf.py status --config configs/mobile_nano_tv_960.json
 python scripts/mobile_training_hf.py collect --config configs/mobile_nano_tv_960.json
 ```
 
-`collect` refuse de présenter un entraînement incomplet comme un résultat final.
-Le job a été collecté ; la section 10 affiche désormais la comparaison
-sur les mêmes 168 images de validation, les matrices de confusion et les
-courbes d'apprentissage du nouvel essai.
+These commands launch no new paid job; `collect` refuses to present an incomplete training as a final result. Section 10 of `notebooks/09_mobile_training.ipynb` shows the comparison, confusion matrices and learning curves.

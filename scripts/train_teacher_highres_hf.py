@@ -1,4 +1,4 @@
-"""Continue fine-tuning the PitchLens teacher at 960 px on HF Jobs."""
+"""Continue fine-tuning the box2boxcam teacher at 960 px on HF Jobs."""
 
 from __future__ import annotations
 
@@ -16,9 +16,9 @@ import ultralytics
 from huggingface_hub import HfApi, hf_hub_download, snapshot_download
 from ultralytics import YOLO
 
-DATASET_REPO = os.environ["PITCHLENS_DATASET_REPO"]
-MODEL_REPO = os.environ["PITCHLENS_MODEL_REPO"]
-WORK_ROOT = Path("/tmp/pitchlens_teacher_960")
+DATASET_REPO = os.environ["BOX2BOXCAM_DATASET_REPO"]
+MODEL_REPO = os.environ["BOX2BOXCAM_MODEL_REPO"]
+WORK_ROOT = Path("/tmp/box2boxcam_teacher_960")
 DATA_ROOT = WORK_ROOT / "dataset"
 RUN_ROOT = WORK_ROOT / "runs"
 ARTIFACT_ROOT = WORK_ROOT / "artifacts"
@@ -33,7 +33,7 @@ def load_benchmark_helpers():
         filename="benchmark_teacher_resolution_hf.py",
     )
     spec = importlib.util.spec_from_file_location(
-        "pitchlens_resolution_helpers", helper_path
+        "box2boxcam_resolution_helpers", helper_path
     )
     if spec is None or spec.loader is None:
         raise RuntimeError(f"Cannot import benchmark helpers from {helper_path}")
@@ -117,7 +117,7 @@ def write_readme(report: dict) -> None:
     result = report["validation_after"]["960"]
     fixed = result["fixed"]
     (ARTIFACT_ROOT / "README.md").write_text(
-        f"""# PitchLens YOLO26x teacher — 960 px continuation
+        f"""# box2boxcam YOLO26x teacher — 960 px continuation
 
 This annotation teacher continues from the v002 640 px `best.pt` and is
 fine-tuned at 960 px. It is an offline dataset-construction model, not the

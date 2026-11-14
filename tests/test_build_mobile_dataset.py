@@ -1,6 +1,6 @@
 import unittest
 
-from pitchlens.data.build_mobile_dataset import (
+from box2boxcam.data.build_mobile_dataset import (
     append_reviewed_train,
     check_groups,
     select_luna_rows,

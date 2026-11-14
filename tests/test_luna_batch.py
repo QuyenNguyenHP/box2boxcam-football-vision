@@ -12,7 +12,7 @@ ROOT = Path(__file__).parents[1]
 SRC = ROOT / "src"
 sys.path.insert(0, str(SRC))
 
-from pitchlens.data.luna_batch import (
+from box2boxcam.data.luna_batch import (
     OUTPUT_SCHEMA,
     collect_batch,
     parse_batch_output,
@@ -30,7 +30,7 @@ class LunaBatchTests(unittest.TestCase):
             "model": "gpt-6-luna", "reasoning_effort": "max",
             "image_detail": "original", "max_output_tokens": 32768,
             "annotation_prompt": "Annotate the visible ball, including held or static balls.",
-            "target_instruction": "Localise le ballon visible dans CURRENT.",
+            "target_instruction": "Locate the visible ball in CURRENT.",
         }
         body = prediction_request_body(
             case=case, file_ids={"0": "file-0", "3": "file-3"}, plan=plan,
@@ -38,19 +38,19 @@ class LunaBatchTests(unittest.TestCase):
         self.assertEqual(body["input"][0]["content"], plan["annotation_prompt"])
         self.assertIn(plan["target_instruction"], body["input"][1]["content"][0]["text"])
         self.assertEqual(body["text"]["format"]["schema"], OUTPUT_SCHEMA)
-        from pitchlens.data.luna_batch import DEVELOPER_PROMPT
+        from box2boxcam.data.luna_batch import DEVELOPER_PROMPT
         del plan["annotation_prompt"]
         del plan["target_instruction"]
         default = prediction_request_body(
             case=case, file_ids={"0": "file-0", "3": "file-3"}, plan=plan,
         )
         self.assertEqual(default["input"][0]["content"], DEVELOPER_PROMPT)
-        self.assertIn("ballon en jeu", default["input"][1]["content"][0]["text"])
+        self.assertIn("ball in play", default["input"][1]["content"][0]["text"])
 
     def test_expired_collection_requires_opt_in(self):
-        with patch("pitchlens.data.luna_batch.build_plan", return_value={}), patch(
-            "pitchlens.data.luna_batch.refresh_status", return_value={"batch_status": "expired"}
-        ), patch("pitchlens.data.luna_batch.openai_client") as client:
+        with patch("box2boxcam.data.luna_batch.build_plan", return_value={}), patch(
+            "box2boxcam.data.luna_batch.refresh_status", return_value={"batch_status": "expired"}
+        ), patch("box2boxcam.data.luna_batch.openai_client") as client:
             with self.assertRaises(RuntimeError):
                 collect_batch(SimpleNamespace())
             client.assert_not_called()
@@ -78,10 +78,10 @@ class LunaBatchTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             config = SimpleNamespace(output_root=root, project_root=root)
-            with patch("pitchlens.data.luna_batch.build_plan", return_value=plan), patch(
-                "pitchlens.data.luna_batch.refresh_status", return_value=state
-            ), patch("pitchlens.data.luna_batch.openai_client"), patch(
-                "pitchlens.data.luna_batch._download_file", side_effect=download
+            with patch("box2boxcam.data.luna_batch.build_plan", return_value=plan), patch(
+                "box2boxcam.data.luna_batch.refresh_status", return_value=state
+            ), patch("box2boxcam.data.luna_batch.openai_client"), patch(
+                "box2boxcam.data.luna_batch._download_file", side_effect=download
             ):
                 summary = collect_batch(config, allow_partial=True)
             self.assertEqual(summary["valid_predictions"], 1)

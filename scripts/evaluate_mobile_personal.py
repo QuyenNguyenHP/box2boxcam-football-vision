@@ -20,11 +20,11 @@ import numpy as np
 import torch
 from ultralytics import YOLO, settings
 
-from pitchlens.data.audit_yolo import audit
-from pitchlens.data.build_mobile_dataset import sha256
-from pitchlens.training.camera_benchmark import benchmark_targets
-from pitchlens.training.diagnostics import quiet_ultralytics_progress
-from pitchlens.training.evaluate import BallValidator
+from box2boxcam.data.audit_yolo import audit
+from box2boxcam.data.build_mobile_dataset import sha256
+from box2boxcam.training.camera_benchmark import benchmark_targets
+from box2boxcam.training.diagnostics import quiet_ultralytics_progress
+from box2boxcam.training.evaluate import BallValidator
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -38,8 +38,8 @@ def draw_matrix(fixed, path, title):
     for i in range(2):
         for j in range(2):
             axis.text(j, i, "—" if np.isnan(values[i, j]) else str(int(values[i, j])), ha="center", va="center")
-    axis.set(xticks=[0, 1], yticks=[0, 1], xticklabels=["Ballon réel", "Fond"],
-             yticklabels=["Ballon prédit", "Manqué"], title=title)
+    axis.set(xticks=[0, 1], yticks=[0, 1], xticklabels=["Real ball", "Background"],
+             yticklabels=["Predicted ball", "Missed"], title=title)
     fig.tight_layout()
     fig.savefig(path, dpi=130)
     plt.close(fig)
@@ -102,7 +102,7 @@ def make_video(weights, source, output, confidence=.25, size=960):
                 predictions.append({"source_frame": processed, "selected": selected})
                 processed += 1
                 if processed % 150 == 0:
-                    print(f"Vidéo : {processed}/{total} images", flush=True)
+                    print(f"Video: {processed}/{total} images", flush=True)
             if processed != total:
                 raise RuntimeError(f"Incomplete video decode: {processed}/{total}")
         except BrokenPipeError as error:
@@ -143,7 +143,7 @@ def main():
     training_report = json.loads((run / "training_report.json").read_text())
     if training_report["status"] != "complete" or training_report["test_split_used"]:
         raise RuntimeError("Training must be complete and selected on validation only")
-    dataset = ROOT / "data/processed/lou_mistrau_test_v001"
+    dataset = ROOT / "data/processed/club_match_test_v001"
     build = json.loads((dataset / "build_report.json").read_text())
     source = ROOT / build["source_video"]
     if sha256(source) != build["source_video_sha256"]:
@@ -163,7 +163,7 @@ def main():
             raise ValueError("Weights changed since the frozen final evaluation")
         torch.set_num_threads(4)
         cv2.setNumThreads(2)
-        report["video"] = make_video(weights["mobile"], source, output / "lou_mistrau_nano960_ball.mp4")
+        report["video"] = make_video(weights["mobile"], source, output / "club_match_nano960_ball.mp4")
         report["status"] = "complete"
         (output / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
         print(f"Video complete; test metrics unchanged: {output}", flush=True)
@@ -192,7 +192,7 @@ def main():
 
     save()
     for key, path in weights.items():
-        print(f"Test détecteur — {key} @960, batch 1 CPU", flush=True)
+        print(f"Detector test: {key} @960, batch 1 CPU", flush=True)
         model = YOLO(str(path))
         started = time.perf_counter()
         with quiet_ultralytics_progress():
@@ -201,7 +201,7 @@ def main():
                                max_det=100, plots=True, verbose=False, project=str(output), name=key, exist_ok=False)
         report["detection"][key] = {"map50": float(result.box.map50), "map50_95": float(result.box.map),
                                     "fixed": result.fixed_threshold, "seconds": time.perf_counter() - started}
-        draw_matrix(result.fixed_threshold, output / key / "fixed_confusion_matrix.png", key + " — conf 0,25 ; IoU 0,50")
+        draw_matrix(result.fixed_threshold, output / key / "fixed_confusion_matrix.png", key + " — conf 0.25; IoU 0.50")
         print(json.dumps(report["detection"][key], indent=2), flush=True)
         save()
         # Cache per-image predictions once for the looser camera-target metric.
@@ -222,11 +222,11 @@ def main():
     (output / "predictions.json").write_text(json.dumps(rows, indent=2) + "\n")
     report["metrics_status"] = "complete"
     save()
-    print("Création de la vidéo complète — une frame à la fois", flush=True)
-    report["video"] = make_video(weights["mobile"], source, output / "lou_mistrau_nano960_ball.mp4")
+    print("Creating the full video, one frame at a time", flush=True)
+    report["video"] = make_video(weights["mobile"], source, output / "club_match_nano960_ball.mp4")
     report["status"] = "complete"
     save()
-    print(f"Terminé : {output}", flush=True)
+    print(f"Done: {output}", flush=True)
 
 
 if __name__ == "__main__":

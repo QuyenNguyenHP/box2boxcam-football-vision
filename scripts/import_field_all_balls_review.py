@@ -6,12 +6,12 @@ import json
 import os
 from pathlib import Path
 
-from pitchlens.data.label_studio_review import (
+from box2boxcam.data.label_studio_review import (
     _label_studio_request,
     download_local_export,
     export_review,
 )
-from pitchlens.data.luna_batch import _atomic_json
+from box2boxcam.data.luna_batch import _atomic_json
 
 BASE = "http://127.0.0.1:8080"
 TITLE = "PitchLens — Match iPhone — Tous les ballons"
@@ -50,7 +50,7 @@ def import_review(root: Path, source: Path):
     active_model = "gpt-6-luna" if all(
         any(p["model_version"] == "gpt-6-luna" for p in task["predictions"])
         for task in tasks
-    ) else "YOLO26n v003 960px — propositions"
+    ) else "YOLO26n v003 960px proposals"
     project = matches[0] if matches else request("/api/projects/", "POST", {
         "title": TITLE, "label_config": config,
         "description": "22 private clips, one session. All visible balls including stationary sideline balls. Independent YOLO v003 and Luna proposals; human review required before training.",

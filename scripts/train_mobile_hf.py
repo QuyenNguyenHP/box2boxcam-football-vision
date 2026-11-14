@@ -38,11 +38,11 @@ def main():
     settings.update({"sync": False, "wandb": False, "mlflow": False, "clearml": False})
     torch.set_num_threads(4)
     api = HfApi()
-    model_repo = os.environ["PITCHLENS_MODEL_REPO"]
-    dataset_repo = os.environ["PITCHLENS_DATASET_REPO"]
-    code_revision = os.environ["PITCHLENS_CODE_REVISION"]
-    dataset_revision = os.environ["PITCHLENS_DATASET_REVISION"]
-    root = Path("/tmp/pitchlens_mobile")
+    model_repo = os.environ["BOX2BOXCAM_MODEL_REPO"]
+    dataset_repo = os.environ["BOX2BOXCAM_DATASET_REPO"]
+    code_revision = os.environ["BOX2BOXCAM_CODE_REVISION"]
+    dataset_revision = os.environ["BOX2BOXCAM_DATASET_REVISION"]
+    root = Path("/tmp/box2boxcam_mobile")
     root.mkdir(parents=True, exist_ok=True)
     artifacts = root / "artifacts"
     artifacts.mkdir()
@@ -65,7 +65,7 @@ def main():
     validator = module.BallValidator
     archive = hf_hub_download(repo_id=dataset_repo, repo_type="dataset",
                               revision=dataset_revision, filename="dataset.tar")
-    expected_sha = os.environ["PITCHLENS_ARCHIVE_SHA256"]
+    expected_sha = os.environ["BOX2BOXCAM_ARCHIVE_SHA256"]
     if sha256(archive) != expected_sha:
         raise ValueError("Dataset transport checksum mismatch")
     dataset_root = root / "dataset"
@@ -148,9 +148,9 @@ def main():
         for i in range(2):
             for j in range(2):
                 axis.text(j, i, "—" if np.isnan(values[i, j]) else str(int(values[i, j])), ha="center", va="center")
-        axis.set(xticks=[0, 1], yticks=[0, 1], xticklabels=["Ballon réel", "Aucun objet associé"],
-                 yticklabels=["Ballon prédit", "Ballon manqué"], xlabel="Annotation", ylabel="Prédiction",
-                 title=f"{name} — conf ≥ 0,25 ; IoU ≥ 0,50")
+        axis.set(xticks=[0, 1], yticks=[0, 1], xticklabels=["Real ball", "No matching object"],
+                 yticklabels=["Predicted ball", "Missed ball"], xlabel="Annotation", ylabel="Prediction",
+                 title=f"{name} — conf >= 0.25; IoU >= 0.50")
         fig.tight_layout()
         fig.savefig(artifacts / "evaluation" / name / "fixed_confusion_matrix.png", dpi=130)
         plt.close(fig)

@@ -1,14 +1,14 @@
 {
   "source_files": [
-    "/Users/thibaultgillard/Downloads/IMG_7016.MOV",
-    "/Users/thibaultgillard/Downloads/IMG_7017.MOV",
-    "/Users/thibaultgillard/Downloads/IMG_7018.MOV",
-    "/Users/thibaultgillard/Downloads/IMG_7019.MOV",
-    "/Users/thibaultgillard/Downloads/IMG_7020.MOV",
-    "/Users/thibaultgillard/Downloads/IMG_7021.MOV",
-    "/Users/thibaultgillard/Downloads/IMG_7022.MOV",
-    "/Users/thibaultgillard/Downloads/IMG_7023.MOV",
-    "/Users/thibaultgillard/Downloads/IMG_7024.MOV"
+    "data/external/videos/hard_negatives_20261012/IMG_7016.MOV",
+    "data/external/videos/hard_negatives_20261012/IMG_7017.MOV",
+    "data/external/videos/hard_negatives_20261012/IMG_7018.MOV",
+    "data/external/videos/hard_negatives_20261012/IMG_7019.MOV",
+    "data/external/videos/hard_negatives_20261012/IMG_7020.MOV",
+    "data/external/videos/hard_negatives_20261012/IMG_7021.MOV",
+    "data/external/videos/hard_negatives_20261012/IMG_7022.MOV",
+    "data/external/videos/hard_negatives_20261012/IMG_7023.MOV",
+    "data/external/videos/hard_negatives_20261012/IMG_7024.MOV"
   ],
   "video_directory": "data/external/videos/hard_negatives_20261012",
   "extraction_directory": "data/interim/hard_negatives_20261012",

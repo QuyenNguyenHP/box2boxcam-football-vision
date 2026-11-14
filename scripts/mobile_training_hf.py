@@ -18,8 +18,8 @@ from huggingface_hub import (
 )
 from huggingface_hub.errors import HfHubHTTPError
 
-from pitchlens.data.build_mobile_dataset import build, sha256
-from pitchlens.data.reserved_sessions import assert_no_reserved_training
+from box2boxcam.data.build_mobile_dataset import build, sha256
+from box2boxcam.data.reserved_sessions import assert_no_reserved_training
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -62,10 +62,10 @@ def submit_prepared(config, record, record_path, *, retry_rejected=False):
         if json.loads(Path(remote_config).read_text()) != config:
             raise ValueError("Pinned worker configuration differs from requested configuration")
         env = {
-            "PITCHLENS_MODEL_REPO": config["model_repo"], "PITCHLENS_DATASET_REPO": config["dataset_repo"],
-            "PITCHLENS_CODE_REVISION": record["code_revision"],
-            "PITCHLENS_DATASET_REVISION": record["dataset_revision"],
-            "PITCHLENS_ARCHIVE_SHA256": record["archive_sha256"],
+            "BOX2BOXCAM_MODEL_REPO": config["model_repo"], "BOX2BOXCAM_DATASET_REPO": config["dataset_repo"],
+            "BOX2BOXCAM_CODE_REVISION": record["code_revision"],
+            "BOX2BOXCAM_DATASET_REVISION": record["dataset_revision"],
+            "BOX2BOXCAM_ARCHIVE_SHA256": record["archive_sha256"],
             "MPLBACKEND": "Agg", "YOLO_AUTOINSTALL": "false",
         }
         bootstrap = (
@@ -75,8 +75,8 @@ def submit_prepared(config, record, record_path, *, retry_rejected=False):
             "subprocess.check_call([sys.executable,'-m','pip','install','--no-cache-dir','--no-deps',"
             "'opencv-python-headless==4.11.0.86']); "
             "from huggingface_hub import hf_hub_download; "
-            "p=hf_hub_download(repo_id=os.environ['PITCHLENS_MODEL_REPO'],"
-            "filename='code/train_mobile_hf.py',revision=os.environ['PITCHLENS_CODE_REVISION']); "
+            "p=hf_hub_download(repo_id=os.environ['BOX2BOXCAM_MODEL_REPO'],"
+            "filename='code/train_mobile_hf.py',revision=os.environ['BOX2BOXCAM_CODE_REVISION']); "
             "runpy.run_path(p,run_name='__main__')"
         )
         record["status"] = "submitting"
@@ -129,7 +129,7 @@ def launch(config, record_path):
         import torch
         from ultralytics import YOLO
 
-        from pitchlens.training.sports_ball_transfer import (
+        from box2boxcam.training.sports_ball_transfer import (
             retain_sports_ball,
             verify_dense_predictions,
         )
@@ -176,7 +176,7 @@ def launch(config, record_path):
         print("Reusing the exact frozen modern-only HF dataset revision; no image upload", flush=True)
     else:
         # Temporary transport archive only: JPEG data is not permanently duplicated locally.
-        with tempfile.TemporaryDirectory(prefix="pitchlens-mobile-upload-") as temporary:
+        with tempfile.TemporaryDirectory(prefix="box2boxcam-mobile-upload-") as temporary:
             archive = Path(temporary) / "dataset.tar"
             with tarfile.open(archive, "w") as bundle:
                 for path in sorted(dataset.rglob("*")):
@@ -191,12 +191,12 @@ def launch(config, record_path):
             data_revision = data_commit.oid
     files = {
         "code/train_mobile_hf.py": ROOT / "scripts/train_mobile_hf.py",
-        "code/evaluate.py": ROOT / "src/pitchlens/training/evaluate.py",
+        "code/evaluate.py": ROOT / "src/box2boxcam/training/evaluate.py",
         f"inputs/{config.get('base_model', 'yolo26n.pt')}": ROOT / "models/checkpoints" / config.get("base_model", "yolo26n.pt"),
         config.get("reference_filename", "inputs/previous_luna_best.pt"): ROOT / config["previous_weights"],
     }
     if config.get("sports_ball_transfer") in {"retain_full_classifier", "continue_retained_classifier"}:
-        files["code/sports_ball_transfer.py"] = ROOT / "src/pitchlens/training/sports_ball_transfer.py"
+        files["code/sports_ball_transfer.py"] = ROOT / "src/box2boxcam/training/sports_ball_transfer.py"
     operations = [CommitOperationAdd(path_in_repo=name, path_or_fileobj=path) for name, path in files.items()]
     operations.append(CommitOperationAdd(path_in_repo="code/config.json", path_or_fileobj=(json.dumps(config, indent=2) + "\n").encode()))
     if transfer_preflight:

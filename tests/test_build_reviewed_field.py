@@ -1,7 +1,7 @@
 import copy
 import unittest
 
-from pitchlens.data.build_reviewed_field import SESSION, select_submitted
+from box2boxcam.data.build_reviewed_field import SESSION, select_submitted
 
 
 class FieldSelectionTests(unittest.TestCase):

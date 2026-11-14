@@ -8,7 +8,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from pitchlens.data.luna_batch import _atomic_json
+from box2boxcam.data.luna_batch import _atomic_json
 
 root = Path(__file__).resolve().parents[1]
 config = root / "configs/field_validation_20261021.json"

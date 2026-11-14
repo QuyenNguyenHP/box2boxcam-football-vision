@@ -1,6 +1,6 @@
 ---
 license: cc-by-nc-4.0
-pretty_name: PitchLens Ball Detection v002
+pretty_name: box2boxcam Ball Detection v002
 task_categories:
 - object-detection
 size_categories:
@@ -11,16 +11,16 @@ tags:
 - ball-detection
 - tiny-object-detection
 - yolo
-- pitchlens
+- box2boxcam
 source_datasets:
 - infactory-ai/ball-tracking
 ---
 
-# PitchLens Ball Detection v002
+# box2boxcam Ball Detection v002
 
-PitchLens v002 is a curated football-ball detection dataset built for one practical question: how reliably can a small detector keep the ball in frame for a low-cost automatic match camera?
+box2boxcam v002 is a curated football-ball detection dataset built for one practical question: how reliably can a small detector keep the ball in frame for a low-cost automatic match camera?
 
-The release contains 4,549 images and 3,259 bounding boxes in YOLO format. It is derived from the [Infactory Soccer Ball Tracking dataset](https://huggingface.co/datasets/infactory-ai/ball-tracking), then audited and corrected for PitchLens. Source sequences remain isolated between train, validation and test.
+The release contains 4,549 images and 3,259 bounding boxes in YOLO format. It is derived from the [Infactory Soccer Ball Tracking dataset](https://huggingface.co/datasets/infactory-ai/ball-tracking), then audited and corrected for box2boxcam. Source sequences remain isolated between train, validation and test.
 
 ## Dataset summary
 
@@ -55,7 +55,7 @@ The repository includes the frozen review decisions, source manifest snapshot, o
 ## Layout
 
 ```text
-pitchlens-v002/
+box2boxcam-v002/
 ├── train/{images,labels}
 ├── val/{images,labels}
 ├── test/{images,labels}
@@ -72,7 +72,7 @@ pitchlens-v002/
 from huggingface_hub import snapshot_download
 
 dataset_root = snapshot_download(
-    repo_id="Totorotibo84/pitchlens-v002",
+    repo_id="Totorotibo84/box2boxcam-football-ball-detection-dataset",
     repo_type="dataset",
 )
 print(dataset_root)
@@ -84,7 +84,7 @@ For Ultralytics, either run from the downloaded repository or update the `path` 
 
 This release is intended for non-commercial research on football-ball detection, tiny-object detection, tracking and automatic sports-camera prototypes. The validation split is suitable for model selection; keep the test split untouched until the final evaluation.
 
-The images do not yet represent the final PitchLens deployment domain. Most footage comes from existing match video rather than a fixed iPhone on an amateur touchline. Expect domain shift in camera height, compression, lighting, motion blur and ball size.
+The images do not yet represent the final box2boxcam deployment domain. Most footage comes from existing match video rather than a fixed iPhone on an amateur touchline. Expect domain shift in camera height, compression, lighting, motion blur and ball size.
 
 ## License and attribution
 
@@ -93,8 +93,8 @@ The upstream dataset is licensed under [CC BY-NC 4.0](https://creativecommons.or
 Please attribute both:
 
 - [Infactory Soccer Ball Tracking](https://huggingface.co/datasets/infactory-ai/ball-tracking), the source dataset;
-- PitchLens v002, for the review, corrections, exclusions and sequence-safe release.
+- box2boxcam v002, for the review, corrections, exclusions and sequence-safe release.
 
 ## Related model
 
-The matching high-resolution annotation teacher is available at [Totorotibo84/pitchlens-yolo26x-v002-teacher](https://huggingface.co/Totorotibo84/pitchlens-yolo26x-v002-teacher).
+The matching high-resolution annotation teacher is available at [Totorotibo84/box2boxcam-football-ball-detection](https://huggingface.co/Totorotibo84/box2boxcam-football-ball-detection).

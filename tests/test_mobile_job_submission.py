@@ -55,7 +55,7 @@ class SubmissionTests(unittest.TestCase):
         self.assertEqual(json.loads(self.path.read_text())["status"], "SCHEDULING")
         self.api.run_job.assert_called_once()
         kwargs = self.api.run_job.call_args.kwargs
-        self.assertEqual(kwargs["env"]["PITCHLENS_CODE_REVISION"], "code_sha")
+        self.assertEqual(kwargs["env"]["BOX2BOXCAM_CODE_REVISION"], "code_sha")
         self.assertEqual(kwargs["timeout"], "90m")
 
     def test_402_is_recorded_but_not_automatically_retried(self):

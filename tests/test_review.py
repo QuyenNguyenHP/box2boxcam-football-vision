@@ -11,7 +11,7 @@ ROOT = Path(__file__).parents[1]
 SRC = ROOT / "src"
 sys.path.insert(0, str(SRC))
 
-from pitchlens.data.review import ReviewStore, build_master_queue
+from box2boxcam.data.review import ReviewStore, build_master_queue
 
 
 class ReviewStoreTests(unittest.TestCase):
@@ -23,7 +23,7 @@ class ReviewStoreTests(unittest.TestCase):
         from matplotlib.backend_bases import MouseEvent
         from PIL import Image
 
-        from pitchlens.data.review import ReviewWidget
+        from box2boxcam.data.review import ReviewWidget
 
         with tempfile.TemporaryDirectory() as temporary_directory:
             image_path = Path(temporary_directory) / "frame.jpg"
@@ -101,7 +101,7 @@ class ReviewStoreTests(unittest.TestCase):
                 widget._move(-1)
                 self.assertEqual(widget.items[widget.index]["item_id"], "1")
                 self.assertEqual(widget.drawn_bbox, correction)
-                self.assertIn("boîte corrigée", widget.status_label.value)
+                self.assertIn("box corrected", widget.status_label.value)
                 widget._validate_current(None)
                 self.assertEqual(decisions["1"]["decision"], "bbox")
                 widget._move(-1)
@@ -110,7 +110,7 @@ class ReviewStoreTests(unittest.TestCase):
                 widget._save("negative")
                 widget._move(-1)
                 widget._next_pending()
-                self.assertIn("Toutes les images", widget.message.value)
+                self.assertIn("All images in this group", widget.message.value)
             finally:
                 widget.selector.disconnect_events()
                 plt.close(widget.figure)

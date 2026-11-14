@@ -1,265 +1,174 @@
-# Évaluation initiale des datasets
+# Initial dataset assessment
 
-État de l'analyse : 15 septembre 2026.
+Assessment of the public football-ball datasets considered for box2boxcam (state as of 15 September 2026), the cleaning applied to Infactory, and the resulting `v001` and `v002` working datasets. Infactory is the best starting point after cleaning; none of the sources matches the real target (a fixed iPhone on an amateur touchline).
 
-## Conclusion courte
+## Short conclusion
 
-Le meilleur point de départ disponible est **Infactory**, après nettoyage. Il
-contient des séquences consécutives, beaucoup de vrais négatifs et assez de
-ballons annotés pour établir une première baseline. **SoccerEye** peut compléter
-l'entraînement avec des ballons beaucoup plus petits, mais ses splits publiés
-ne sont pas fiables et sa licence de données n'est pas indiquée.
+The best available starting point is **Infactory**, after cleaning. It has consecutive sequences, many true negatives and enough annotated balls for a first baseline. **SoccerEye** can complement training with much smaller balls, but its published splits are unreliable and its data license is not stated.
 
-Aucun de ces datasets ne représente réellement la cible : un iPhone fixe au
-bord d'un terrain amateur. Ils permettront d'apprendre et de construire le
-pipeline, mais la validation finale devra être faite sur nos propres vidéos.
+No dataset represents the target. They allow us to learn and build the pipeline, but final validation must use our own videos.
 
-Le fait que le projet soit aujourd'hui non commercial rend utilisables les
-sources réservées à la recherche ou au non-commercial. Cela ne supprime pas les
-obligations d'attribution, les interdictions de redistribution, ni
-l'incertitude d'une licence absente.
+Because the project is currently non-commercial, research-only and non-commercial sources are usable. This does not remove attribution duties, redistribution bans, or the uncertainty of a missing license.
 
-## Décision par source
+## Decision per source
 
-| Source | Utilité immédiate | Décision actuelle | Raison principale |
+| Source | Immediate usefulness | Current decision | Main reason |
 |---|---|---|---|
-| Infactory Ball Tracking | Forte | Utiliser après nettoyage | 7 152 frames temporelles, mais 75 annotations invalides et domaine TV |
-| SoccerEye | Moyenne | Conserver localement, refaire les splits | Ballons très petits, mais seulement 427 boîtes et fuite entre splits |
-| Roboflow Football Ball v4 | Moyenne | Attendre l'accès authentifié | 4 948 tuiles sous CC BY 4.0, issues de 1 237 images parentes |
-| SoccerNet Tracking | Forte pour le tracking | Plus tard, après NDA | Très riche temporellement, lourd et limité à la recherche |
-| SoccerNet v3 H250 | Potentiellement forte | Bloqué par la licence | Sous-ensemble longue distance intéressant, licence non affichée |
-| Dryad Sport Ball 2026 | Incertaine | Bloqué | Petit paquet d'annotations, images/vidéos externes non récupérées |
-| Captures PitchLens | Essentielle | À créer plus tard | Seule source correspondant exactement au produit visé |
+| Infactory Ball Tracking | High | Use after cleaning | 7,152 temporal frames, but 75 invalid annotations and a TV domain |
+| SoccerEye | Medium | Keep locally, rebuild splits | Very small balls, but only 427 boxes and leakage between splits |
+| Roboflow Football Ball v4 | Medium | Wait for authenticated access | 4,948 tiles under CC BY 4.0, from 1,237 parent images |
+| SoccerNet Tracking | High for tracking | Later, after NDA | Very rich temporally, heavy and research-only |
+| SoccerNet v3 H250 | Potentially high | Blocked by license | Interesting long-distance subset, license not displayed |
+| Dryad Sport Ball 2026 | Uncertain | Blocked | Small annotation package, external images/videos not retrieved |
+| box2boxcam captures | Essential | To be created later | Only source that matches the target product |
 
-Les conditions et les liens sources sont centralisés dans
-`configs/data_sources.toml`.
+License terms and source links are centralized in `configs/data_sources.toml`.
 
 ## 1. Infactory Ball Tracking
 
-### Ce qui est réellement présent
+### What is actually present
 
-[La fiche Hugging Face](https://huggingface.co/datasets/infactory-ai/ball-tracking)
-annonce 1 450 frames provenant de 10 clips. La révision
-téléchargée `75854a5837dd3302cbb1843355ecc1a6f124f818` contient en réalité :
+[The Hugging Face card](https://huggingface.co/datasets/infactory-ai/ball-tracking) announces 1,450 frames from 10 clips. The downloaded revision `75854a5837dd3302cbb1843355ecc1a6f124f818` actually contains:
 
-- 7 152 images de données ;
-- 54 séquences UUID complètes et numérotées sans trou ;
-- des séquences de 15 à 588 frames, médiane 82 ;
-- 4 232 images avec au moins une boîte valide ;
-- 2 845 images sans ballon annoté ;
-- 75 images avec une annotation de surface nulle ;
-- 4 298 boîtes valides au total.
+- 7,152 data images;
+- 54 complete UUID sequences, numbered without gaps;
+- sequences of 15 to 588 frames, median 82;
+- 4,232 images with at least one valid box;
+- 2,845 images with no annotated ball;
+- 75 images with a zero-area annotation;
+- 4,298 valid boxes in total.
 
-Le `metadata.csv` ne décrit encore que l'ancien sous-ensemble de 1 450 images.
-Il ne doit donc pas servir de catalogue du téléchargement actuel.
+`metadata.csv` still describes only the old 1,450-image subset, so it must not be used as a catalog of the current download.
 
-### Taille du ballon
+### Ball size
 
-En résolution native, la boîte du ballon mesure en médiane environ
-`18,0 × 16,2 px`. Après redimensionnement proportionnel et letterbox vers
-`640 × 640`, elle mesure environ `13,8 × 12,5 px`.
+At native resolution the ball box has a median of about `18.0 x 16.2 px`. After proportional resize and letterbox to `640 x 640`, it is about `13.8 x 12.5 px`. The hardest tenth drops to about `7.5 x 6.5 px` at 640: difficult but workable for a first experiment. The two resolutions present are `1280 x 720` and `720 x 608`.
 
-Le dixième le plus difficile descend à environ `7,5 × 6,5 px` à 640. Cela
-reste difficile, mais exploitable pour une première expérience. Les deux
-résolutions présentes sont `1280 × 720` et `720 × 608`.
+### Quality problems
 
-### Problèmes de qualité
+- A 50-frame sequence marked `visible` is a TV title card with `0 0 0 0` boxes.
+- Three other sequences contain 25 zero-area annotations, i.e. 75 invalid images across four sequences.
+- 63 images have several boxes although a normal frame should contain one ball. The four-box example contains at least three visibly wrong annotations, so all 63 need human review.
+- Images come from professional broadcasts: varied angles, close-ups, slow motion, interlacing and watermarks. This is not the amateur-camera domain we target.
 
-- Une séquence de 50 frames marquée `visible` est un carton-titre télévisé avec
-  des boîtes `0 0 0 0`.
-- Trois autres séquences contiennent 25 annotations de surface nulle, soit 75
-  images invalides sur quatre séquences au total.
-- 63 images ont plusieurs boîtes alors qu'une frame normale ne devrait contenir
-  qu'un ballon. L'exemple à quatre boîtes contient au moins trois annotations
-  visuellement erronées ; les 63 doivent donc passer en revue humaine.
-- Les images proviennent de retransmissions professionnelles : angles variés,
-  gros plans, ralentis, entrelacement et filigrane. Ce n'est pas le domaine
-  caméra amateur recherché.
+### Chosen treatment
 
-### Traitement retenu
+`data/raw/infactory_ball_tracking` is never modified. The working version `data/processed/v001`:
 
-On ne modifie jamais `data/raw/infactory_ball_tracking`. La version de travail
-`data/processed/v001` :
+1. excludes the 75 invalid annotations;
+2. excludes the 63 multi-box frames pending correction;
+3. splits train/validation/test by full UUID;
+4. reserves whole sequences for test;
+5. keeps neighboring frames of a sequence together;
+6. keeps the 138 exclusions in `review_queue.csv`.
 
-1. exclut les 75 annotations invalides ;
-2. exclut les 63 frames multi-boîtes en attendant leur correction ;
-3. sépare train/validation/test par UUID complet ;
-4. réserve des séquences entières au test ;
-5. conserve ensemble les frames voisines d'une même séquence ;
-6. conserve les 138 exclusions dans `review_queue.csv`.
-
-Cette correction syntaxique n'a toutefois pas suffi. Une QA visuelle
-stratifiée a trouvé des boîtes uniques placées sur des objets qui ne sont pas
-le ballon et une frame négative où le gardien tient visiblement le ballon.
+This syntactic cleanup was not enough. A stratified visual QA found single boxes on objects that are not the ball, and a negative frame where the goalkeeper visibly holds the ball.
 
 ## 2. SoccerEye
 
-### Contenu mesuré
+### Measured content
 
-- 1 128 images et 28 755 boîtes ;
-- classe `0` ballon : 427 boîtes dans 414 images ;
-- classe `1` personne : 28 328 boîtes dans les 1 128 images ;
-- 714 images ne contiennent aucun ballon et deviennent donc des négatifs pour
-  un détecteur uniquement consacré au ballon ;
-- 911 images en `640 × 640`, 217 en `1920 × 1080`.
+- 1,128 images and 28,755 boxes;
+- class `0` ball: 427 boxes in 414 images;
+- class `1` person: 28,328 boxes across all 1,128 images;
+- 714 images contain no ball and become negatives for a ball-only detector;
+- 911 images at `640 x 640`, 217 at `1920 x 1080`.
 
-Le ballon mesure en médiane `6 × 9 px` en natif. Après letterbox à 640, la
-médiane tombe à environ `4 × 6,5 px`. Ce dataset est donc utile pour tester le
-cas réellement difficile du ballon minuscule.
+The median ball is `6 x 9 px` natively, dropping to about `4 x 6.5 px` after letterbox to 640. The dataset is therefore useful for the genuinely hard tiny-ball case.
 
-### Fuite entre les splits publiés
+### Leakage between published splits
 
-Les noms encodent un identifiant parent Roboflow. L'audit trouve :
+File names encode a Roboflow parent identifier. The audit finds:
 
-- 560 noms parents seulement pour 1 128 fichiers ;
-- 128 parents présents une fois, 296 deux fois et 136 trois fois ;
-- 53 noms parents présents dans plusieurs splits ;
-- 15 préfixes de source présumés, tous présents dans au moins deux splits ;
-- aucun fichier strictement identique au niveau SHA-256 entre les splits.
+- only 560 parent names for 1,128 files;
+- 128 parents present once, 296 twice and 136 three times;
+- 53 parent names present in several splits;
+- 15 presumed source prefixes, all present in at least two splits;
+- no strictly identical file (SHA-256) across splits.
 
-Ce dernier point signifie que les copies ne sont pas identiques octet par
-octet, mais les noms montrent que des variantes d'une même image parente ont
-été réparties entre entraînement et évaluation. Il faut reconstruire les splits
-avant de croire une métrique.
+The copies are not byte-identical, but the names show that variants of the same parent image were distributed between training and evaluation. Splits must be rebuilt before trusting any metric.
 
-La licence MIT du [dépôt SoccerEye](https://github.com/WWandP/SoccerEye)
-concerne le code. Aucune licence explicite n'a été trouvée pour le dataset lié
-par Google Drive. Nous pouvons l'étudier localement dans ce projet personnel,
-mais nous ne le republierons pas sur Hugging Face tant que ce point n'est pas
-clarifié.
+The MIT license of the [SoccerEye repository](https://github.com/WWandP/SoccerEye) covers the code. No explicit license was found for the dataset linked via Google Drive. It can be studied locally, but must not be republished on Hugging Face until this is clarified.
 
-## 3. Sources non téléchargées
+## 3. Sources not downloaded
 
 ### Roboflow Football Ball Detection v4
 
-[La version 4 sur Roboflow](https://universe.roboflow.com/roboflow-jvuqo/football-ball-detection-rejhg/dataset/4)
-indique 4 948 images générées : 3 956 train, 492 validation et 500 test. Le
-prétraitement découpe chacune des 1 237 images parentes en quatre tuiles, puis
-les étire en `640 × 640`. Le téléchargement automatisé demande une
-authentification Roboflow.
+[Version 4 on Roboflow](https://universe.roboflow.com/roboflow-jvuqo/football-ball-detection-rejhg/dataset/4) lists 4,948 generated images: 3,956 train, 492 validation and 500 test. Preprocessing cuts each of the 1,237 parent images into four tiles, then stretches them to `640 x 640`. Automated download requires Roboflow authentication.
 
-Si nous l'ajoutons, le découpage devra être effectué au niveau de l'image
-parente **avant** le tuilage. Sinon, différentes zones ou variantes d'une même
-image pourraient contaminer l'évaluation.
+If added, splitting must happen at parent-image level **before** tiling, otherwise zones or variants of the same image could contaminate evaluation.
 
 ### SoccerNet Tracking
 
-[SoccerNet Tracking](https://www.soccer-net.org/data) est particulièrement
-intéressant pour apprendre le suivi dans le temps. Le benchmark annonce 201
-séquences, 225 375 frames et 215 156 boîtes de ballon. Les vidéos sont
-professionnelles, en `1920 × 1080`, et accessibles après signature d'un NDA
-pour la recherche. Nous ne la téléchargeons pas à ce stade : elle est plus
-lourde et moins directe qu'Infactory pour la première baseline.
+[SoccerNet Tracking](https://www.soccer-net.org/data) is especially interesting for learning temporal tracking. The benchmark announces 201 sequences, 225,375 frames and 215,156 ball boxes. Videos are professional, `1920 x 1080`, and available after signing a research NDA. It is not downloaded at this stage: it is heavier and less direct than Infactory for a first baseline.
 
-### Dryad et SoccerNet v3 H250
+### Dryad and SoccerNet v3 H250
 
-Le [paquet football de Dryad](https://datadryad.org/dataset/doi:10.5061/dryad.3bk3j9m13)
-ne fait qu'environ 3,27 Mo et semble contenir les annotations, tandis que les
-vidéos sources sont hébergées séparément. Le téléchargement automatique est
-actuellement refusé.
+The [Dryad football package](https://datadryad.org/dataset/doi:10.5061/dryad.3bk3j9m13) is only about 3.27 MB and seems to contain annotations, with source videos hosted separately. Automatic download is currently refused.
 
-Le [sous-ensemble SoccerNet v3 H250](https://zenodo.org/records/7808511)
-contient 19 786 images longue distance avec des boîtes ballon/personne. Il est
-prometteur, mais l'enregistrement Zenodo n'affiche pas de licence explicite et
-il dérive de SoccerNet. Il reste donc bloqué jusqu'à clarification.
+The [SoccerNet v3 H250 subset](https://zenodo.org/records/7808511) contains 19,786 long-distance images with ball/person boxes. It is promising, but the Zenodo record shows no explicit license and derives from SoccerNet, so it stays blocked until clarified.
 
-## Règles scientifiques pour PitchLens
+### Video behind the 1,120 YouTube frames
 
-1. **Un groupe source ne traverse jamais les splits.** Pour une vidéo, le
-   groupe est la vidéo ou le match, jamais la frame.
-2. **Le test final reste humain et propre.** Aucun pseudo-label du teacher ne
-   doit être accepté comme vérité de test.
-3. **Le teacher et le student partagent le train, pas le test.** Le gros modèle
-   peut proposer les labels d'entraînement ; un humain tranche les cas ambigus.
-4. **On mesure les petits ballons séparément.** Les résultats seront ventilés
-   par taille après resize (`< 4 px`, `4–8 px`, `8–16 px`, `> 16 px`).
-5. **On conserve les négatifs.** Une caméra doit savoir rester stable quand le
-   ballon est caché ou hors champ.
-6. **La cible décide.** Une petite collection de matchs filmés au même endroit
-   qu'un futur gimbal sera le vrai test de faisabilité.
+`data/external/videos/inference_input_yt.mp4`, the source of the 1,120 frames (dataset id `luna_v001` in configs), was downloaded from <https://www.youtube.com/watch?v=vL0r9ek1nqQ>. This origin is stated by the project owner and has not been re-verified. Redistribution rights are not cleared: annotations and the URL may be published, frames and the video may not. Recorded in `configs/data_sources.toml` and `configs/video_download_sources.json`.
 
-## Dataset de travail `v001` construit
+## Scientific rules for box2boxcam
 
-Le notebook `02_dataset_preparation.ipynb` a construit une première version
-conservatrice limitée à Infactory :
+1. **A source group never crosses splits.** For video, the group is the video or match, never the frame.
+2. **The final test stays human and clean.** No teacher pseudo-label is accepted as test ground truth.
+3. **Teacher and student share train, not test.** The large model can propose training labels; a human decides ambiguous cases.
+4. **Small balls are measured separately.** Results are broken down by size after resize (`< 4 px`, `4-8 px`, `8-16 px`, `> 16 px`).
+5. **Negatives are kept.** A camera must stay stable when the ball is hidden or out of frame.
+6. **The target decides.** A small collection of matches filmed at the same place as a future gimbal will be the real feasibility test.
 
-- 7 014 images retenues : 4 169 positives et 2 845 négatives ;
-- 138 images exclues et conservées dans une file de revue ;
-- 38 séquences et 4 911 images dans le train ;
-- 8 séquences et 1 071 images dans la validation ;
-- 8 séquences et 1 032 images dans le test ;
-- aucune séquence partagée entre deux splits ;
-- aucune boîte invalide ou image multi-boîtes dans la version préparée ;
-- 7 014 empreintes SHA-256 uniques, donc aucun doublon exact entre les splits.
+## Working dataset `v001`
 
-### Résultat de la QA visuelle
+Notebook `02_dataset_preparation.ipynb` built a first conservative version limited to Infactory:
 
-Le notebook affiche 20 exemples déterministes par split : quatre ballons pour
-chacune des catégories `tiny`, `small`, `medium`, `large`, puis quatre négatifs.
-Sur ces 60 images, cinq erreurs certaines ont été consignées : quatre faux
-positifs et un faux négatif.
+- 7,014 images kept: 4,169 positive and 2,845 negative;
+- 138 images excluded and kept in a review queue;
+- 38 sequences and 4,911 images in train;
+- 8 sequences and 1,071 images in validation;
+- 8 sequences and 1,032 images in test;
+- no sequence shared between two splits;
+- no invalid box or multi-box image in the prepared version;
+- 7,014 unique SHA-256 hashes, so no exact duplicate across splits.
 
-La validation visuelle de `v001` est donc **échouée**, même si sa validation
-mécanique est réussie. Le notebook produit une file de 700 images prioritaires :
+### Visual QA result
 
-- 508 dans le train ;
-- 48 dans la validation ;
-- 144 dans le test ;
-- 589 grandes boîtes à vérifier ;
-- 86 négatifs isolés entre deux frames positives ;
-- 29 sauts brusques de position ou de surface, avec quelques recouvrements
-  entre les règles ;
-- les cinq erreurs déjà confirmées visuellement.
+The notebook shows 20 deterministic examples per split: four balls for each of the `tiny`, `small`, `medium`, `large` categories, then four negatives. Across these 60 images, five certain errors were logged: four false positives and one false negative.
 
-Ces signaux ne sont pas des décisions automatiques. Une grande boîte peut être
-un vrai gros plan et un saut peut correspondre à un changement de caméra. Ils
-servent à ordonner la revue humaine dans
-`data/processed/v001/qa_review_queue.csv`.
+Visual validation of `v001` therefore **failed**, even though mechanical validation passed. The notebook produces a priority queue of 700 images:
 
-Avant le baseline nano, il faut nettoyer au minimum les 192 candidats de
-validation et de test, puis générer `v002` sans modifier `raw` ni `v001`.
-SoccerEye viendra dans une expérience séparée afin de mesurer son apport sur les
-très petits ballons sans masquer les défauts d'Infactory.
+- 508 in train;
+- 48 in validation;
+- 144 in test;
+- 589 large boxes to check;
+- 86 isolated negatives between two positive frames;
+- 29 abrupt jumps in position or area, with some overlap between rules;
+- the five errors already confirmed visually.
 
-Pour la revue effective, `03_dataset_review.ipynb` fusionne ces 700 candidats
-avec les 138 annotations déjà exclues. La file humaine complète contient donc
-838 images : 600 train, 57 validation et 181 test. Les compteurs précédents de
-48 validation et 144 test concernent uniquement les annotations qui avaient été
-acceptées dans `v001` ; les 37 exclusions validation/test s'ajoutent dans
-l'interface de correction.
+These signals are not automatic decisions: a large box may be a genuine close-up and a jump may be a camera cut. They only order the human review (`data/processed/v001/qa_review_queue.csv`).
 
-### Extension à une revue exhaustive
+Before the nano baseline, at least the 192 validation and test candidates must be cleaned and `v002` generated without modifying `raw` or `v001`. SoccerEye will come in a separate experiment, to measure its contribution on very small balls without masking Infactory's defects.
 
-La file de 838 candidats ci-dessus était une sélection, pas un contrôle exhaustif.
-Après les erreurs relevées pendant la revue, `03_dataset_review.ipynb` affiche
-désormais les 7 152 images sources d'Infactory, y compris les négatifs sans signal
-automatique et les exclusions initiales. Les décisions précédentes sont conservées.
-La file complète contient 1 069 images test, 1 080 validation et 5 003 train,
-ordonnées par split, séquence et frame. Les signaux servent à expliquer les risques,
-plus à restreindre la couverture. SoccerEye reste séparé.
+For the actual review, `03_dataset_review.ipynb` merges these 700 candidates with the 138 already-excluded annotations. The full human queue is therefore 838 images: 600 train, 57 validation and 181 test. The earlier counts of 48 validation and 144 test only cover annotations that had been accepted in `v001`; the 37 validation/test exclusions are added in the correction interface.
 
-## v002 construite — 16 septembre 2026
+### Extension to an exhaustive review
 
-Règle validée par l'utilisateur : absence de décision = conservation du label
-d'origine. Plusieurs vrais ballons sont autorisés. Les corrections explicites
-remplacent le label ; les exclusions individuelles et groupées retirent l'image.
+The 838-candidate queue was a selection, not an exhaustive check. After errors found during review, `03_dataset_review.ipynb` now shows all 7,152 Infactory source images, including negatives with no automatic signal and the initial exclusions. Earlier decisions are kept. The full queue holds 1,069 test, 1,080 validation and 5,003 train images, ordered by split, sequence and frame. Signals explain risks rather than restrict coverage. SoccerEye remains separate.
 
-| Split | Images | Positives | Négatives | Boîtes | Séquences |
+## `v002` built (16 September 2026)
+
+Rule: no decision means keeping the original label. Several true balls are allowed. Explicit corrections replace the label; individual and grouped exclusions remove the image.
+
+| Split | Images | Positive | Negative | Boxes | Sequences |
 |---|---:|---:|---:|---:|---:|
-| Train | 3 048 | 2 113 | 935 | 2 114 | 30 |
+| Train | 3,048 | 2,113 | 935 | 2,114 | 30 |
 | Validation | 670 | 494 | 176 | 494 | 7 |
 | Test | 831 | 639 | 192 | 651 | 8 |
-| Total | 4 549 | 3 246 | 1 303 | 3 259 | 45 |
+| Total | 4,549 | 3,246 | 1,303 | 3,259 | 45 |
 
-Actions : 2 913 labels conservés par défaut, 1 298 conservations explicites,
-246 corrections, 92 passages en négatif, 2 603 exclusions.
-Treize images multi-boîtes sont conservées (une train et douze test).
-L'audit structurel est valide ; aucune séquence ni doublon exact ne traverse
-les splits. Les proportions ont évolué avec le tri sans réaffectation des séquences.
+Actions: 2,913 labels kept by default, 1,298 explicit confirmations, 246 corrections, 92 switches to negative, 2,603 exclusions. Thirteen multi-box images are kept (one in train and twelve in test). The structural audit is valid; no sequence or exact duplicate crosses splits. Proportions shifted during triage because sequences were not reassigned.
 
-Cette version est triée par l'utilisateur avec conservation par défaut, pas
-une vérité terrain entièrement réannotée : des erreurs peuvent rester dans
-les labels d'origine, y compris en test. Le rapport complet et les instantanés
-de décisions sont dans `data/processed/v002`; le résumé reproductible est dans
-`models/reports/infactory_v002_summary.json`. Les sources brutes et v001 restent
-disponibles. Le prochain jalon est le premier entraînement de référence.
+This version was triaged by hand with keep-by-default; it is not fully re-annotated ground truth, so errors may remain in the original labels, including in test. Raw sources and `v001` remain available. The next milestone is the first reference training.

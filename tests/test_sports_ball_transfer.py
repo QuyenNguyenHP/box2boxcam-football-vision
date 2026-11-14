@@ -10,7 +10,7 @@ from ultralytics import YOLO
 from ultralytics.cfg import get_cfg
 from ultralytics.nn.tasks import DetectionModel
 
-from pitchlens.training.sports_ball_transfer import (
+from box2boxcam.training.sports_ball_transfer import (
     SportsBallTransferTrainer,
     retain_sports_ball,
     verify_dense_predictions,

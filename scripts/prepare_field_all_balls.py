@@ -13,9 +13,9 @@ import os
 from collections import Counter
 from pathlib import Path
 
-from pitchlens.data.label_studio_review import _rectangle, build_tasks
-from pitchlens.data.luna_batch import _atomic_json, _yolo_line, prediction_boxes
-from pitchlens.data.luna_inline_batch import prepare_inline
+from box2boxcam.data.label_studio_review import _rectangle, build_tasks
+from box2boxcam.data.luna_batch import _atomic_json, _yolo_line, prediction_boxes
+from box2boxcam.data.luna_inline_batch import prepare_inline
 
 
 def load_run(root, path):
@@ -143,7 +143,7 @@ def review(root, output, configs):
                 rect = _rectangle(ball["bbox_current_pixels"], plan["video"]["width"], plan["video"]["height"])
                 rect["id"] = f"teacher-ball-{number}"
                 rectangles.append(rect)
-            teacher_prediction = {"model_version": "YOLO26n v003 960px — propositions",
+            teacher_prediction = {"model_version": "YOLO26n v003 960px proposals",
                                   "score": max((b["confidence"] for b in teacher_row["balls"]), default=0), "result": rectangles}
             # Luna is the default proposal once available; detector remains independently selectable.
             task["predictions"] = ([task["predictions"][0]] if luna_row else []) + [teacher_prediction]
@@ -154,9 +154,9 @@ def review(root, output, configs):
                                  "height": plan["video"]["height"], "image_path": str(target.relative_to(root)),
                                  "intended_split": "train", "role": video["role"],
                                  "match_id": video["match_id"], "timestamp_seconds": timestamp,
-                                 "frame_info": f"{global_id} · {timestamp:.3f} s · TOUS les ballons visibles",
+                                 "frame_info": f"{global_id} · {timestamp:.3f} s · ALL visible balls",
                                  "annotation_scope": "all_visible", "review_reason": reason,
-                                 "teacher_context": f"YOLO v003 : {len(teacher_boxes)} proposition(s), seuil 10 %. Vérifier aussi les ballons immobiles et sur les bords."})
+                                 "teacher_context": f"YOLO v003 : {len(teacher_boxes)} proposal(s), 10% threshold. Also check stationary balls and balls at the edges."})
             tasks.append(task)
     (review_root / "tasks.json").write_text(json.dumps(tasks, ensure_ascii=False, indent=2) + "\n")
     _atomic_json(review_root / "comparisons.json", {"iou_matching_threshold": 0.35, "not_ground_truth": True, "items": comparisons})

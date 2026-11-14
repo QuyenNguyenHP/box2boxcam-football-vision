@@ -1,123 +1,66 @@
-# Validation terrain iPhone — session du 14 octobre 2026
+# iPhone field validation (14 October 2026 session)
 
-Cette session est réservée à la **validation de développement**, hors entraînement.
-Elle a déjà été regardée et comparée qualitativement : ce n'est pas un test final
-aveugle. Les deux enregistrements appartiennent à **une seule rencontre** ; ils ne
-constituent pas deux matchs indépendants. La session d'entraînement iPhone est
-celle du 12 octobre, identifiée séparément.
+Protocol for a frozen development-validation set of 568 frames from one iPhone-filmed match, excluded from training, with human review of all visible balls and a planned model comparison.
 
-## Échantillon figé
+This session is reserved for **development validation**, outside training. It has already been looked at and compared qualitatively, so it is not a blind final test. The two recordings belong to **a single match**; they are not two independent matches. The iPhone training session is a different one (12 October), identified separately.
 
-| Source originale | Identifiant | Durée | Images à revoir |
+## Frozen sample
+
+| Source recording | Identifier | Duration | Frames to review |
 | --- | --- | --- | --- |
-| `match 2.mov` | `recording_01` | 157,29 s | 315 |
-| `match.mov` | `recording_02` | 126,39 s | 253 |
+| `match 2.mov` | `recording_01` | 157.29 s | 315 |
+| `match.mov` | `recording_02` | 126.39 s | 253 |
 
-Les **568 images** couvrent uniformément les deux clips : une image toutes les
-15 images décodées, soit environ 2 Hz. Aucun filtrage par confiance ou choix de
-passages favorables. Chaque tâche fournit l'image centrale et le contexte à
-environ −0,2/+0,2 s. Les fichiers restent en 1920 × 1080, JPEG qualité 95 ; les
-SHA-256 et les temps de présentation décodés sont conservés.
+The **568 frames** cover both clips uniformly: one frame every 15 decoded frames, about 2 Hz. There is no confidence filtering or cherry-picking of favorable passages. Each task provides the center frame and context at about -0.2/+0.2 s. Files stay at 1920 x 1080, JPEG quality 95; SHA-256 hashes and decoded presentation times are kept.
 
-Cette référence à 2 Hz convient à une première comparaison de détection. Elle ne
-permet pas de mesurer précisément les pertes de suivi inférieures à 500 ms.
-Le suivi et le cadrage à 30 Hz demanderont une annotation temporelle plus dense.
+This 2 Hz reference suits a first detection comparison. It cannot precisely measure tracking losses shorter than 500 ms; tracking and framing at 30 Hz need denser temporal annotation.
 
-## Revue humaine
+## Human review
 
-Projet local : http://127.0.0.1:8080/projects/7/data
+A third-party multimodal model (called through a paid API, highest reasoning effort) proposes boxes from the three images. The evaluated Nano/Small models do not provide the pre-annotations. This does not remove the model's errors: **no proposal is ground truth**.
 
-Luna (`gpt-6-luna`, effort `max`) propose des boîtes à partir des trois images.
-Les modèles Nano/Small évalués ne fournissent pas les préannotations. Cela
-n'élimine pas les erreurs de Luna : **aucune proposition n'est une vérité terrain**.
+**Submit is the only confirmation click needed.** The large image is shown alone; context and active-ball options are collapsed. For each image:
 
-Depuis le 23 octobre, **Submit est le seul clic de confirmation nécessaire**.
-La grande image s'affiche seule ; le contexte et les options du ballon actif sont repliés.
-Pour chaque image :
+1. Correct, add or delete boxes to cover **all visible true balls**, including spare balls. Do not guess hidden positions. A box tightly covers the visible part of the ball.
+2. Click **Submit**. If the proposals are already correct, no other action is needed.
 
-1. Corriger, ajouter ou supprimer les boîtes pour couvrir **tous les vrais ballons
-   visibles**, y compris les ballons de réserve. Ne pas deviner les positions
-   cachées. Une boîte serre la partie visible du ballon.
-2. Cliquer **Submit**. Si les propositions sont déjà correctes, aucune autre
-   action n'est nécessaire. La case `Vérifié` n'est plus obligatoire.
+If the whole image cannot be annotated reliably, tick the unusable-image checkbox above the image, then click **Submit**. It is excluded from the denominator and never converted into a negative image.
 
-Si l'image entière ne peut être annotée de manière fiable, cocher `Image inexploitable`
-directement au-dessus de l'image, puis cliquer **Submit**. Elle sera exclue du dénominateur,
-jamais convertie en image négative.
+Identifying the active ball is **optional**: in the options, assign the roles active, secondary or undetermined, choose the visibility state, and tick identity-verified only after that review. "Active visible" requires exactly one active box. Without this extra confirmation, the export keeps the verified boxes but classes the active identity as undetermined, with `active_identity_reviewed: false`. Role proposals stay in the raw annotations without being turned into tracking ground truth.
 
-L'identification du ballon actif est maintenant **facultative** : dans les
-options, attribuer les rôles `Actif`, `Secondaire` ou `Rôle indéterminé`, choisir
-l'état de visibilité et cocher `Identité vérifiée` uniquement après cette revue.
-`Actif visible` exige exactement une boîte active. Sans cette confirmation
-supplémentaire, l'export conserve les boîtes vérifiées mais classe l'identité
-active comme indéterminée, avec `active_identity_reviewed: false`.
-Les propositions de rôle restent conservées dans les annotations brutes, sans
-être transformées en vérité terrain de suivi.
+Images with no visible ball must also be explicitly verified. A missing API response, a draft or a skipped task stays pending. The `submit_boxes_v2` protocol only accepts an actually submitted annotation; no task is validated automatically.
 
-Les images sans ballon visible doivent aussi être explicitement vérifiées.
-Une réponse API manquante, un brouillon ou une tâche ignorée reste en attente.
-Le protocole `submit_boxes_v2` accepte uniquement une annotation réellement
-soumise ; aucune tâche n'est validée automatiquement. Les anciennes annotations
-sans ce protocole conservent leur contrôle explicite `Vérifié`.
+## Commands
 
-## Commandes et reprise
-
-Depuis la racine du dépôt, le processus ponctuel
-`scripts/run_field_validation_pipeline.py` attend les lots déjà soumis, collecte
-les réponses et synchronise les propositions dans ce projet. Les IDs de lots et
-fichiers sont persistés ; ne pas lancer un second processus pour les remplacer.
-Un échec ne déclenche pas automatiquement de nouvelle soumission payante.
+From the repository root, `scripts/run_field_validation_pipeline.py` waits for batches already submitted to the paid model, collects responses and synchronizes proposals into the review project. A failure never triggers a new paid submission.
 
 ```sh
-# État de la revue : ne lance ni Luna ni entraînement.
-.venv/bin/python scripts/review_field_validation.py status
+# Review status: launches neither the paid model nor training.
+python scripts/review_field_validation.py status
 
-# Reprendre uniquement la synchronisation de réponses déjà collectées.
-# Ne remplace aucune annotation ni aucun brouillon humain existant.
-.venv/bin/python scripts/review_field_validation.py sync
+# Resume only the synchronization of already-collected responses.
+# Never replaces an existing annotation or human draft.
+python scripts/review_field_validation.py sync
 
-# Après la revue complète ; refuse tant qu'une tâche manque ou est incohérente.
-.venv/bin/python scripts/review_field_validation.py freeze
+# After the full review; refuses while any task is missing or inconsistent.
+python scripts/review_field_validation.py freeze
 ```
 
-L'export immuable sera créé dans `data/processed/field_validation_v001` : images,
-labels YOLO de tous les ballons visibles, manifeste avec rôle et boîte active,
-rapport de complétude et `dataset.yaml` avec `train: null`. Les images exclues ne
-sont pas exportées comme négatives. Aucun export de référence n'est créé avant
-la revue complète.
+The immutable export (`data/processed/field_validation_v001`) contains images, YOLO labels of all visible balls, a manifest with role and active box, a completeness report and a `dataset.yaml` with `train: null`. Excluded images are not exported as negatives. No reference export is created before the review is complete.
 
-## Protection contre la contamination
+## Contamination protection
 
-`configs/reserved_sessions.json` réserve le groupe
-`personal_field_session_20261014`, les chemins sources et leurs SHA-256. Le
-constructeur de dataset et le lanceur HF vérifient l'absence de ce groupe dans
-`train`, y compris au moment de soumettre un entraînement déjà préparé.
-L'ajout d'autres clips de cette rencontre exige le même `match_id`.
+`configs/reserved_sessions.json` reserves the group `personal_field_session_20261014`, its source paths and SHA-256 hashes. The dataset builder and the Hugging Face launcher check that this group is absent from `train`, including when submitting an already-prepared training. Adding other clips of this match requires the same `match_id`.
 
-La configuration d'annotation est `configs/field_validation_20261021.json`.
-Le champ historique `role: test_primary` est utilisé uniquement par le transport
-d'annotation existant ; le projet de revue et l'export indiquent bien `val` et
-`development_validation`. Aucun entraînement n'est lancé par ce workflow.
+The annotation configuration is `configs/field_validation_20261021.json`. The historical field `role: test_primary` is only used by the existing annotation transport; the review project and the export correctly say `val` and `development_validation`. This workflow launches no training.
 
-## Comparaison après validation humaine
+## Comparison after human validation
 
-Le plan `configs/field_evaluation_20261021.json` fixe les trois checkpoints à
-comparer : Nano 960 (Total), Nano 1280 et Small 960. Le premier comparatif utilise
-un seuil commun de 0,25 et un appariement unique à IoU ≥ 0,50, séparant :
+The plan `configs/field_evaluation_20261021.json` fixes the three checkpoints to compare: Nano 960, Nano 1280 and Small 960. The first comparison uses a common threshold of 0.25 and one-to-one matching at IoU >= 0.50, separating:
 
-- la détection de tous les ballons visibles : TP/FP/FN, précision et rappel,
-  avec résultats selon la taille du ballon en pixels dans la source ;
-- le choix du ballon actif : cible choisie correcte, ballon secondaire choisi,
-  fausse cible et absence de cible lorsque l'actif est visible.
+- detection of all visible balls: TP/FP/FN, precision and recall, with results by ball size in source pixels;
+- active-ball choice: correct target chosen, secondary ball chosen, wrong target, and no target while the active ball is visible.
 
-Les mesures sur l'actif doivent se limiter aux références avec
-`active_identity_reviewed: true`. Une validation des boîtes par Submit ne suffit
-pas à revendiquer une validation de l'identité active.
+Active-ball measurements must be limited to references with `active_identity_reviewed: true`. A box validation by Submit does not justify claiming validation of the active identity.
 
-Une boîte sur un ballon de réserve est une bonne détection mais peut être un
-mauvais choix pour la caméra. Ne pas mélanger ces deux verdicts. Comparer les
-modèles sur les mêmes images, sans régler séparément leurs seuils sur ce lot.
-Conserver l'ancien benchmark séparément. Les incertitudes doivent tenir compte
-de la corrélation temporelle ; avec une seule rencontre, aucune conclusion sur
-la variabilité entre stades n'est possible. Les latences et consommations des
-trois modèles doivent être mesurées sur l'iPhone séparément.
+A box on a spare ball is a good detection but may be a bad choice for the camera; do not mix the two verdicts. Compare models on the same images, without tuning their thresholds separately on this set. Keep the old benchmark separate. Uncertainties must account for temporal correlation; with a single match, nothing can be concluded about variability between stadiums. Latency and power consumption of the three models must be measured separately on the iPhone.

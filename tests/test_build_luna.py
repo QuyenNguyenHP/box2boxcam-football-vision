@@ -3,7 +3,7 @@
 import unittest
 from collections import Counter
 
-from pitchlens.data.build_luna import choose_splits
+from box2boxcam.data.build_luna import choose_splits
 
 
 class MatchSplitsTest(unittest.TestCase):

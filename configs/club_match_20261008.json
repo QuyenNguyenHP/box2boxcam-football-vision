@@ -1,0 +1,20 @@
+{
+  "output_root": "data/interim/gpt6_luna_club_match_20261008",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "max",
+  "image_detail": "original",
+  "jpeg_quality": 95,
+  "frame_stride": 4,
+  "temporal_offset": 3,
+  "max_output_tokens": 32768,
+  "prompt_cache_key": "box2boxcam-ball-annotation-v1",
+  "train_confidence_threshold": 0.94,
+  "upload_workers": 2,
+  "poll_seconds": 60,
+  "videos": [
+    {"file": "2026-09-30_club_match_19h41m35.MOV", "match_id": "club_match_2026-09-30", "role": "test_primary", "annotate": true},
+    {"file": "2026-09-30_club_match_19h38m04.MOV", "match_id": "club_match_2026-09-30", "role": "test_reserve", "annotate": false},
+    {"file": "2026-10-07_club_match_20h40m43.MOV", "match_id": "club_match_2026-10-07", "role": "train_candidate", "annotate": true},
+    {"file": "2026-10-07_club_match_20h47m20.MOV", "match_id": "club_match_2026-10-07", "role": "train_candidate", "annotate": true}
+  ]
+}

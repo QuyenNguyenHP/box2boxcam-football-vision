@@ -1,11 +1,11 @@
 <View>
-  <Header value="PitchLens — vérification du ballon en jeu" />
+  <Header value="box2boxcam — in-play ball check" />
   <Text name="frame_info" value="$frame_info" />
   <Image name="image" value="$image" maxWidth="1400px" zoom="true" zoomControl="true" />
   <Rectangle name="bbox" toName="image" strokeColor="#e11d48" strokeWidth="1" opacity="0.05" canRotate="false" />
   <Choices name="decision" toName="image" choice="single" showInLine="true">
     <Choice value="Exclure image" />
   </Choices>
-  <Header value="Indication de Luna (à vérifier sur l’image)" size="4" />
+  <Header value="Model hint (check against the image)" size="4" />
   <Text name="luna_context" value="$luna_context" />
 </View>

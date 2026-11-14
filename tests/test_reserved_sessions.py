@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from pitchlens.data.reserved_sessions import assert_no_reserved_training
+from box2boxcam.data.reserved_sessions import assert_no_reserved_training
 
 
 class ReservationTests(unittest.TestCase):

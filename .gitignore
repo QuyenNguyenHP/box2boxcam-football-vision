@@ -54,3 +54,7 @@ models/reports/**
 *.p8
 *.mobileprovision
 local_login.txt
+
+# Internal working material (job receipts, inventories, dev log). Never published.
+internal/
+.claude/

@@ -6,15 +6,15 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from pitchlens.data.label_studio_review import build_tasks, export_review
-from pitchlens.data.luna_batch import (
+from box2boxcam.data.label_studio_review import build_tasks, export_review
+from box2boxcam.data.luna_batch import (
     ALL_BALLS_SCHEMA,
     _write_prediction_artifacts,
     parse_batch_output,
     prediction_request_body,
     validate_all_balls_prediction,
 )
-from pitchlens.data.luna_inline_batch import collect_inline_batch, write_shards
+from box2boxcam.data.luna_inline_batch import collect_inline_batch, write_shards
 
 
 def ball(box, location="field"):
@@ -68,7 +68,7 @@ class AllVisibleTests(unittest.TestCase):
         plan = self.plan()
         body = prediction_request_body(case=plan["cases"][0], file_ids={"0": "data:image/jpeg;base64,YQ==", "3": "file-next"}, plan=plan)
         self.assertEqual(body["text"]["format"]["schema"], ALL_BALLS_SCHEMA)
-        self.assertIn("TOUS", body["input"][0]["content"])
+        self.assertIn("ALL", body["input"][0]["content"])
         images = [i for i in body["input"][1]["content"] if i["type"] == "input_image"]
         self.assertIn("image_url", images[0])
         self.assertNotIn("file_id", images[0])
@@ -94,7 +94,7 @@ class AllVisibleTests(unittest.TestCase):
                 write_shards(Path(directory), [("too-big", b"a" * 10)], limit=9)
 
     def test_unfinished_inline_batch_is_not_collected_or_resubmitted(self):
-        with patch("pitchlens.data.luna_inline_batch.refresh_inline_status", return_value={"batch_status": "in_progress"}), patch("pitchlens.data.luna_inline_batch.openai_client") as client:
+        with patch("box2boxcam.data.luna_inline_batch.refresh_inline_status", return_value={"batch_status": "in_progress"}), patch("box2boxcam.data.luna_inline_batch.openai_client") as client:
             with self.assertRaises(RuntimeError):
                 collect_inline_batch(SimpleNamespace())
             client.assert_not_called()

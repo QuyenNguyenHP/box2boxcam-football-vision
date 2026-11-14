@@ -10,8 +10,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from pitchlens.data.luna_batch import _atomic_json
-from pitchlens.data.luna_crop_pilot import collect, prepare, submit
+from box2boxcam.data.luna_batch import _atomic_json
+from box2boxcam.data.luna_crop_pilot import collect, prepare, submit
 
 
 def main():

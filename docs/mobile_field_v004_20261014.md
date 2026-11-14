@@ -1,117 +1,64 @@
-# YOLO26n mobile v004 — match iPhone annoté
+# First field model (Nano): annotated iPhone match
 
-Le nouveau lot `mobile_v004` reprend les 2 826 entrées figées de `mobile_v003`
-et ajoute 148 images du match iPhone validées dans Label Studio : 141 positives,
-7 négatives, 148 boîtes au total, dont 6 images contenant plusieurs ballons.
-Les 1 095 images du match encore non soumises ou en brouillon ne sont pas utilisées.
-Les corrections soumises des anciens projets ont été comparées aux exports :
-elles correspondent aux labels déjà présents dans la référence.
+The first field model (Nano size) retrains from COCO on the previous dataset (`mobile_v003`) plus 148 human-annotated frames of an iPhone match. On the unchanged 168-image validation it gains mAP50-95 (43.6% to 45.8%) and 5 more detected balls, but F1 is flat (75.3% to 75.4%): no net gain at this operating point. Model naming used in these docs: see the [vocabulary](README.md#vocabulary).
 
-| Source | Entraînement | Validation |
+## Dataset
+
+`mobile_v004` (the dataset folder of this model) reuses the 2,826 frozen entries of `mobile_v003` and adds 148 images of the iPhone match validated in Label Studio: 141 positive, 7 negative, 148 boxes in total, 6 images containing several balls. The 1,095 match images not yet submitted or still in draft are not used. Corrections submitted in older projects were compared to the exports: they match the labels already in the reference.
+
+| Source | Train | Validation |
 |---|---:|---:|
-| Compilation Luna de base | 739 | 168 |
-| Lou Mistrau personnel | 808 | 0 |
-| Shorts déjà revus | 603 | 0 |
-| Ballons proches | 445 | 0 |
-| Faux positifs : vidéos sans ballon | 63 | 0 |
-| Match iPhone : annotations humaines | 148 | 0 |
-| **Total** | **2 806** | **168** |
+| Base compilation (frames proposed by a multimodal model, human-reviewed) | 739 | 168 |
+| Personal `club_match` footage | 808 | 0 |
+| Already-reviewed shorts | 603 | 0 |
+| Close-up balls | 445 | 0 |
+| False positives: videos with no ball | 63 | 0 |
+| iPhone match: human annotations | 148 | 0 |
+| **Total** | **2,806** | **168** |
 
-Le train contient 2 415 images positives et 391 négatives. Les données télé
-Infactory sont exclues. Les 168 images et labels de validation conservent exactement
-leurs empreintes précédentes ; les images réservées au test sont absentes du lot GPU.
-Les anciennes références, les vidéos et les annotations de l'outil de revue restent intactes.
+Train holds 2,415 positive and 391 negative images. Infactory TV data is excluded. The 168 validation images and labels keep their previous hashes exactly; images reserved for test are absent from the GPU batch.
 
-## Point de départ et recette
+## Starting point and recipe
 
-L'expérience configurée est un nouveau départ depuis **YOLO26n préentraîné COCO**,
-sur toutes les données réunies. Ce n'est pas une initialisation aléatoire.
-Le modèle v003 sert de référence de comparaison sur la validation, pas de poids initiaux.
-La tête `sports ball` conserve les caractéristiques du classifieur COCO et sa ligne
-de sortie grâce au transfert déjà vérifié dans les expériences précédentes.
+The experiment is a fresh start from **COCO-pretrained YOLO26n** on all the data together, not a random initialization. The previous Nano (trained on `mobile_v003`) is the comparison reference on validation, not initial weights. The `sports ball` head keeps the COCO classifier features and its output row through the transfer verified in earlier experiments (see `mobile_sports_ball_transfer_20261010.md`).
 
-Repartir des poids v003 et réentraîner sur ce même lot serait aussi un entraînement
-sur toutes les données, mais avec un autre point de départ et une recette de continuation.
-Entraîner sur les 148 nouvelles images seules serait encore un troisième protocole ;
-il n'est pas utilisé ici.
+Restarting from the previous Nano weights and retraining on the same batch would be another protocol (different starting point, continuation recipe); training on the 148 new images alone would be a third. Neither is used here.
 
-Résolution 960 px, batch 8, AdamW, lr initial 0,001, seed 42,
-maximum 30 époques, patience 8, GPU A10G, limite totale de 90 minutes.
-Les checkpoints sont publiés en privé toutes les deux époques. La sélection du
-meilleur checkpoint utilise uniquement la validation, jamais le test.
+Resolution 960 px, batch 8, AdamW, initial lr 0.001, seed 42, maximum 30 epochs, patience 8, A10G GPU, 90-minute total limit. Checkpoints are published privately every two epochs. Best-checkpoint selection uses validation only, never the test set.
 
-Le nombre d'époques, le point de départ et l'ajout des images changent ensemble :
-la comparaison à v003 mesure cette nouvelle recette complète, pas l'effet isolé
-des 148 images. La validation existante couvre peu les gros plans et ne contient
-pas cette nouvelle session de match. Elle ne suffit donc pas à mesurer la
-généralisation sur un autre match nocturne. Le diagnostic des 63 faux positifs
-est effectué sur des images d'entraînement, et reste décrit comme tel.
+Epoch count, starting point and added images change together: the comparison with the previous Nano measures this whole new recipe, not the isolated effect of the 148 images. The existing validation covers few close-ups and does not contain this new match session, so it cannot measure generalization to another night match. The diagnostic on the 63 false-positive images is run on training images and is described as such.
 
-La nouvelle session annote tous les ballons visibles, y compris ceux immobiles
-ou au bord du terrain. Les anciens lots avaient une politique « ballon en jeu » ;
-leurs ballons secondaires éventuellement omis restent un point à harmoniser
-dans les prochaines revues.
+The new session annotates all visible balls, including stationary or touchline ones. Older batches used a "ball in play" policy; their possibly omitted secondary balls remain a point to harmonize in future reviews.
 
-## Fichiers et commandes
+## Commands
 
-- Configuration : `configs/mobile_nano_field_all_balls_960.json`.
-- Export humain : `data/processed/field_all_balls_reviewed_v001`.
-- Lot entraînement/validation : `data/processed/mobile_v004`.
-- Reçu GPU : `models/reports/yolo26n_mobile_field_v004_960_20261014_job.json`.
-- Résultats collectés : `models/checkpoints/baseline_runs/yolo26n_mobile_field_v004_960_20261014`.
+- Configuration: `configs/mobile_nano_field_all_balls_960.json`.
+- Freezing of the new review is implemented in `src/box2boxcam/data/build_reviewed_field.py` and checked by tests for human selection, explicit negatives, multiple boxes and excluded drafts.
 
 ```sh
-.venv/bin/python scripts/mobile_training_hf.py status --config configs/mobile_nano_field_all_balls_960.json
-.venv/bin/python scripts/mobile_training_hf.py collect --config configs/mobile_nano_field_all_balls_960.json
+python scripts/mobile_training_hf.py status --config configs/mobile_nano_field_all_balls_960.json
+python scripts/mobile_training_hf.py collect --config configs/mobile_nano_field_all_balls_960.json
 ```
 
-Les dépôts Hugging Face du dataset et du modèle sont privés. Le lancement refuse
-un job déjà enregistré ; les anciens entraînements ne sont jamais remplacés.
-Le job [6acf98865ccb47ba0f79c275](https://huggingface.co/jobs/Totorotibo84/6acf98865ccb47ba0f79c275)
-est lancé, avec la révision dataset `77c48dac63cd314bd3d0a54b9d2caf2be0ed4641`
-et la révision de code `1c68ef4700f65500b8b5ed35c31f360657a7a069`.
-La récupération finale est lancée par `scripts/collect_mobile_job_when_done.py` ;
-elle ne soumet aucun entraînement et refuse de présenter un checkpoint de progression
-comme résultat terminé. Son journal est dans
-`models/reports/yolo26n_mobile_field_v004_960_20261014_collector.log`.
-Le gel de la nouvelle revue est implémenté dans
-`src/pitchlens/data/build_reviewed_field.py` et vérifié par les tests de sélection
-humaine, de négatifs explicites, de plusieurs boîtes et de brouillons exclus.
+The Hugging Face dataset and model repositories are private. Launching refuses a job already registered; earlier trainings are never overwritten. `collect` refuses to present a progress checkpoint as a finished result.
 
-## Résultats terminés et récupérés
+## Results
 
-Le job est terminé et les artefacts sont récupérés localement, à la révision
-`1ddd1e9af4adabd2015c4948f95f1e234319e425`. Les 30 époques ont été effectuées
-en 25,5 minutes de temps d'entraînement ; le meilleur mAP50-95 de validation
-dans la courbe correspond à l'époque 28.
+All 30 epochs ran in 25.5 minutes of training; the best validation mAP50-95 on the curve is at epoch 28.
 
-| Même validation de 168 images | V003 | V004 |
+| Same 168-image validation | Previous Nano | First field model (Nano) |
 |---|---:|---:|
-| mAP50 | 75,1 % | 76,2 % |
-| mAP50-95 | 43,6 % | 45,8 % |
-| Ballons détectés (TP) | 90 | 95 |
-| Ballons manqués (FN) | 44 | 39 |
-| Prédictions non associées aux annotations (FP) | 15 | 23 |
-| Précision | 85,7 % | 80,5 % |
-| Rappel | 67,2 % | 70,9 % |
-| F1 | 75,3 % | 75,4 % |
+| mAP50 | 75.1% | 76.2% |
+| mAP50-95 | 43.6% | 45.8% |
+| Detected balls (TP) | 90 | 95 |
+| Missed balls (FN) | 44 | 39 |
+| Predictions not matched to annotations (FP) | 15 | 23 |
+| Precision | 85.7% | 80.5% |
+| Recall | 67.2% | 70.9% |
+| F1 | 75.3% | 75.4% |
 
-Les comptes TP/FP/FN et précision/rappel/F1 utilisent le même seuil 0,25 et
-le même IoU d'association 0,50. V004 récupère 5 ballons supplémentaires et
-produit 8 prédictions supplémentaires non associées à une annotation. Le F1
-change de seulement 0,08 point : pas de gain global net à ce point de fonctionnement.
-Le gain mAP50-95 suggère une meilleure détection/localisation sur cette validation,
-mais ne prouve pas une amélioration sur un autre match ni sur les ballons de réserve.
-Le diagnostic des 63 images négatives d'entraînement reste à zéro fausse boîte
-pour les deux modèles ; il ne constitue pas un test indépendant.
+TP/FP/FN and precision/recall/F1 use the same threshold 0.25 and matching IoU 0.50. The first field model recovers 5 more balls and produces 8 more predictions not matched to an annotation. F1 changes by only 0.08 point: no clear global gain at this operating point. The mAP50-95 gain suggests better detection/localization on this validation, but does not prove improvement on another match or on spare balls. The diagnostic on the 63 negative training images stays at zero false boxes for both models; it is not an independent test.
 
-Les annotations historiques de validation ciblent le ballon en jeu ; la nouvelle
-session annote tous les ballons visibles. Un FP mesuré est donc une prédiction
-non associée à ces annotations, pas automatiquement la preuve que l'objet visible
-n'est pas un vrai ballon. Les boîtes supplémentaires demandent une inspection.
+Historical validation annotations target the ball in play, while the new session annotates all visible balls. A measured FP is therefore a prediction unmatched to these annotations, not automatically proof that the visible object is not a real ball. Extra boxes need inspection.
 
-Modèle final :
-`models/checkpoints/baseline_runs/yolo26n_mobile_field_v004_960_20261014/artifacts/best.pt`.
-SHA-256 : `cd3ad62956b77987d830414231fcaa9246350cb8caaaace8c3923b6213d38a71`.
-Le v003 est conservé pour comparaison. Le test réservé n'a pas servi à la sélection,
-et les 148 images du nouveau match étaient dans le train, pas dans cette validation.
+Final model (Nano) SHA-256: `cd3ad62956b77987d830414231fcaa9246350cb8caaaace8c3923b6213d38a71`. The previous Nano is kept for comparison. The reserved test was not used for selection, and the 148 images of the new match were in train, not in this validation.

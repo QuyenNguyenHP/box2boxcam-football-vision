@@ -9,18 +9,18 @@ import os
 from collections import Counter
 from pathlib import Path
 
-from pitchlens.data.build_mobile_dataset import sha256
-from pitchlens.data.field_validation import (
+from box2boxcam.data.build_mobile_dataset import sha256
+from box2boxcam.data.field_validation import (
     SUBMIT_PROTOCOL,
     parse_reviewed_task,
     proposed_role,
 )
-from pitchlens.data.label_studio_review import (
+from box2boxcam.data.label_studio_review import (
     _label_studio_request,
     build_tasks,
     download_local_export,
 )
-from pitchlens.data.luna_batch import _atomic_json, _yolo_line
+from box2boxcam.data.luna_batch import _atomic_json, _yolo_line
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "http://127.0.0.1:8080"
@@ -118,7 +118,7 @@ def make_tasks(config_path):
             if not row:
                 task["predictions"] = []
                 task["data"]["luna_context"] = (
-                    "Propositions Luna en attente. Une tâche vide ne signifie pas une image sans ballon."
+                    "Luna proposals pending. An empty task does not mean an image without a ball."
                 )
             else:
                 prediction = task["predictions"][0]

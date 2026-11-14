@@ -8,7 +8,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from pitchlens.data.field_validation import SUBMIT_PROTOCOL, parse_reviewed_task
+from box2boxcam.data.field_validation import SUBMIT_PROTOCOL, parse_reviewed_task
 
 
 def chosen(name, value, region=None):

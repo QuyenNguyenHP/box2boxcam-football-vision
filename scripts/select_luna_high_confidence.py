@@ -162,15 +162,15 @@ def main() -> None:
         json.dumps(report, ensure_ascii=False, indent=2)
     )
     (output / "README.md").write_text(
-        "# Sélection Luna ≥ 95 %\n\n"
-        "Propositions positives seulement : la confiance est déclarée par Luna, "
-        "pas une précision mesurée. Les trois négatifs ≥ 95 % sont laissés à part.\n\n"
-        "manifest.csv conserve les chemins des images originales et leur provenance. "
-        "labels/ contient les propositions YOLO ; aucune image n’est recopiée. "
-        "inspection_01.jpg et inspection_02.jpg montrent 24 cas répartis sur les six vidéos.\n\n"
-        "Ce lot reste candidat, sans split. Avant de l’intégrer au train, récupérer "
-        "les corrections/exclusions de Label Studio et vérifier les groupes de matchs. "
-        "Ne pas filtrer validation/test par confiance : cela faciliterait artificiellement l’évaluation.\n"
+        "# Luna selection >= 95%\n\n"
+        "Positive proposals only: the confidence is self-reported by Luna, "
+        "not a measured precision. The three negatives >= 95% are set aside.\n\n"
+        "manifest.csv keeps the original image paths and their provenance. "
+        "labels/ holds the YOLO proposals; no image is copied. "
+        "inspection_01.jpg and inspection_02.jpg show 24 cases spread over the six videos.\n\n"
+        "This batch remains a candidate, with no split. Before adding it to train, fetch "
+        "the Label Studio corrections/exclusions and check the match groups. "
+        "Do not filter validation/test by confidence: it would artificially make the evaluation easier.\n"
     )
     print(json.dumps(report, ensure_ascii=False, indent=2))
 

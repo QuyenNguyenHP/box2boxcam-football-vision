@@ -1,7 +1,7 @@
 import copy
 import unittest
 
-from pitchlens.data.build_reviewed_shorts import select_short
+from box2boxcam.data.build_reviewed_shorts import select_short
 
 
 class ReviewedShortsTests(unittest.TestCase):

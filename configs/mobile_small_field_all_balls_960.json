@@ -39,5 +39,5 @@
     128
   ],
   "reuse_dataset_record": "models/reports/yolo26n_mobile_field_v004_960_20261014_job.json",
-  "comparison": "Same frozen v004 train/val, COCO initialization, 30 epochs, seed 42; vary architecture or input resolution only"
+  "comparison": "Same frozen first-field-model (mobile_v004) train/val, COCO initialization, 30 epochs, seed 42; vary architecture or input resolution only"
 }

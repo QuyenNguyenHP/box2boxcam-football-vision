@@ -1,6 +1,6 @@
 import unittest
 
-from pitchlens.training.camera_benchmark import benchmark_targets, score_target
+from box2boxcam.training.camera_benchmark import benchmark_targets, score_target
 
 
 class CameraBenchmarkTests(unittest.TestCase):

@@ -1,8 +1,8 @@
 <View>
-  <Header value="Validation des ballons" size="4" />
+  <Header value="Ball validation" size="4" />
   <Text name="frame_info" value="$frame_info" />
-  <Header size="5" value="Toutes les boîtes sont bonnes ? Clique Submit. Sinon, corrige-les puis Submit. Les ballons de réserve comptent aussi." />
-  <Header size="5" value="Pas sûr ? Coche Image inexploitable, puis Submit pour ne pas prendre cette image." />
+  <Header size="5" value="Are all boxes correct? Click Submit. Otherwise fix them, then Submit. Spare balls count too." />
+  <Header size="5" value="Not sure? Tick Image inexploitable, then Submit to skip this image." />
   <Choices name="review_status" toName="image" choice="single" showInLine="true">
     <Choice value="Vérifié" />
     <Choice value="Image inexploitable" />
@@ -10,20 +10,20 @@
   <Image name="image" value="$image" zoom="true" zoomControl="true" maxWidth="1600px" />
   <Rectangle name="bbox" toName="image" strokeColor="#e11d48" strokeWidth="1" opacity="0.05" canRotate="false" />
   <Collapse>
-    <Panel value="Images avant / après">
+    <Panel value="Previous / next images">
       <View style="display:flex; gap:16px;">
         <View style="flex:1; min-width:0;">
-          <Header size="5" value="Avant — contexte uniquement" />
+          <Header size="5" value="Previous: context only" />
           <Image name="previous" value="$image_previous" maxWidth="600px" />
         </View>
         <View style="flex:1; min-width:0;">
-          <Header size="5" value="Après — contexte uniquement" />
+          <Header size="5" value="Next: context only" />
           <Image name="next" value="$image_next" maxWidth="600px" />
         </View>
       </View>
     </Panel>
-    <Panel value="Options facultatives — ballon actif">
-      <Header size="5" value="Le rôle actif peut rester indéterminé. Coche Identité vérifiée uniquement si tu as aussi vérifié les rôles ci-dessous." />
+    <Panel value="Optional: active ball">
+      <Header size="5" value="The active role may stay undetermined. Tick Identité vérifiée only if you also checked the roles below." />
       <Choices name="active_review_status" toName="image" choice="single">
         <Choice value="Identité vérifiée" />
       </Choices>
@@ -33,14 +33,14 @@
         <Choice value="Actif hors champ" />
         <Choice value="Actif indéterminé" />
       </Choices>
-      <Header size="5" value="Rôle de la boîte sélectionnée — facultatif" />
+      <Header size="5" value="Role of the selected box (optional)" />
       <Choices name="ball_role" toName="image" choice="single" perRegion="true">
         <Choice value="Actif" />
         <Choice value="Secondaire" />
         <Choice value="Rôle indéterminé" />
       </Choices>
     </Panel>
-    <Panel value="Notes de Luna — propositions à vérifier">
+    <Panel value="Model notes: proposals to check">
       <Text name="luna_context" value="$luna_context" />
     </Panel>
   </Collapse>

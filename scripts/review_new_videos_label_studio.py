@@ -8,12 +8,12 @@ import json
 import os
 from pathlib import Path
 
-from pitchlens.data.label_studio_review import (
+from box2boxcam.data.label_studio_review import (
     _label_studio_request,
     build_tasks,
     download_local_export,
 )
-from pitchlens.data.luna_batch import _atomic_json
+from box2boxcam.data.luna_batch import _atomic_json
 
 TITLE = "PitchLens — Luna max — 782 nouvelles images"
 BASE = "http://127.0.0.1:8080"
@@ -113,7 +113,7 @@ def main():
         label_config = original["label_config"]
         if args.dataset == "closeups":
             label_config = label_config.replace(
-                "vérification du ballon en jeu", "vérification du ballon visible — gros plans"
+                "in-play ball check", "visible-ball check: close-ups"
             )
         project = _label_studio_request(
             f"{BASE}/api/projects/", token, method="POST", payload={

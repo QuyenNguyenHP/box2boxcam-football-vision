@@ -8,12 +8,12 @@ import os
 import shutil
 from pathlib import Path
 
-from pitchlens.data.label_studio_review import (
+from box2boxcam.data.label_studio_review import (
     _label_studio_request,
     build_tasks,
     download_local_export,
 )
-from pitchlens.data.luna_batch import _atomic_json
+from box2boxcam.data.luna_batch import _atomic_json
 
 BASE = "http://127.0.0.1:8080"
 
@@ -22,7 +22,7 @@ def append_review(
     root: Path, source: Path, project_id: int, *, allow_partial: bool = False,
 ) -> dict:
     if project_id not in {3, 4}:
-        raise ValueError("Append only to the existing Lou Mistrau train/test projects")
+        raise ValueError("Append only to the existing club match train/test projects")
     intended_split = "train" if project_id == 3 else "test"
     summary = json.loads((source / "summary.json").read_text())
     if summary["valid_predictions"] != summary["planned_cases"] and not allow_partial:
@@ -32,7 +32,7 @@ def append_review(
         raise ValueError("Expected one additional video")
     if any(
         p["intended_split"] != intended_split
-        or p["match_id"] != "lou_mistrau_2026-09-30"
+        or p["match_id"] != "club_match_2026-09-30"
         for p in predictions
     ):
         raise ValueError("Different split or match: stop before importing")
@@ -63,11 +63,11 @@ def append_review(
     project = request(f"/api/projects/{project_id}/")
     allowed_titles = (
         {
-            "PitchLens — Lou Mistrau — TRAIN",
-            "PitchLens — Lou Mistrau — TRAIN (7 octobre)",
+            "PitchLens — club match — TRAIN",
+            "PitchLens — club match — TRAIN (7 octobre)",
         }
         if project_id == 3
-        else {"PitchLens — Lou Mistrau — TEST (30 septembre)"}
+        else {"PitchLens — club match — TEST (30 septembre)"}
     )
     if project["title"] not in allowed_titles:
         raise ValueError("Unexpected destination project")
@@ -167,7 +167,7 @@ def append_review(
                 "project": project_id,
                 "path": str(frames),
                 "regex_filter": "^$",
-                "title": "Lou Mistrau additional clip",
+                "title": "club match additional clip",
                 "use_blob_urls": True,
                 "recursive_scan": False,
             },
@@ -180,11 +180,11 @@ def append_review(
     ids = [t["data"]["item_id"] for t in verified]
     if len(ids) != len(set(ids)) or set(ids) != set(existing_ids) | expected:
         raise ValueError("Appended inventory mismatch")
-    if project_id == 3 and project["title"] != "PitchLens — Lou Mistrau — TRAIN":
+    if project_id == 3 and project["title"] != "PitchLens — club match — TRAIN":
         request(
             f"/api/projects/{project_id}/",
             "PATCH",
-            {"title": "PitchLens — Lou Mistrau — TRAIN"},
+            {"title": "PitchLens — club match — TRAIN"},
         )
     report = {
         "project_id": project_id,
