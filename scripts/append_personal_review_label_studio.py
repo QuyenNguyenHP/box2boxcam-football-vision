@@ -63,11 +63,11 @@ def append_review(
     project = request(f"/api/projects/{project_id}/")
     allowed_titles = (
         {
-            "box2boxcam — club match — TRAIN",
-            "box2boxcam — club match — TRAIN (7 octobre)",
+            "PitchLens — club match — TRAIN",
+            "PitchLens — club match — TRAIN (7 octobre)",
         }
         if project_id == 3
-        else {"box2boxcam — club match — TEST (30 septembre)"}
+        else {"PitchLens — club match — TEST (30 septembre)"}
     )
     if project["title"] not in allowed_titles:
         raise ValueError("Unexpected destination project")
@@ -180,11 +180,11 @@ def append_review(
     ids = [t["data"]["item_id"] for t in verified]
     if len(ids) != len(set(ids)) or set(ids) != set(existing_ids) | expected:
         raise ValueError("Appended inventory mismatch")
-    if project_id == 3 and project["title"] != "box2boxcam — club match — TRAIN":
+    if project_id == 3 and project["title"] != "PitchLens — club match — TRAIN":
         request(
             f"/api/projects/{project_id}/",
             "PATCH",
-            {"title": "box2boxcam — club match — TRAIN"},
+            {"title": "PitchLens — club match — TRAIN"},
         )
     report = {
         "project_id": project_id,

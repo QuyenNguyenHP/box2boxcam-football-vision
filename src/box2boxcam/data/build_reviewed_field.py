@@ -52,7 +52,7 @@ def build(root: Path, source: Path, output: Path) -> dict:
     project_id = json.loads((source / "review/label_studio_project.json").read_text())["project_id"]
     project = _label_studio_request(f"{BASE}/api/projects/{project_id}/", token)
     # Title of the existing local Label Studio project (French: "All balls"); must match as-is.
-    if project["title"] != "box2boxcam — Match iPhone — Tous les ballons":
+    if project["title"] != "PitchLens — Match iPhone — Tous les ballons":
         raise ValueError("Unexpected review project")
     proposals = json.loads((source / "review/tasks.json").read_text())
     expected = {task["data"]["item_id"]: task for task in proposals}

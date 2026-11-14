@@ -81,7 +81,7 @@ def build(root: Path, output: Path, *, threshold: float, confirm_reviewed: bool)
         if line.startswith("API token:")
     )
     project = _label_studio_request(BASE_URL + "/api/projects/2/", token)
-    if project["title"] != "box2boxcam — Luna max — 782 nouvelles images":
+    if project["title"] != "PitchLens — Luna max — 782 nouvelles images":
         raise ValueError("Unexpected Label Studio project")
     tasks = download_local_export(token=token, project_id=2)
     listed = []

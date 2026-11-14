@@ -52,7 +52,7 @@ def build(root: Path, output: Path, *, confirm_reviewed: bool) -> dict:
     token = next(s.partition(": ")[2] for s in (shared / "local_login.txt").read_text().splitlines()
                  if s.startswith("API token:"))
     project = _label_studio_request(f"{BASE_URL}/api/projects/{project_id}/", token)
-    if project["title"] != "box2boxcam — Gros plans — Luna max (11 octobre)":
+    if project["title"] != "PitchLens — Gros plans — Luna max (11 octobre)":
         raise ValueError("Unexpected close-up review project")
     tasks = download_local_export(token=token, project_id=project_id)
     listed, page = [], 1

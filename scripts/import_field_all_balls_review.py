@@ -14,7 +14,7 @@ from box2boxcam.data.label_studio_review import (
 from box2boxcam.data.luna_batch import _atomic_json
 
 BASE = "http://127.0.0.1:8080"
-TITLE = "box2boxcam — Match iPhone — Tous les ballons"
+TITLE = "PitchLens — Match iPhone — Tous les ballons"
 
 
 def import_review(root: Path, source: Path):
