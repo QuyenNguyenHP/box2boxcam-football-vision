@@ -50,6 +50,8 @@ models/reports/**
 *.mkv
 *.MOV
 *.MP4
+# Except the presentation video shown in the README.
+!docs/assets/box2boxcam-presentation.mp4
 *.p12
 *.p8
 *.mobileprovision

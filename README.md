@@ -2,7 +2,18 @@
 
 A small YOLO26 football (soccer) ball detector, fine-tuned on amateur-match footage, that lets an iPhone on a ~160 EUR DockKit gimbal film a match by itself: no subscription, and the gimbal stays useful for everything else. A box-to-box midfielder covers the whole pitch, and the camera does the same with bounding boxes.
 
-> TODO (owner): replace this line with a demo GIF, for example `docs/media/demo.gif`.
+<p align="center">
+  <img src="docs/assets/demo_match_a.gif" width="49%" alt="Night match clip with the ball outlined in neon yellow and the player's skeleton drawn in violet as the camera follows the play">
+  <img src="docs/assets/demo_match_b.gif" width="49%" alt="Second night match clip: the ball and the player stay tracked as the play moves away from the camera">
+</p>
+
+Ball detection (yellow) and player pose (violet) drawn on footage filmed by the iPhone on its gimbal. The overlay was rendered offline on a Mac for this demo with the same ball model; pose uses a stock YOLO26s-pose model.
+
+<p align="center">
+  <a href="docs/assets/box2boxcam-presentation.mp4"><img src="docs/assets/box2boxcam-presentation-poster.jpg" width="70%" alt="Title card of the box2boxcam presentation video: the box2boxcam wordmark and the line Football, filmed automatically"></a>
+</p>
+
+[Watch the 43-second presentation video](docs/assets/box2boxcam-presentation.mp4): the app's match setup, a 3D re-creation from public tracking data (player movement: Metrica Sports public sample), then real night footage filmed by the iPhone on its gimbal.
 
 ## What you get
 
