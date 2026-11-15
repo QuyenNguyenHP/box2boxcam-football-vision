@@ -1,7 +1,3 @@
-
-
-https://github.com/user-attachments/assets/af0cee34-fcf3-41ea-ba0e-92b88329dfc0
-
 # box2boxcam: football (soccer, if you must) ball detection
 
 A small YOLO26 football (soccer) ball detector, fine-tuned on amateur-match footage, that lets an iPhone on a ~160 EUR DockKit gimbal film a match by itself: no subscription, and the gimbal stays useful for everything else. A box-to-box midfielder covers the whole pitch, and the camera does the same with bounding boxes.
