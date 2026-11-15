@@ -13,7 +13,7 @@ Ball detection (yellow) and player pose (violet) drawn on footage filmed by the 
   <a href="docs/assets/box2boxcam-presentation.mp4"><img src="docs/assets/box2boxcam-presentation-poster.jpg" width="70%" alt="Title card of the box2boxcam presentation video: the box2boxcam wordmark and the line Football, filmed automatically"></a>
 </p>
 
-[Watch the 43-second presentation video](docs/assets/box2boxcam-presentation.mp4): the app's match setup, a 3D re-creation from public tracking data (player movement: Metrica Sports public sample), then real night footage filmed by the iPhone on its gimbal.
+https://github.com/user-attachments/assets/af0cee34-fcf3-41ea-ba0e-92b88329dfc0
 
 ## What you get
 
