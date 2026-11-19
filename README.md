@@ -3,24 +3,30 @@
 A small YOLO26 football (soccer) ball detector, fine-tuned on amateur-match footage, that lets an iPhone on a ~160 EUR DockKit gimbal film a match by itself: no subscription, and the gimbal stays useful for everything else. A box-to-box midfielder covers the whole pitch, and the camera does the same with bounding boxes.
 
 <p align="center">
-  <img src="docs/assets/demo_match_a.gif" width="49%" alt="Night match clip with the ball outlined in neon yellow and the player's skeleton drawn in violet as the camera follows the play">
-  <img src="docs/assets/demo_match_b.gif" width="49%" alt="Second night match clip: the ball and the player stay tracked as the play moves away from the camera">
+  <img src="docs/assets/demo_real_match.gif" width="100%" alt="Night 7-a-side match filmed by the iPhone on its gimbal: the ball ringed in neon yellow, players ringed in violet, people beyond the neon virtual pitch line crossed out in orange, faces blurred">
 </p>
 
-Ball detection (yellow) and player pose (violet) drawn on footage filmed by the iPhone on its gimbal. The overlay was rendered offline on a Mac for this demo with the same ball model; pose uses a stock YOLO26s-pose model.
+A real 7-a-side match at night, filmed by the iPhone on its gimbal with nobody behind the camera (faces blurred). The ball ring and the BALL LOCKED / SEARCHING state come from the phone's own log of that match. The virtual pitch, the player rings and the crossed-out people off the pitch were drawn afterwards on a Mac to show how the pitch filter works.
 
 <p align="center">
-  <a href="docs/assets/box2boxcam-presentation.mp4"><img src="docs/assets/box2boxcam-presentation-poster.jpg" width="70%" alt="Title card of the box2boxcam presentation video: the box2boxcam wordmark and the line Football, filmed automatically"></a>
+  <img src="docs/assets/demo_match_a.gif" width="49%" alt="Solo training at night: the ball outlined in neon yellow and the player's skeleton drawn in violet as the camera follows the play">
+  <img src="docs/assets/demo_match_b.gif" width="49%" alt="Second solo training clip: the ball and the player stay tracked as the play moves away from the camera">
 </p>
 
-https://github.com/user-attachments/assets/af0cee34-fcf3-41ea-ba0e-92b88329dfc0
+Solo training: ball detection (yellow) and player pose (violet) drawn on footage filmed by the iPhone on its gimbal. The overlay was rendered offline on a Mac for this demo with the same ball model; pose uses a stock YOLO26s-pose model.
+
+<p align="center">
+  <a href="docs/assets/box2boxcam-presentation.mp4"><img src="docs/assets/box2boxcam-presentation-poster.jpg" width="70%" alt="Frame of the presentation video: a night match with the ball ringed in neon yellow and the caption A real match. Filmed by itself."></a>
+</p>
+
+[Watch the 53-second presentation video](docs/assets/box2boxcam-presentation.mp4): the app's match setup, a 3D re-creation from public tracking data (player movement: Metrica Sports public sample), then real footage filmed by the iPhone on its gimbal, a match (faces blurred) and solo training.
 
 ## What you get
 
 - **Model**: box2boxcam v1.0, YOLO26s fine-tuned at 960 px, PyTorch and Core ML. [Hugging Face model](https://huggingface.co/Totorotibo84/box2boxcam-football-ball-detection) (AGPL-3.0).
 - **Dataset**: annotated frames with a reserved test split, faces and heads blurred. [Hugging Face dataset](https://huggingface.co/datasets/Totorotibo84/box2boxcam-football-ball-detection-dataset) (CC BY 4.0 for the author's own images and annotations).
 - **Code** (this repository): dataset building, training on Hugging Face Jobs, held-out evaluation, and a closed-loop camera-guidance benchmark. Unit tests run without any data or network.
-- **App**: the box2boxcam iOS app (Swift tracking, DockKit control) is closed for now and lives in a separate repository. On the phone the ball detector (Core ML) runs next to person detection and pose estimation at about 30 Hz.
+- **App**: the box2boxcam iOS app (Swift tracking, DockKit control) is still in development, tested on real matches, and lives in a separate private repository for now. On the phone the ball detector (Core ML) runs next to person detection and pose estimation at about 30 Hz.
 
 ## Hardware and cost
 
