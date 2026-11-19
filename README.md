@@ -8,6 +8,8 @@ box2boxcam turns an iPhone on a ~160 EUR phone gimbal into the cameraman of your
 
 No subscription, and the gimbal stays useful for everything else. A box-to-box midfielder covers the whole pitch; the camera does the same with bounding boxes.
 
+https://github.com/user-attachments/assets/841d7093-8ea7-4c0e-b87a-2b174dd26b50
+
 <p align="center">
   <img src="docs/assets/demo_real_match.gif" width="100%" alt="Night 7-a-side match filmed by the iPhone on its gimbal: the ball ringed in neon yellow, players ringed in violet, people beyond the neon virtual pitch line crossed out in orange, faces blurred">
 </p>
@@ -24,8 +26,6 @@ Solo training: ball (yellow) and player pose (violet), drawn afterwards with the
 <p align="center">
   <a href="docs/assets/box2boxcam-presentation.mp4"><img src="docs/assets/box2boxcam-presentation-poster.jpg" width="70%" alt="Frame of the presentation video: a night match with the ball ringed in neon yellow and the caption A real match. Filmed by itself."></a>
 </p>
-
-[Watch the 53-second presentation video](docs/assets/box2boxcam-presentation.mp4): a 3D re-creation from public tracking data (Metrica Sports sample), then real footage filmed by the iPhone.
 
 ## What you get
 
