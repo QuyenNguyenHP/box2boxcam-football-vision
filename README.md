@@ -23,10 +23,6 @@ A real night match, nobody behind the camera (faces blurred). The ball ring come
 
 Solo training: ball (yellow) and player pose (violet), drawn afterwards with the same ball model and a stock YOLO26s-pose.
 
-<p align="center">
-  <a href="docs/assets/box2boxcam-presentation.mp4"><img src="docs/assets/box2boxcam-presentation-poster.jpg" width="70%" alt="Frame of the presentation video: a night match with the ball ringed in neon yellow and the caption A real match. Filmed by itself."></a>
-</p>
-
 ## What you get
 
 - **Model**: box2boxcam v1.0, YOLO26s fine-tuned at 960 px, PyTorch and Core ML. [Hugging Face model](https://huggingface.co/Totorotibo84/box2boxcam-football-ball-detection) (AGPL-3.0).
