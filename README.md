@@ -28,7 +28,7 @@ Solo training: ball (yellow) and player pose (violet), drawn afterwards with the
 - **Model**: box2boxcam v1.0, YOLO26s fine-tuned at 960 px, PyTorch and Core ML. [Hugging Face model](https://huggingface.co/Totorotibo84/box2boxcam-football-ball-detection) (AGPL-3.0).
 - **Dataset**: annotated frames with a reserved test split, faces and heads blurred. [Hugging Face dataset](https://huggingface.co/datasets/Totorotibo84/box2boxcam-football-ball-detection-dataset) (CC BY 4.0 for the author's own images and annotations).
 - **Code** (this repository): dataset building, training on Hugging Face Jobs, held-out evaluation, and a closed-loop camera-guidance benchmark. Unit tests run without any data or network.
-- **App**: the box2boxcam iOS app (tracking and gimbal control in Swift) is still in development, tested on real matches, and lives in a separate private repository for now. On the phone the ball detector (Core ML) runs next to person detection and pose estimation at about 30 Hz.
+- **App**: the box2boxcam iOS app (tracking and gimbal control in Swift) is open source too: [box2boxcam-ios](https://github.com/Thibault-GILLARD/box2boxcam-ios). It is still in development and tested on real matches; feedback from real games is the most useful help. On the phone the ball detector (Core ML) runs next to person detection and pose estimation at about 30 Hz.
 
 ## Hardware and cost
 
