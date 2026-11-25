@@ -1,0 +1,29 @@
+ID,Qty,Item,Required specification,Notes
+M01,1,Position servo FEETECH FS5115M,Approximately 180 degrees; metal gear; 4.8-6V; compatible 3.3V signal,Confirm actual revision and dimensions; no continuous-rotation variant
+M02,1,Square turntable bearing,Nominal 76.2x76.2mm; height10mm; centre aperture>=46mm; two independently fastenable races,58x58mm hole pitch is a CAD assumption; obtain drawing or measure BEFORE full printing; ServoCity 1620-0001-0003 is a candidate not confirmed fit
+M03,1,Metal phone clamp,Landscape grip opening 70-90mm or wider; bottom female 1/4-20 thread; rubber pads,Check iPhone with case and camera/button clearance; avoid MagSafe-only mount
+M04,1,Servo horn,Matches actual servo spline; metal preferred; diameter<=36mm; two usable opposite holes,Nominal CAD horn holes 24mm apart; measure and change CAD if necessary; do not substitute spline by guess
+M05,1,Tripod,Stable head with male 1/4-20 screw; geared head or lockable ball head optional,Adjust fixed tilt here; keep pan axis vertical
+M06,1,Phone safety tether,Nonelastic short strap,Attach to rotating plate/clamp; cannot reach fixed base during normal pan
+F01,12,M3x16 screws plus M3 nuts and washers,4 lid; 4 servo ears; 4 spare,Check screw head and servo ear clearances
+F02,4,M3 threaded rods 40mm with 16 nuts and washers,Adjustable tray suspension,Trim after setting horn height; lock double nuts
+F03,8,M4 screws nuts and low-profile washers,Bearing race mounts; start with lengths10/12/16mm,Only if selected bearing accepts M4; prevent heads contacting opposite race
+F04,2,M3 horn attachment screws and washers,Length selected after horn and spacer measurement,Use horn-compatible thread or through nuts; do not drill spline hub
+F05,1,1/4-20 metal hex nut,Across flats <=11.8mm; thickness<=6.3mm,Bottom tripod insert; retained by epoxy after fit check
+F06,1,1/4-20 camera screw and broad washer,Through rotor slot into clamp,Choose thread engagement from clamp datasheet; do not bottom out
+F07,2,M4x25 bolts nuts and rubber sleeves,Optional reinforcement for printed stop posts,Backup stop only; never deliberately stall servo against it
+E01,1,ESP32 DevKitC V4 with ESP32-WROOM-32E,BLE-capable board; 5V input per board specification,Not ESP32-S2; board fixed with insulated pads and zip ties
+E02,1,6V regulated buck converter,Input compatible with supply; >=3A continuous with >=5A transient target,Verify current capability thermally; measure real servo peak current
+E03,1,5V regulated buck converter,>=1A continuous; 2A preferred,Separate branch for ESP32
+E04,1,Bench supply for first test,12V >=3A regulated supply,Outdoor alternative: protected12V-class battery and matched charger; kept outside box
+E05,1,Power switch and fuse holder,Switch mounting bushing6mm; rating suitable for DC input,6.5mm CAD hole; fuse value chosen to protect actual wiring and source
+E06,1,Electrolytic capacitor,1000uF >=10V,Across6V servo rail near connector; correct polarity
+E07,1,Signal resistor,220-470ohm,Series between GPIO18 and servo signal
+E08,1,Connectors cable and strain relief set,Servo branch stranded0.5mm2 or larger for short runs; insulated crimp terminals,Confirm current cable length and connector ratings; no breadboard motor-power path
+E09,1,USB cable,Matches selected ESP32 board,Flash on Linux; disconnect external5V when USB power is used unless board explicitly supports both
+P01,1,Printed base,PETG;150x140x72mm,Includes floor9mm and walls3mm
+P02,1,Printed lid,PETG;150x140x21mm including stop posts,6mm main plate
+P03,1,Printed servo tray,PETG;112x64x5mm,Measure ear holes and output-axis offset
+P04,1,Printed rotor,PETG;110mm main disk with stop tab; nominal10mm overall height,6mm disk plus underside horn spacer
+P05,1,Printed fit coupon,Same material and settings,Print before full set
+P06,1,Rubber/EVA pad and fastener supplies,Thin1-2mm padding; zip ties; metal-thread locking compound,Keep metal-thread compound away from plastics

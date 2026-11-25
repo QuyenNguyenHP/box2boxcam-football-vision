@@ -1,0 +1,175 @@
+{
+  "parameters": {
+    "box_x": 150,
+    "box_y": 140,
+    "box_h": 72,
+    "wall": 3,
+    "floor": 9,
+    "lid_t": 6,
+    "bearing_height": 10,
+    "bearing_pitch": 58,
+    "bearing_hole": 4.5,
+    "rotor_d": 110,
+    "rotor_t": 6,
+    "servo_body_x": 42,
+    "servo_body_y": 22,
+    "servo_body_center_x": 10,
+    "servo_ear_pitch_x": 49.5,
+    "servo_ear_pitch_y": 10,
+    "tray_top": 64,
+    "horn_pitch": 24,
+    "horn_top": 84,
+    "clamp_offset_y": 22,
+    "stop_angle": 80,
+    "stop_radius": 62
+  },
+  "parts": {
+    "base": {
+      "watertight": true,
+      "volume_cm3": 331.39,
+      "size_mm": [
+        150.0,
+        140.0,
+        72.0
+      ]
+    },
+    "lid": {
+      "watertight": true,
+      "volume_cm3": 118.14,
+      "size_mm": [
+        150.0,
+        140.0,
+        21.0
+      ]
+    },
+    "servo_tray": {
+      "watertight": true,
+      "volume_cm3": 30.72,
+      "size_mm": [
+        112.0,
+        64.0,
+        5.0
+      ]
+    },
+    "rotor": {
+      "watertight": true,
+      "volume_cm3": 58.51,
+      "size_mm": [
+        110.0,
+        121.0,
+        10.1
+      ]
+    },
+    "fit_coupon": {
+      "watertight": true,
+      "volume_cm3": 7.19,
+      "size_mm": [
+        76.0,
+        46.0,
+        3.0
+      ]
+    }
+  },
+  "pan_checks": [
+    {
+      "angle_deg": -60,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": -55,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": -50,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": -45,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": -40,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": -35,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": -30,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": -25,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": -20,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": -15,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": -10,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": -5,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": 0,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": 5,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": 10,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": 15,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": 20,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": 25,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": 30,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": 35,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": 40,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": 45,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": 50,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": 55,
+      "overlap_mm3": 0.0
+    },
+    {
+      "angle_deg": 60,
+      "overlap_mm3": 0.0
+    }
+  ]
+}
